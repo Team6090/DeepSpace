@@ -10,6 +10,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
+/**
+ * Control the drivetrain with the joystick.
+ */
 public class DriveWithJoystick extends Command {
   public DriveWithJoystick() {
     requires(Robot.drivetrain);
@@ -17,6 +20,10 @@ public class DriveWithJoystick extends Command {
 
   @Override
   protected void execute() {
+    /*
+     * We pull the throttled values, which are automatically calculated by the slider
+     * value.
+     */
     Robot.drivetrain.arcadeDrive(Robot.oi.getThrottledY(), Robot.oi.getThrottledZ());
   }
 

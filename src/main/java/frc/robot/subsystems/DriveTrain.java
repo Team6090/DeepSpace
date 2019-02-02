@@ -16,22 +16,34 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
 import frc.robot.commands.DriveWithJoystick;
 
+/**
+ * The drivetrain is a simple tank drive, with two motors on each side.
+ */
 public class DriveTrain extends Subsystem {
 
+  /* Set up the motors. */
   private final CANSparkMax leftMotor = new CANSparkMax(RobotMap.leftMotor, MotorType.kBrushless);
   private final CANSparkMax leftSlaveMotor = new CANSparkMax(RobotMap.leftSlaveMotor, MotorType.kBrushless);
   private final CANSparkMax rightMotor = new CANSparkMax(RobotMap.rightMotor, MotorType.kBrushless);
   private final CANSparkMax rightSlaveMotor = new CANSparkMax(RobotMap.rightSlaveMotor, MotorType.kBrushless);
 
+  /* Speed controller groups. */
   private final SpeedControllerGroup leftSideMotors = new SpeedControllerGroup(leftMotor, leftSlaveMotor);
   private final SpeedControllerGroup rightSideMotors = new SpeedControllerGroup(rightMotor, rightSlaveMotor);
 
+  /* The differential drive. */
   private final DifferentialDrive diffdrive = new DifferentialDrive(leftSideMotors, rightSideMotors);
 
+  /**
+   * On init, set a small deadband on the differential drive.
+   */
   public DriveTrain() {
     diffdrive.setDeadband(.02);
   }
 
+  /**
+   * By default, enable control from the joystick.
+   */
   @Override
   public void initDefaultCommand() {
     setDefaultCommand(new DriveWithJoystick());
@@ -102,7 +114,10 @@ public class DriveTrain extends Subsystem {
     return leftMotor.getEncoder().getPosition();
   }
 
+  /**
+   * Stop all motors.
+   */
   public void stop() {
-    diffdrive.arcadeDrive(0.0, 0.0);
+    set(0.0, 0.0);
   }
 }

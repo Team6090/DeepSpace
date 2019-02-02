@@ -14,25 +14,51 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.ElevatorWithJoystick;
 
+/**
+ * The elevator is a single motor. This subsystem simply handles setting the speed,
+ * and collecting information such as the speed and encoder position.
+ */
 public class Elevator extends Subsystem {
+
+  /* Set up the brushless elevator motor. */
   private final CANSparkMax elevatorMotor = new CANSparkMax(RobotMap.elevatorMotor, MotorType.kBrushless);
 
+  /**
+   * Get the encoder position.
+   * @return The encoder position of the elevator motor.
+   */
   public double getPosition() {
     return elevatorMotor.getEncoder().getPosition();
   }
 
+  /**
+   * Get the speed.
+   * @return The speed of the elevator motor.
+   */
   public double getSpeed() {
     return elevatorMotor.get();
   }
 
+  /**
+   * Set the speed and direction of the elevator motor.
+   * @param speed The desired speed and direction of the motor.
+   * Negative values will drive the motor down, positive values
+   * will drive it up.
+   */
   public void setSpeed(double speed) {
     elevatorMotor.set(speed);
   }
 
+  /**
+   * Stop the elevator motor.
+   */
   public void stop() {
     setSpeed(0.0);
   }
 
+  /**
+   * By default, enable control with the joystick.
+   */
   @Override
   public void initDefaultCommand() {
     setDefaultCommand(new ElevatorWithJoystick());

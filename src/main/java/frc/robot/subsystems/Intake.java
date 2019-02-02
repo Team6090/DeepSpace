@@ -14,20 +14,39 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.IntakeWithJoystick;
 
+/**
+ * Handles all of our intaking mechanisms, which includes:
+ * - The air compressor (for handling pneumatics)
+ * - Arm pivot solenoids
+ * - An intake motor
+ * - A mystery solenoid (Name TBD)
+ */
 public class Intake extends Subsystem {
 
+  /* The compressor */
   private final Compressor airCompressor = new Compressor(RobotMap.pneumaticModule);
+
+  /* Pivot solenoids */
   private final Solenoid pivotDown = new Solenoid(RobotMap.pneumaticModule, RobotMap.intakeArmPivotDown);
   private final Solenoid pivotUp = new Solenoid(RobotMap.pneumaticModule, RobotMap.intakeArmPivotUp);
 
+  /* Intake Motor */
   private final Victor intakeMotor = new Victor(RobotMap.intakeMotor);
 
+  /* Store the state of the arm. */
   private boolean armUp;
+
+  /**
+   * Set up the compressor, and put the intake arm up.
+   */
   public Intake() {
     airCompressor.setClosedLoopControl(true);
     armUp();
   }
 
+  /**
+   * By default, enable joystick control.
+   */
   @Override
   public void initDefaultCommand() {
     setDefaultCommand(new IntakeWithJoystick());
@@ -65,10 +84,25 @@ public class Intake extends Subsystem {
     return armUp;
   }
 
+  /**
+   * Set the speed of the intake motor.
+   * @param speed The desired speed of the intake motor.
+   */
   public void setSpeed(double speed) {
     intakeMotor.set(speed);
   }
 
+  /**
+   * Get the current speed of the intake motor.
+   * @return The current speed of the intake motor.
+   */
+  public double getSpeed() {
+    return intakeMotor.get();
+  }
+
+  /**
+   * Stop the intake motor.
+   */
   public void stop() {
     setSpeed(0.0);
   }

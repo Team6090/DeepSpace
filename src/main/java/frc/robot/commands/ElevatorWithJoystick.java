@@ -10,6 +10,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
+/**
+ * Control the elevator with the joystick.
+ */
 public class ElevatorWithJoystick extends Command {
   public ElevatorWithJoystick() {
     requires(Robot.elevator);
