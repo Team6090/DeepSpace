@@ -27,6 +27,7 @@ public class RobotMap {
    public static final int intakeArmPivotDown = 4;
    public static final int intakeArmPivotUp = 5;
    public static final int intakeMotor = 1;
+
    /* Misc. */
    public static final int pneumaticModule = 60;
 }

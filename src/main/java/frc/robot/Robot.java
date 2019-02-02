@@ -23,6 +23,7 @@ import frc.robot.subsystems.Intake;
 public class Robot extends TimedRobot {
   public static OI oi = new OI();
 
+  /* Subsystems */
   public static DriveTrain drivetrain = new DriveTrain();
   public static Elevator elevator = new Elevator();
   public static Intake intake = new Intake();
