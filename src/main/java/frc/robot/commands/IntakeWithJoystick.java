@@ -28,11 +28,12 @@ public class IntakeWithJoystick extends Command {
       case DOWN:
         Robot.intake.armDown();
         break;
+      default:
+        break;
     }
     
     double leftTriggerValue = Robot.oi.xBoxLeftTrigger();
     double rightTriggerValue = Robot.oi.xBoxRightTrigger();
-
     if (leftTriggerValue > 0.0) {
       /* Multiply by -1 to intake. */
       Robot.intake.setSpeed(leftTriggerValue * -1.0);
@@ -41,6 +42,15 @@ public class IntakeWithJoystick extends Command {
     } else {
       Robot.intake.stop();
     }
+
+    if (Robot.oi.xBoxLeftBumper()) {
+      /* ... */
+    } else if (Robot.oi.xBoxRightBumper()) {
+      /* ... */
+    } else {
+      /* ... */
+    }
+
   }
 
   @Override
