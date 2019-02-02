@@ -30,6 +30,8 @@ public class Intake extends Subsystem {
   private final Solenoid pivotDown = new Solenoid(RobotMap.pneumaticModule, RobotMap.intakeArmPivotDown);
   private final Solenoid pivotUp = new Solenoid(RobotMap.pneumaticModule, RobotMap.intakeArmPivotUp);
 
+  private final Solenoid intakeThingy = new Solenoid(RobotMap.pneumaticModule, RobotMap.intakeThingy);
+
   /* Intake Motor */
   private final Victor intakeMotor = new Victor(RobotMap.intakeMotor);
 
@@ -98,6 +100,10 @@ public class Intake extends Subsystem {
    */
   public double getSpeed() {
     return intakeMotor.get();
+  }
+
+  public void toggleIntakeThingy(boolean state) {
+    intakeThingy.set(state);
   }
 
   /**
