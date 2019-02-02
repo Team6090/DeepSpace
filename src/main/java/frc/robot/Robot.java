@@ -21,7 +21,9 @@ import frc.robot.subsystems.Intake;
  * project.
  */
 public class Robot extends TimedRobot {
+
   public static OI oi = new OI();
+  public static NetworkTableOutput nto = new NetworkTableOutput(true);
 
   /* Subsystems */
   public static DriveTrain drivetrain = new DriveTrain();
@@ -47,6 +49,17 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    nto.putNumber("SpeedLeft", drivetrain.getLeft());
+    nto.putNumber("SpeedRight", drivetrain.getRight());
+
+    nto.putNumber("EncoderLeft", drivetrain.getLeftEncoderPosition());
+    nto.putNumber("EncoderRight", drivetrain.getRightEncoderPosition());
+
+    nto.putNumber("SpeedElevator", elevator.getSpeed());
+    nto.putNumber("EncoderElevator", elevator.getPosition());
+
+    nto.putNumber("SpeedIntake", intake.getSpeed());
+    nto.putBoolean("IntakeArmIsUp", intake.armIsUp());
   }
 
   /**
