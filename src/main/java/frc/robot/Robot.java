@@ -9,6 +9,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -19,6 +22,10 @@ import edu.wpi.first.wpilibj.command.Scheduler;
  */
 public class Robot extends TimedRobot {
   public static OI oi = new OI();
+
+  public static DriveTrain drivetrain = new DriveTrain();
+  public static Elevator elevator = new Elevator();
+  public static Intake intake = new Intake();
 
   /**
    * This function is run when the robot is first started up and should be

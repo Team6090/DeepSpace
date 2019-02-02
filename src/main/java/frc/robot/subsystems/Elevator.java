@@ -12,28 +12,29 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import frc.robot.commands.ElevatorWithJoystick;
 
 public class Elevator extends Subsystem {
   private final CANSparkMax elevatorMotor = new CANSparkMax(RobotMap.elevatorMotor, MotorType.kBrushless);
 
-  public double getElevatorMotorPosition() {
+  public double getPosition() {
     return elevatorMotor.getEncoder().getPosition();
   }
 
-  public double getElevatorSpeed() {
+  public double getSpeed() {
     return elevatorMotor.get();
   }
 
-  public void setElevatorSpeed(double speed) {
+  public void setSpeed(double speed) {
     elevatorMotor.set(speed);
   }
 
-  public void stopElevator() {
-    setElevatorSpeed(0.0);
+  public void stop() {
+    setSpeed(0.0);
   }
 
   @Override
   public void initDefaultCommand() {
-    
+    setDefaultCommand(new ElevatorWithJoystick());
   }
 }

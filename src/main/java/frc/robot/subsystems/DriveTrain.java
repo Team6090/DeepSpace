@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
+import frc.robot.commands.DriveWithJoystick;
 
 public class DriveTrain extends Subsystem {
 
@@ -34,7 +35,16 @@ public class DriveTrain extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    
+    setDefaultCommand(new DriveWithJoystick());
+  }
+
+  /**
+   * Used for driving with the joystick
+   * @param y The Y value from the joystick.
+   * @param z The Z value from the joystick.
+   */
+  public void arcadeDrive(double y, double z) {
+    diffdrive.arcadeDrive(y, z);
   }
 
   /**
@@ -91,5 +101,9 @@ public class DriveTrain extends Subsystem {
   public double getLeftEncoderPosition() {
     /* Get Right drive motor Position */
     return leftMotor.getEncoder().getPosition();
+  }
+
+  public void stop() {
+    diffdrive.arcadeDrive(0.0, 0.0);
   }
 }
