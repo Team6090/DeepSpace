@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static OI m_oi;
+  public static OI oi = new OI();
 
   /**
    * This function is run when the robot is first started up and should be
