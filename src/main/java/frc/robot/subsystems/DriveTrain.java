@@ -7,6 +7,9 @@
 
 package frc.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -33,6 +36,9 @@ public class DriveTrain extends Subsystem {
 
   /* The differential drive. */
   private final DifferentialDrive diffdrive = new DifferentialDrive(leftSideMotors, rightSideMotors);
+
+  /* Create the AHRS NavX Gyro */
+  private final AHRS navxGyro = new AHRS(SPI.Port.kMXP);
 
   /**
    * On init, set a small deadband on the differential drive.
@@ -120,4 +126,45 @@ public class DriveTrain extends Subsystem {
   public void stop() {
     set(0.0, 0.0);
   }
+
+  /**
+   * Get the yaw from the NavX Gyro.
+   * @return Gyro yaw.
+   */
+  public final float getGyroYaw() {
+    /* TODO: Need to add drift correction to this code */
+    return navxGyro.getYaw();
+  }
+
+  /**
+   * Get the pitch from the NavX Gyro.
+   * @return Gyro pitch.
+   */
+  public final float getGyroPitch() {
+    return navxGyro.getPitch();
+  }
+
+  /**
+   * Get the compass heading from the NavX Gyro.
+   * @return Gyro Compass Heading.
+   */
+  public final float getGyroCompassHeading() {
+    return navxGyro.getCompassHeading();
+  }
+
+  /**
+   * Get the roll from the NavX Gyro.
+   * @return Gyro roll.
+   */
+  public final float getGyroRoll(){     
+    return navxGyro.getRoll();
+  }
+
+  /**
+   * Zero the Yaw on the NavX Gyro.
+   */
+  public final void zeroGyroYaw() {
+    navxGyro.zeroYaw();
+  }
+
 }
