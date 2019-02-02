@@ -30,7 +30,6 @@ public class DriveTrain extends Subsystem {
 
   public DriveTrain() {
     diffdrive.setDeadband(.02);
-
   }
 
   @Override
