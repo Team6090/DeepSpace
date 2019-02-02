@@ -19,7 +19,7 @@ import frc.robot.commands.IntakeWithJoystick;
  * - The air compressor (for handling pneumatics)
  * - Arm pivot solenoids
  * - An intake motor
- * - A mystery solenoid (Name TBD)
+ * - The spring-loaded hatch release solenoid.
  */
 public class Intake extends Subsystem {
 
@@ -30,7 +30,7 @@ public class Intake extends Subsystem {
   private final Solenoid pivotDown = new Solenoid(RobotMap.pneumaticModule, RobotMap.intakeArmPivotDown);
   private final Solenoid pivotUp = new Solenoid(RobotMap.pneumaticModule, RobotMap.intakeArmPivotUp);
 
-  private final Solenoid intakeThingy = new Solenoid(RobotMap.pneumaticModule, RobotMap.intakeThingy);
+  private final Solenoid hatchRelease = new Solenoid(RobotMap.pneumaticModule, RobotMap.hatchRelease);
 
   /* Intake Motor */
   private final Victor intakeMotor = new Victor(RobotMap.intakeMotor);
@@ -102,8 +102,8 @@ public class Intake extends Subsystem {
     return intakeMotor.get();
   }
 
-  public void toggleIntakeThingy(boolean state) {
-    intakeThingy.set(state);
+  public void hatchRelease() {
+    hatchRelease.set(true);
   }
 
   /**

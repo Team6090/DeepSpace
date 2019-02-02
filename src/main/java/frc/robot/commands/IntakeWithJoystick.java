@@ -43,11 +43,7 @@ public class IntakeWithJoystick extends Command {
       Robot.intake.stop();
     }
 
-    if (Robot.oi.xBoxLeftBumper()) {
-      Robot.intake.toggleIntakeThingy(true);
-    } else if (Robot.oi.xBoxRightBumper()) {
-      Robot.intake.toggleIntakeThingy(false);
-    }
+    if (Robot.oi.xBoxRightBumper()) Robot.intake.hatchRelease();
 
   }
 
