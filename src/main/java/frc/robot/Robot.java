@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
@@ -22,8 +23,10 @@ import frc.robot.subsystems.Intake;
  */
 public class Robot extends TimedRobot {
 
+  /* Whether or not to output debug information to the network tables. */
+  private static final boolean networkTablesDebugOutput = true;
+
   public static OI oi = new OI();
-  public static NetworkTableOutput nto = new NetworkTableOutput(true);
 
   /* Subsystems */
   public static DriveTrain drivetrain = new DriveTrain();
@@ -49,17 +52,24 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    nto.putNumber("SpeedLeft", drivetrain.getLeft());
-    nto.putNumber("SpeedRight", drivetrain.getRight());
+    if (networkTablesDebugOutput) {
+      SmartDashboard.putNumber("SpeedLeft", drivetrain.getLeft());
+      SmartDashboard.putNumber("SpeedRight", drivetrain.getRight());
 
-    nto.putNumber("EncoderLeft", drivetrain.getLeftEncoderPosition());
-    nto.putNumber("EncoderRight", drivetrain.getRightEncoderPosition());
+      SmartDashboard.putNumber("EncoderLeft", drivetrain.getLeftEncoderPosition());
+      SmartDashboard.putNumber("EncoderRight", drivetrain.getRightEncoderPosition());
 
-    nto.putNumber("SpeedElevator", elevator.getSpeed());
-    nto.putNumber("EncoderElevator", elevator.getPosition());
+      SmartDashboard.putNumber("GyroYaw", drivetrain.getGyroYaw());
+      SmartDashboard.putNumber("GyroPitch", drivetrain.getGyroPitch());
+      SmartDashboard.putNumber("GyroRoll", drivetrain.getGyroRoll());
+      SmartDashboard.putNumber("GyroCompassHeading", drivetrain.getGyroCompassHeading());
 
-    nto.putNumber("SpeedIntake", intake.getSpeed());
-    nto.putBoolean("IntakeArmIsUp", intake.armIsUp());
+      SmartDashboard.putNumber("SpeedElevator", elevator.getSpeed());
+      SmartDashboard.putNumber("EncoderElevator", elevator.getPosition());
+
+      SmartDashboard.putNumber("SpeedIntake", intake.getSpeed());
+      SmartDashboard.putBoolean("IntakeArmIsUp", intake.armIsUp());
+    }
   }
 
   /**
