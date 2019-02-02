@@ -52,21 +52,30 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    /*
+     * Output a ton of information to the network tables, for debugging
+     * purposes. 
+     */
     if (networkTablesDebugOutput) {
+      /* Drivetrain speeds */
       SmartDashboard.putNumber("SpeedLeft", drivetrain.getLeft());
       SmartDashboard.putNumber("SpeedRight", drivetrain.getRight());
 
+      /* Drivetrain encoders */
       SmartDashboard.putNumber("EncoderLeft", drivetrain.getLeftEncoderPosition());
       SmartDashboard.putNumber("EncoderRight", drivetrain.getRightEncoderPosition());
 
+      /* Gyro readings */
       SmartDashboard.putNumber("GyroYaw", drivetrain.getGyroYaw());
       SmartDashboard.putNumber("GyroPitch", drivetrain.getGyroPitch());
       SmartDashboard.putNumber("GyroRoll", drivetrain.getGyroRoll());
       SmartDashboard.putNumber("GyroCompassHeading", drivetrain.getGyroCompassHeading());
 
+      /* Elevator speed and encoder */
       SmartDashboard.putNumber("SpeedElevator", elevator.getSpeed());
       SmartDashboard.putNumber("EncoderElevator", elevator.getPosition());
 
+      /* Intake motor speed and arm status */
       SmartDashboard.putNumber("SpeedIntake", intake.getSpeed());
       SmartDashboard.putBoolean("IntakeArmIsUp", intake.armIsUp());
     }
