@@ -61,7 +61,7 @@ public class DriveTrain extends Subsystem {
    * @param z The Z value from the joystick.
    */
   public void arcadeDrive(double y, double z) {
-    diffdrive.arcadeDrive(-y, z);
+    diffdrive.arcadeDrive(y, z);
   }
 
   /**

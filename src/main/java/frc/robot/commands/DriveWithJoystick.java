@@ -24,7 +24,7 @@ public class DriveWithJoystick extends Command {
      * We pull the throttled values, which are automatically calculated by the slider
      * value.
      */
-    Robot.drivetrain.arcadeDrive(Robot.oi.getThrottledY(), Robot.oi.getThrottledZ());
+    Robot.drivetrain.arcadeDrive(Robot.oi.getThrottledY() * -1.0, Robot.oi.getThrottledZ());
   }
 
   @Override
