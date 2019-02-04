@@ -33,6 +33,16 @@ public class Robot extends TimedRobot {
   public static Elevator elevator = new Elevator();
   public static Intake intake = new Intake();
 
+  /* 
+   * The camera controller allows multiple cameras to be used.
+   * It checks for a camera ID written to the network tables, and
+   * updates the CameraServer to display that ID. This allows the
+   * camera stream can be easily switched from the dashboard.
+   * 
+   * See CameraController.java for what the constructor parameters do.
+   */
+  private CameraController cameraController = new CameraController(2, 12, 320, 240, RobotMap.frontCamera, "Camera");
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -52,6 +62,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    /* 
+     * Check to see if the camera stream needs to be changed. If it does, the camera stream
+     * is automatically updated to display the feed for the camera at the set ID.
+     */
+    cameraController.update();
+
     /*
      * Output a ton of information to the network tables, for debugging
      * purposes. 

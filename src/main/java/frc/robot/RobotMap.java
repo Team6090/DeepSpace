@@ -29,6 +29,10 @@ public class RobotMap {
    public static final int intakeMotor = 1;
    public static final int hatchRelease = 7;
 
+   /* USB Cameras */
+   public static final int frontCamera = 0;
+   public static final int rearCamera  = 1;
+
    /* Misc. */
    public static final int pneumaticModule = 60;
 }
