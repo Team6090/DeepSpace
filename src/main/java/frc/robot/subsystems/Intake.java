@@ -20,6 +20,9 @@ import frc.robot.commands.IntakeWithJoystick;
  * - Arm pivot solenoids
  * - An intake motor
  * - The spring-loaded hatch release solenoid.
+ * @author Jordan Bancino
+ * @version 1.0
+ * @since 1.0
  */
 public class Intake extends Subsystem {
 

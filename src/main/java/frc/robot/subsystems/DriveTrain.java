@@ -21,6 +21,9 @@ import frc.robot.commands.DriveWithJoystick;
 
 /**
  * The drivetrain is a simple tank drive, with two motors on each side.
+ * @author Jordan Bancino
+ * @version 1.0
+ * @since 1.0
  */
 public class DriveTrain extends Subsystem {
 
@@ -66,6 +69,7 @@ public class DriveTrain extends Subsystem {
 
   /**
    * Drive the left motors.
+   * @param speed The speed to set the left motors to.
    */
   public void setLeft(double speed) {
     leftSideMotors.set(speed);
@@ -73,6 +77,7 @@ public class DriveTrain extends Subsystem {
 
   /**
    * Drive the right side motors.
+   * @param speed The speed to set the right motors to.
    */
   public void setRight(double speed) {
     rightSideMotors.set(speed);
@@ -90,6 +95,7 @@ public class DriveTrain extends Subsystem {
 
   /**
    * Get the left side motors speed percentage.
+   * @return The speed of the left motors.
    */
   public double getLeft() {
     return leftSideMotors.get();
@@ -97,6 +103,7 @@ public class DriveTrain extends Subsystem {
 
   /**
    * Get the right side motors speed percentage.
+   * @return The speed of the right motors.
    */
   public double getRight() {
     return rightSideMotors.get();
@@ -132,7 +139,7 @@ public class DriveTrain extends Subsystem {
    * @return Gyro yaw.
    */
   public final float getGyroYaw() {
-    /* TODO: Need to add drift correction to this code */
+    /* TODO: Need to add drift correction. */
     return navxGyro.getYaw();
   }
 
@@ -166,5 +173,4 @@ public class DriveTrain extends Subsystem {
   public final void zeroGyroYaw() {
     navxGyro.zeroYaw();
   }
-
 }

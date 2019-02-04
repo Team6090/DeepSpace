@@ -17,6 +17,9 @@ import frc.robot.commands.ElevatorWithJoystick;
 /**
  * The elevator is a single motor. This subsystem simply handles setting the speed,
  * and collecting information such as the speed and encoder position.
+ * @author Jordan Bancino
+ * @version 1.0
+ * @since 1.0
  */
 public class Elevator extends Subsystem {
 

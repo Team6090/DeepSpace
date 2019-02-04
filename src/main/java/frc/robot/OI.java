@@ -30,7 +30,6 @@ public class OI {
 
   /**
    * Get the raw value of the slider axis, and call it throttle.
-   * @author Jordan Bancino
    * @return The raw axis value of the slider.
    */
   public double getRawThrottle() {

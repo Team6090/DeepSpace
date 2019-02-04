@@ -13,6 +13,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * An interface to easily control multiple cameras, and switching between them.
+ * @author Jordan Bancino
+ * @version 1.0
+ * @since 1.0
  */
 public class CameraController {
   
@@ -60,6 +63,10 @@ public class CameraController {
     this.smartDashboardKey = smartDashboardKey;
   }
 
+  /**
+   * Update the CameraServer feed to stream from the camera whose ID is
+   * specified in the SmartDashboard. Call this function in {@code Robot.robotPeriodic()}.
+   */
   public void update() {
     /* TODO: Add camera switching functionality to the joystick, if desired. */
 
