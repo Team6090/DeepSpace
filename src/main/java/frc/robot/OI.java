@@ -12,6 +12,9 @@ import edu.wpi.first.wpilibj.Joystick;
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
+ * @author Jordan Bancino
+ * @version 1.0
+ * @since 1.0
  */
 public class OI {
   /* Joysticks Ports */
