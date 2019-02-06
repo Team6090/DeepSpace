@@ -23,9 +23,6 @@ import frc.robot.subsystems.Intake;
  */
 public class Robot extends TimedRobot {
 
-  /* Whether or not to output debug information to the network tables. */
-  private static final boolean networkTablesDebugOutput = true;
-
   public static OI oi = new OI();
 
   /* Subsystems */
@@ -42,6 +39,14 @@ public class Robot extends TimedRobot {
    * See CameraController.java for what the constructor parameters do.
    */
   private CameraController cameraController = new CameraController(2, 12, 320, 240, RobotMap.frontCamera, "Camera");
+
+  /*
+   * The RobotDebug class outputs just about every value we can possibly
+   * read to the smart dashboard, but only if it is constructed to true.
+   * Setting to false will disable all output, thus allowing for quickly
+   * toggling this functionality. 
+   */
+  private RobotDebug robotDebug = new RobotDebug(true);
 
   /**
    * This function is run when the robot is first started up and should be
@@ -69,32 +74,10 @@ public class Robot extends TimedRobot {
     cameraController.update();
 
     /*
-     * Output a ton of information to the network tables, for debugging
-     * purposes. 
+     * Update the SmartDashboard data, enabled. 
      */
-    if (networkTablesDebugOutput) {
-      /* Drivetrain speeds */
-      SmartDashboard.putNumber("SpeedLeft", drivetrain.getLeft());
-      SmartDashboard.putNumber("SpeedRight", drivetrain.getRight());
+    robotDebug.update();
 
-      /* Drivetrain encoders */
-      SmartDashboard.putNumber("EncoderLeft", drivetrain.getLeftEncoderPosition());
-      SmartDashboard.putNumber("EncoderRight", drivetrain.getRightEncoderPosition());
-
-      /* Gyro readings */
-      SmartDashboard.putNumber("GyroYaw", drivetrain.getGyroYaw());
-      SmartDashboard.putNumber("GyroPitch", drivetrain.getGyroPitch());
-      SmartDashboard.putNumber("GyroRoll", drivetrain.getGyroRoll());
-      SmartDashboard.putNumber("GyroCompassHeading", drivetrain.getGyroCompassHeading());
-
-      /* Elevator speed and encoder */
-      SmartDashboard.putNumber("SpeedElevator", elevator.getSpeed());
-      SmartDashboard.putNumber("EncoderElevator", elevator.getPosition());
-
-      /* Intake motor speed and arm status */
-      SmartDashboard.putNumber("SpeedIntake", intake.getSpeed());
-      SmartDashboard.putBoolean("IntakeArmIsUp", intake.armIsUp());
-    }
   }
 
   /**
