@@ -40,7 +40,9 @@ public class DriveForward extends Command {
     this.speedRefRight = driveForwardSpeedRef;
     this.speedRefLeft = driveForwardSpeedRef;
     this.speedRefAdjLeft = 0.0d;
+    haveBaseCount = false;
     requires(Robot.drivetrain);
+    
   }
   @Override
   protected void initialize() {
@@ -51,18 +53,16 @@ public class DriveForward extends Command {
     currentAngle = Robot.drivetrain.getGyroYaw();
     driftCorrectionTargetMax = startingAngle + correctionDeadband;
     driftCorrectionTargetMin = startingAngle - correctionDeadband;
-
-      
   }
   @Override
   protected void execute() {
     if (!haveBaseCount) {
-      baseEncoderCount = Robot.drivetrain.getRightEncoderPosition();
+      baseEncoderCount = Robot.drivetrain.getLeftEncoderPosition();
       thresholdEncoderCount = baseEncoderCount + encoderCount;
       haveBaseCount = true;
     }
 
-      currentEncoderPosition = Robot.drivetrain.getRightEncoderPosition();
+      currentEncoderPosition = Robot.drivetrain.getLeftEncoderPosition();
       currentAngle = Robot.drivetrain.getGyroYaw();
       speedRefAdjLeft = Robot.drivetrain.syncAngle(startingAngle, currentAngle); 		// Sync robot to gyro angle setpoint
       speedRefLeftFinal = speedRefLeft + speedRefAdjLeft;
