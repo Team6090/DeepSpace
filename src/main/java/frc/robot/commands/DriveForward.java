@@ -11,7 +11,10 @@ import frc.robot.Robot;
 
 /**
  * Drive the drivetrain forward for a set amount of encoder counts, or time,
- * whichever comes first
+ * whichever comes first.
+ * @author Colin Heaver
+ * @version 1.0
+ * @since 1.0
  */
 
 public class DriveForward extends Command {
@@ -64,7 +67,7 @@ public class DriveForward extends Command {
       speedRefAdjLeft = (1.0 * (Robot.drivetrain.syncAngle(startingAngle, currentAngle))); 		// Sync robot to gyro angle setpoint
       speedRefLeftFinal =(speedRefLeft + speedRefAdjLeft);
       System.out.println("speedRefAdjLeft " + speedRefAdjLeft); 
-      Robot.drivetrain.set (-speedRefLeftFinal, speedRefRight); //invert right side motor to drive forward 
+      Robot.drivetrain.set (speedRefLeftFinal, -speedRefRight); //invert right side motor to drive forward 
   }
   
 
