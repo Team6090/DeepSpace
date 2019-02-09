@@ -9,7 +9,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-/**
+/*
+ * This here thingy is going to turn the robot.
+ * 
  * @author Ethan Snyder
  * @version 1.0
  * @since 1.0
@@ -28,7 +30,7 @@ public class GyroRotate extends Command {
 
   boolean clockwise;
   boolean endProgram;
-  boolean specialCase = false;
+  boolean specialCase;
 
   /**
    * @param angle The goal angle that the robot is going to turn to
@@ -66,25 +68,25 @@ public class GyroRotate extends Command {
 
     totalAngleTurn = startingAngle + inputAngle; //Sets the total angle needed to turn
 
-    /**
-     * This converts a negative angle
-     */
     if (totalAngleTurn < 0) { 
-      totalAngleTurn += 360;
+      totalAngleTurn += 360; //If the angle is negative, convert it 
+      specialCase = true;  //Trigger special case
+      clockwise = false; //Trigger clockwise
     }
-    /**
-     * This converts an angle over 360 back to a 0-360 angle 
-     */
     if (totalAngleTurn > 360) {
-      totalAngleTurn -= 360;
+      totalAngleTurn -= 360; //If the angle is above 360, subtract 360
+      specialCase = true; //Trigger special case
+      clockwise = true; //Trigger counterclockwise
     }
+
     /**
-     * Definitions for AUTO mode if there are no special cases
+     * This will only run if the special cases do not already declare a turning direction
      */
-      if (totalAngleTurn > startingAngle) { //If the input angle is positive, turn clockwise
+    if (!specialCase)
+      if (totalAngleTurn > startingAngle) { //If the input angle is bigger, turn clockwise
         clockwise = true;
     }
-      if (totalAngleTurn < startingAngle) { //If the input angle is negative, turn counterclockwise
+      if (totalAngleTurn < startingAngle) { //If the input angle is smaller, turn counterclockwise
         clockwise = false;
       }
     }
