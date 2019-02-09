@@ -204,20 +204,13 @@ public class DriveTrain extends Subsystem {
 		angleErrMod = angleErrAdj * zAxisCorrectScale; /* calc angle error modified value to get back on course */
 		absAngleErrMod = Math.abs(angleErrMod); /* Find absolute value of angle error modified by scale factor */
 	
-		// System.out.println("angleSP=" + angleSP);
-		// System.out.println("angleFB=" + angleFB);
-		// System.out.println("angleErr" + angleErr);
-		// System.out.println("angleErrAdj=" + angleErrAdj);
-		// System.out.println("angleErrMod=" + angleErrMod);
-		// System.out.println("");
-	
 		/* Max positive correction is limited to max positive correction reference value */
 		if (absAngleErrMod >= gyroMaxZaxisCorrect) { 										/* Limit max output */
 			if (angleErrMod > 0) 													/* Max positive reference */
 				syncAngleOut = gyroMaxZaxisCorrect;	 								/* Limit angular reference to send to z-axis */
 			else 																	/* Max negative reference */
 				syncAngleOut = (-1.0 * gyroMaxZaxisCorrect);						/* Limit angular reference to send to z-axis */
-			// System.out.println("max correct=" + syncAngleOut);
+		
 		}
 		/*
 		 * In between Max correction and Min correction - reference is scaled with angle
@@ -228,7 +221,6 @@ public class DriveTrain extends Subsystem {
 		/* Correction is less than threshold to care about - reference is set to zero */
 		else if (absAngleErrMod < minRotationThreash) // Error is less than max output limit
 			syncAngleOut = 0; /* Scale angular reference to send to z-axis */
-		/* If the speed reference is too low, the robot won't move so set set a min speed ref */
 		absSyncAngleOut = Math.abs(syncAngleOut); /* Absolute value of speed reference */
 		if (absSyncAngleOut < minSpeedRef) { /* Speed reference is less than value to cause movement */
 			if (syncAngleOut < 0.0) /* Scale negative angular reference to send to z-axis */
@@ -236,8 +228,6 @@ public class DriveTrain extends Subsystem {
 			else
 				syncAngleOut = minSpeedRef; /* Scale positive angular reference to send to z-axis */
 		}
-
-		return syncAngleOut; /* Assign method returned value - must be last line */
-	
-  } /*end of syncAngle method */
+		return syncAngleOut;
+  }
 }
