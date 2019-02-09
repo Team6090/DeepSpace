@@ -39,7 +39,7 @@ public class DriveForward extends Command {
     this.driveForwardSpeedRef = driveForwardSpeedRef;
     this.speedRefRight = driveForwardSpeedRef;
     this.speedRefLeft = driveForwardSpeedRef;
-    this.speedRefAdjLeft = 0;
+    this.speedRefAdjLeft = 0.0d;
     requires(Robot.drivetrain);
   }
   @Override
