@@ -11,10 +11,6 @@ import frc.robot.Robot;
 
 public class GyroRotate extends Command {
 
-  public static enum OverrideMode {
-    CLOCKWISE, COUNTERCLOCKWISE, AUTO;
-  }
-
   float yaw;
 
   double inputAngle, startingAngle, totalAngleTurn, currentAngle;
@@ -28,7 +24,6 @@ public class GyroRotate extends Command {
   boolean clockwise;
   boolean endProgram;
   boolean specialCase = false;
-  OverrideMode turningDirection;
 
   /**
    * @param angle The goal angle that the robot is going to turn to
@@ -36,12 +31,11 @@ public class GyroRotate extends Command {
    * @param speedZ The twisting direction of the joystick which will actually make the bot turn
    * @param speedY The forwards and backwards joystick inputs which will make the bot go vroom
    */
-  public GyroRotate(double inputAngle, long duration, double speedZ, double speedY, OverrideMode turningDirection) {
+  public GyroRotate(double inputAngle, long duration, double speedZ, double speedY) {
     this.speedY = speedY;
     this.speedZ = speedZ;
     this.inputAngle = inputAngle;
     this.duration = duration;
-    this.turningDirection = turningDirection;
     requires(Robot.drivetrain);
   }
 
@@ -68,37 +62,27 @@ public class GyroRotate extends Command {
     totalAngleTurn = startingAngle + inputAngle; //Sets the total angle needed to turn
 
     /**
-     * This adresses the first special case, going counterclockwise over 0
+     * This converts a negative angle
      */
     if (totalAngleTurn < 0) { 
       totalAngleTurn += 360;
-      specialCase = true;
-      if (turningDirection == OverrideMode.AUTO) {
-        clockwise = false;
-      }
     }
     /**
-     * This adresses the second special case, going clockwise over 0
+     * This converts an angle over 360 back to a 0-360 angle 
      */
     if (totalAngleTurn > 360) {
       totalAngleTurn -= 360;
-      specialCase = true;
-      if (turningDirection == OverrideMode.AUTO) {
-        clockwise = true;
-      }
     }
     /**
      * Definitions for AUTO mode if there are no special cases
      */
-    if (!specialCase) {
-      if (totalAngleTurn > startingAngle || turningDirection == OverrideMode.CLOCKWISE) { //If the input angle is positive, turn clockwise
+      if (totalAngleTurn > startingAngle) { //If the input angle is positive, turn clockwise
         clockwise = true;
     }
-      if (totalAngleTurn < startingAngle || turningDirection == OverrideMode.COUNTERCLOCKWISE) { //If the input angle is negative, turn counterclockwise
+      if (totalAngleTurn < startingAngle) { //If the input angle is negative, turn counterclockwise
         clockwise = false;
       }
     }
-  }
 
   /**
    * This is saying that if the targetAngle was originally negative, which means it will now be a large
