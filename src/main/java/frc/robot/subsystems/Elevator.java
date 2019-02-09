@@ -30,6 +30,13 @@ public class Elevator extends Subsystem {
   private final CANSparkMax elevatorMotor = new CANSparkMax(RobotMap.elevatorMotor, MotorType.kBrushless);
 
   /**
+   * Set up the elevator motor and subsystem.
+   */
+  public Elevator() {
+    /* TODO: PID Configuration goes here. */
+  }
+
+  /**
    * Get the encoder position.
    * @return The encoder position of the elevator motor.
    */
