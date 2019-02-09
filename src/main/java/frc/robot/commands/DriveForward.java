@@ -26,7 +26,7 @@ public class DriveForward extends Command {
   float startingAngle;
   float driftCorrectionTargetMax;
   float driftCorrectionTargetMin;
-  float correctionDeadband = 0.5f;
+  float correctionDeadband = 0.2f;
   double speedRefRight;
   double speedRefLeft;
   double speedRefAdjLeft;

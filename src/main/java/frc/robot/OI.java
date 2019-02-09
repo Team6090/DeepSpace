@@ -43,7 +43,7 @@ public class OI {
   public OI() {
     /* Joystick Button Actions */
     joystickButton4.whenPressed(new DriveForward(1000000, 2000, 0.4));
-    joystickButton3.whenPressed(new GyroRotate(-90, 10000, .4, 0, GyroRotate.OverrideMode.CLOCKWISE));
+    joystickButton3.whenPressed(new GyroRotate(90.0, 10000L, 0.4, 0.0));
 
   }
 

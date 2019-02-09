@@ -46,7 +46,7 @@ public class GyroRotate extends Command {
     requires(Robot.drivetrain);
   }
 
-  /**
+/**
    * The first part of this starts the failsafe time, it records the starting time. After that, the gyro yaw
    * is zeroed out for convenience. The next two if statements are basically adjusting the ranges 
    */
