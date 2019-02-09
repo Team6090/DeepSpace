@@ -139,7 +139,6 @@ public class DriveTrain extends Subsystem {
    * @return Gyro yaw.
    */
   public final float getGyroYaw() {
-    /* TODO: Need to add drift correction. */
     return navxGyro.getYaw();
   }
 
