@@ -7,7 +7,10 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANError;
+import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -57,6 +60,41 @@ public class Elevator extends Subsystem {
    */
   public void stop() {
     setSpeed(0.0);
+  }
+
+  /**
+   * Get the PID controller for the elevator motor.
+   * @return An instance of CANPIDController.
+   */
+  public CANPIDController getPIDController() {
+    return elevatorMotor.getPIDController();
+  }
+
+  /**
+   * Set the controller reference value based on the selected
+   * control mode.
+   * @param gain The value to set depending on the control mode.
+   * For basic duty cycle control this should be a value between
+   * -1 and 1 Otherwise: Voltage Control: Voltage (volts) Velocity
+   * Control: Velocity (RPM) Position Control: Position
+   * (Rotations) Current Control: Current (Amps)
+   * @param ctrl The control type.
+   * @return CANError Set to REV_OK if successful.
+   */
+  public CANError setReference(double gain, ControlType ctrl) {
+    return getPIDController().setReference(gain, ctrl);
+  }
+
+  /**
+   * Set the controller reference value based on the selected
+   * control mode.
+   * @param value The value to set depending on the control mode. For basic duty cycle control this should be a value between -1 and 1 Otherwise: Voltage Control: Voltage (volts) Velocity Control: Velocity (RPM) Position Control: Position (Rotations) Current Control: Current (Amps)
+   * @param ctrl The control type to override with.
+   * @param pidSlot The PID slot to run this command in.
+   * @return CANError Set to REV_OK if successful
+   */
+  public CANError setReference(double value, ControlType ctrl, int pidSlot) {
+    return getPIDController().setReference(value, ctrl, pidSlot);
   }
 
   /**
