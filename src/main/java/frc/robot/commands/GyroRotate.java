@@ -46,7 +46,7 @@ public class GyroRotate extends Command {
     requires(Robot.drivetrain);
   }
 
-/**
+  /**
    * The first part of this starts the failsafe time, it records the starting time. After that, the gyro yaw
    * is zeroed out for convenience. The next two if statements are basically adjusting the ranges 
    */
@@ -68,6 +68,9 @@ public class GyroRotate extends Command {
 
     totalAngleTurn = startingAngle + inputAngle; //Sets the total angle needed to turn
 
+    /**
+     * This will declare the turning direction of special cases when the angle passes over 0 or 360
+     */
     if (totalAngleTurn < 0) { 
       totalAngleTurn += 360; //If the angle is negative, convert it 
       specialCase = true;  //Trigger special case
@@ -78,7 +81,6 @@ public class GyroRotate extends Command {
       specialCase = true; //Trigger special case
       clockwise = true; //Trigger counterclockwise
     }
-
     /**
      * This will only run if the special cases do not already declare a turning direction
      */
@@ -99,8 +101,6 @@ public class GyroRotate extends Command {
    */
   @Override
   protected void execute() {
-    System.out.println("Raw Gyro Angle: " + Robot.drivetrain.getGyroYaw());
-    System.out.println("Converted Gyro Angle: " + currentAngle);
     /**
      * This should keep the angle read from the gyro constantly converted as long as currentAngle is 
      * referenced compared to always reading raw values from the getGyroYaw.
@@ -110,25 +110,18 @@ public class GyroRotate extends Command {
     }
     else {
       currentAngle = Robot.drivetrain.getGyroYaw();
+
     }
-    /**
-     * CCW Turning
-     */
     if (!clockwise) {
-      Robot.drivetrain.arcadeDrive(speedY, -speedZ);
+      Robot.drivetrain.arcadeDrive(speedY, -speedZ); //CCW turning
     }
-    /**
-     * CW Turning
-     */
     else {
-      Robot.drivetrain.arcadeDrive(speedY, speedZ);
+      Robot.drivetrain.arcadeDrive(speedY, speedZ); //Clockwise turning
     }
   }
   /**
-   * The first part of the condition here is that if the current system time is above the time treshhold,
-   * the program will stop. The second part is basically saying:
-   * targetAngleMin < Current Yaw < targetAngleMax
-   * Except java, as far as I know, doesn't accept it like that, so I had to make it && to accept that range.
+   * This is going to set a range for the termination thingy, meaning that when the yaw of the robot is within
+   * a range of the target angle, the program will kill itself
    */
   @Override
   protected boolean isFinished() {
