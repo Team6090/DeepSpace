@@ -69,12 +69,12 @@ public class GyroRotate extends Command {
     if (totalAngleTurn < 0) { 
       totalAngleTurn += 360; //If the angle is negative, convert it 
       specialCase = true;  //Trigger special case
-      clockwise = true; //Trigger clockwise
+      clockwise = false; //Trigger counterclockwise
     }
     if (totalAngleTurn > 360) {
       totalAngleTurn -= 360; //If the angle is above 360, subtract 360
       specialCase = true; //Trigger special case
-      clockwise = false; //Trigger counterclockwise
+      clockwise = true; //Trigger clockwise
     }
     /**
      * This will only run if the special cases do not already declare a turning direction
@@ -110,7 +110,7 @@ public class GyroRotate extends Command {
     if (!clockwise) {
       Robot.drivetrain.arcadeDrive(speedY, -speedZ); //CCW turning
     }
-    else {
+    else if (clockwise) {
       Robot.drivetrain.arcadeDrive(speedY, speedZ); //Clockwise turning
     }
   }
