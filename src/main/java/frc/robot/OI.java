@@ -42,7 +42,7 @@ public class OI {
 
   public OI() {
     /* Joystick Button Actions */
-    joystickButton4.whenPressed(new DriveForward(3000, 5000, 0.4));
+    joystickButton4.whenPressed(new DriveForward(100, 5000, 0.4));
     joystickButton3.whenPressed(new GyroRotate(90.0, 10000L, 0.4, 0.0));
 
   }
