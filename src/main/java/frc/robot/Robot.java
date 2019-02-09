@@ -22,13 +22,13 @@ import frc.robot.subsystems.Intake;
  */
 public class Robot extends TimedRobot {
 
-  /* Joystick related functionality. */
-  public static OI oi = new OI();
-
   /* Subsystems */
   public static DriveTrain drivetrain = new DriveTrain();
   public static Elevator elevator = new Elevator();
   public static Intake intake = new Intake();
+
+  /* Joystick related functionality. */
+  public static OI oi = new OI();
 
   /* 
    * The camera controller allows multiple cameras to be used.
