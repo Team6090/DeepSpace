@@ -25,7 +25,7 @@ public class GyroRotate extends Command {
   long duration, baseTime, thresholdTime;
 
   boolean clockwise;
-  boolean specialCase;
+  boolean specialCase = false;
 
   /**
    * @param angle The goal angle that the robot is going to turn to
