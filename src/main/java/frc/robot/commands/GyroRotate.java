@@ -9,6 +9,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
+/**
+ * @author Ethan Snyder
+ * @version 1.0
+ * @since 1.0
+ */
 public class GyroRotate extends Command {
 
   float yaw;
