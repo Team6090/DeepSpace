@@ -8,10 +8,16 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.DriveForward;
+import frc.robot.commands.GyroRotate;
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
+ * @author Jordan Bancino
+ * @version 1.0
+ * @since 1.0
  */
 public class OI {
   /* Joysticks Ports */
@@ -27,6 +33,19 @@ public class OI {
   /* Joysticks */
   private Joystick joystick = new Joystick(joystickPort);
   private Joystick xBoxJoystick = new Joystick(xBoxPort);
+
+  /* Joystick Buttons */
+  private JoystickButton joystickButton3 = new JoystickButton(joystick, 3);
+  private JoystickButton joystickButton4 = new JoystickButton(joystick, 4);
+  
+
+
+  public OI() {
+    /* Joystick Button Actions */
+    joystickButton4.whenPressed(new DriveForward(1000000, 2000, 0.4));
+    joystickButton3.whenPressed(new GyroRotate(-90, 10000, .4, 0, GyroRotate.OverrideMode.CLOCKWISE));
+
+  }
 
   /**
    * Get the raw value of the slider axis, and call it throttle.
