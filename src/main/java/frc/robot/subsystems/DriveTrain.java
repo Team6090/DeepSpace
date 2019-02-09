@@ -47,7 +47,7 @@ public class DriveTrain extends Subsystem {
    * On init, set a small deadband on the differential drive.
    */
   public DriveTrain() {
-    diffdrive.setDeadband(.02);
+    diffdrive.setDeadband(0.02d);
   }
 
   /**
@@ -131,7 +131,7 @@ public class DriveTrain extends Subsystem {
    * Stop all motors.
    */
   public void stop() {
-    set(0.0, 0.0);
+    set(0.0d, 0.0d);
   }
 
   /**

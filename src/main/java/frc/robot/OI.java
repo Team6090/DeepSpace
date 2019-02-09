@@ -28,7 +28,7 @@ public class OI {
   public static final int sliderAxis = 3;
 
   /* Throttle configurations */
-  public static final double throttleLowerBound = 0.3;
+  public static final double throttleLowerBound = 0.3d;
 
   /* Joysticks */
   private Joystick joystick = new Joystick(joystickPort);
@@ -42,8 +42,8 @@ public class OI {
 
   public OI() {
     /* Joystick Button Actions */
-    joystickButton4.whenPressed(new DriveForward(100, 5000, 0.4));
-    joystickButton3.whenPressed(new GyroRotate(90.0, 10000L, 0.4, 0.0));
+    joystickButton4.whenPressed(new DriveForward(3000, 5000l, 0.4d));
+    joystickButton3.whenPressed(new GyroRotate(90.0d, 10000l, 0.4d, 0.0d));
 
   }
 
@@ -66,7 +66,7 @@ public class OI {
    */
   public double getThrottle() {
     /* Set the scale to go 0 -> 1 */
-    double throttle = (0.5 * getRawThrottle()) + 0.5;
+    double throttle = (0.5d * getRawThrottle()) + 0.5d;
     /* Calculate the scale to go from throttleLowerBound -> 1 */
     return ((1 - throttleLowerBound) * throttle) + throttleLowerBound;
   }
@@ -252,17 +252,17 @@ public class OI {
     /* This will be our result */
     double mod;
     /* Compute the deadband mod */
-    if (joystickInput < 0) {
+    if (joystickInput < 0.0d) {
         if (joystickInput <= -deadband) {
             mod = joystickInput + deadband;
         } else {
-            mod = 0;
+            mod = 0.0d;
         }
     } else {
         if (joystickInput >= deadband) {
             mod = joystickInput - deadband;
         } else {
-            mod = 0;
+            mod = 0.0d;
         }
     }
     /* Return the result. */

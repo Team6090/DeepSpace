@@ -24,7 +24,7 @@ public class GyroRotate extends Command {
   double thresholdangle;
   
   double speedZ;
-  double speedY = 0;
+  double speedY = 0.0d;
 
   long duration, baseTime, thresholdTime;
 
@@ -59,8 +59,8 @@ public class GyroRotate extends Command {
     /**
      * This will convert the starting angle
      */
-    if (Robot.drivetrain.getGyroYaw() < 0) {
-      startingAngle = Robot.drivetrain.getGyroYaw() + 360; //Negative turn to 180-360
+    if (Robot.drivetrain.getGyroYaw() < 0.0f) {
+      startingAngle = Robot.drivetrain.getGyroYaw() + 360d; //Negative turn to 180-360
     }
     else {
       startingAngle = Robot.drivetrain.getGyroYaw(); //Positives stay 0-180
@@ -71,13 +71,13 @@ public class GyroRotate extends Command {
     /**
      * This will declare the turning direction of special cases when the angle passes over 0 or 360
      */
-    if (totalAngleTurn < 0) { 
-      totalAngleTurn += 360; //If the angle is negative, convert it 
+    if (totalAngleTurn < 0.0d) { 
+      totalAngleTurn += 360.0d; //If the angle is negative, convert it 
       specialCase = true;  //Trigger special case
       clockwise = false; //Trigger clockwise
     }
-    if (totalAngleTurn > 360) {
-      totalAngleTurn -= 360; //If the angle is above 360, subtract 360
+    if (totalAngleTurn > 360.0d) {
+      totalAngleTurn -= 360.0d; //If the angle is above 360, subtract 360
       specialCase = true; //Trigger special case
       clockwise = true; //Trigger counterclockwise
     }
@@ -105,8 +105,8 @@ public class GyroRotate extends Command {
      * This should keep the angle read from the gyro constantly converted as long as currentAngle is 
      * referenced compared to always reading raw values from the getGyroYaw.
      */
-    if (Robot.drivetrain.getGyroYaw() < 0) {
-      currentAngle = Robot.drivetrain.getGyroYaw() + 360;
+    if (Robot.drivetrain.getGyroYaw() < 0.0f) {
+      currentAngle = Robot.drivetrain.getGyroYaw() + 360.0d;
     }
     else {
       currentAngle = Robot.drivetrain.getGyroYaw();
@@ -134,7 +134,7 @@ public class GyroRotate extends Command {
    */
   @Override
   protected void end() {
-    Robot.drivetrain.arcadeDrive(0, 0);
+    Robot.drivetrain.arcadeDrive(0.0d, 0.0d);
     System.out.println("Time elapsed: " + (System.currentTimeMillis() - baseTime) + ", and total angle turned: " + (currentAngle - startingAngle));
   }
 
