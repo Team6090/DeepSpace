@@ -26,7 +26,7 @@ public class DriveForward extends Command {
   float startingAngle;
   float driftCorrectionTargetMax;
   float driftCorrectionTargetMin;
-  float correctionDeadband = 1;
+  float correctionDeadband = 0.5f;
   double speedRefRight;
   double speedRefLeft;
   double speedRefAdjLeft;
@@ -64,9 +64,9 @@ public class DriveForward extends Command {
 
       currentEncoderPosition = Robot.drivetrain.getRightEncoderPosition();
       currentAngle = Robot.drivetrain.getGyroYaw();
-      speedRefAdjLeft = (1.0 * (Robot.drivetrain.syncAngle(startingAngle, currentAngle))); 		// Sync robot to gyro angle setpoint
-      speedRefLeftFinal =(speedRefLeft + speedRefAdjLeft);
-      System.out.println("speedRefAdjLeft " + speedRefAdjLeft); 
+      speedRefAdjLeft = Robot.drivetrain.syncAngle(startingAngle, currentAngle); 		// Sync robot to gyro angle setpoint
+      speedRefLeftFinal = speedRefLeft + speedRefAdjLeft;
+      System.out.println ("speedRefAdjLeft " + speedRefAdjLeft); 
       Robot.drivetrain.set (speedRefLeftFinal, -speedRefRight); //invert right side motor to drive forward 
   }
   
