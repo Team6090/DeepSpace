@@ -105,6 +105,12 @@ public class PuppyDog extends Command {
     if (tv == 1 && area >= targetArea) {
       Robot.drivetrain.arcadeDrive(0.0d, 0.0d);
     }
+    if (tx >= 15) {
+      //CW
+    }
+    if (tx <= 15) {
+      //CCW
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
