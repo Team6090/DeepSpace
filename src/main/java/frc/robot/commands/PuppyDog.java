@@ -40,8 +40,12 @@ public class PuppyDog extends Command {
     while (tv == 0) {
       Robot.drivetrain.set(0.3, -0.3);
     }
-    while (tv == 1 && area <= 20.00d) {
-      Robot.drivetrain.set(speedLeft, speedRight);;
+    while (tv == 1 && area <= targetArea) {
+      Robot.drivetrain.set(speedLeft, speedRight);
+      
+    }
+    while (tv == 1 && area >= targetArea) {
+      Robot.drivetrain.set(0.0d, 0.0d);
     }
   }
 

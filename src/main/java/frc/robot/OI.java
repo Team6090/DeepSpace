@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.DriveForward;
 import frc.robot.commands.GyroRotate;
+import frc.robot.commands.PuppyDog;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -37,6 +38,8 @@ public class OI {
   /* Joystick Buttons */
   private JoystickButton joystickButton3 = new JoystickButton(joystick, 3);
   private JoystickButton joystickButton4 = new JoystickButton(joystick, 4);
+  private JoystickButton joystickButton5 = new JoystickButton(joystick, 5);
+
   
 
 
@@ -44,6 +47,11 @@ public class OI {
     /* Joystick Button Actions */
     joystickButton4.whenPressed(new DriveForward(160, 5000l, 0.4d));
     joystickButton3.whenPressed(new GyroRotate(90.0d, 10000l, 0.4d, 0.0d));
+
+    /* Variables are Right Side Speed, Left Side Speed, Target Area, 
+     * and Duration in Milliseconds respectively.
+     */
+    joystickButton5.whenPressed(new PuppyDog(0.25, 0.25, 25.00, 10000);
 
   }
 
