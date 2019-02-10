@@ -18,7 +18,7 @@ import frc.robot.Robot;
  */
 
 public class DriveForward extends Command {
-  double baseEncoderCount, thresholdEncoderCount, currentEncoderPosition = 0;
+  double baseEncoderCount, thresholdEncoderCount, currentEncoderCount = 0;
   double encoderCount;
   boolean haveBaseCount;
   long baseTime, thresholdTime, durationUntilTimeOut;
@@ -62,7 +62,7 @@ public class DriveForward extends Command {
       haveBaseCount = true;
     }
 
-      currentEncoderPosition = Robot.drivetrain.getLeftEncoderPosition();
+      currentEncoderCount = Robot.drivetrain.getLeftEncoderPosition();
       currentAngle = Robot.drivetrain.getGyroYaw();
       speedRefAdjLeft = Robot.drivetrain.syncAngle(startingAngle, currentAngle); 		// Sync robot to gyro angle setpoint
       speedRefLeftFinal = speedRefLeft + speedRefAdjLeft;
@@ -73,7 +73,7 @@ public class DriveForward extends Command {
 
   @Override
   protected boolean isFinished(){
-    if (((baseEncoderCount + currentEncoderPosition) >= thresholdEncoderCount) || ((System.currentTimeMillis()) >= thresholdTime)){
+    if (((thresholdEncoderCount) <= currentEncoderCount) || ((System.currentTimeMillis()) >= thresholdTime)){
       haveBaseCount = false;
       return true;
     } else {
@@ -83,7 +83,7 @@ public class DriveForward extends Command {
   }
 
   @Override
-  protected void end() {
+  protected void end(){
     Robot.drivetrain.stop();
   }
 
