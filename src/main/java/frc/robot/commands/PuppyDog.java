@@ -9,14 +9,11 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class PuppyDog extends Command {
 
-  double area, x, tv, targetArea;
+  double area, tx, tv, targetArea;
   double speedY, speedZ;
   double baseTime, thresholdTime, duration;
   double startingAngle, currentAngle, upperBoundAngle, lowerBoundAngle;
@@ -64,20 +61,42 @@ public class PuppyDog extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    /**
+     * Scanner mode will turn on if the target is ever lost
+     */
+    if (tv == 0) {
+      scannerMode = false;
+    }
+    /**
+     * This will convert the angle constantly
+     */
     if (Robot.drivetrain.getGyroYaw() < 0) {
       currentAngle = Robot.drivetrain.getGyroYaw() + 360;
     }
     else {
       currentAngle = Robot.drivetrain.getGyroYaw();
     }
+
+    /**
+     * This will assign variables from read values from the data tables
+     */
     double area =  NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
-    double x = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+    double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
     double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
 
-    if (scannerMode) {
+    /**
+     * This is scannerMode, for when we start off not having a target, and scannerMode will continue in this loop
+     * until a target is found. The scannerMode boolean will keep the loop from being run everytime the target is
+     * lost, and will only run in the beginning of the program. This is to keep the scanner mode from running every
+     * time the offset looses the target. scannerMode will start CCW and when the lower bound is hit, it will go CW.
+     */
+    if (tv == 0 || scannerMode) {
       Robot.drivetrain.arcadeDrive(0.0d, -speedZ); //CCW
-      if (currentAngle <= (lowerBoundAngle + 5) && currentAngle >= (lowerBoundAngle - 5)) {
-        
+      if (currentAngle <= (lowerBoundAngle + 5) && currentAngle >= (lowerBoundAngle - 5) && tv == 0) {
+        Robot.drivetrain.arcadeDrive(0.0d, speedZ); //CW
+        if (currentAngle <= (upperBoundAngle + 5) && currentAngle >= (upperBoundAngle - 5) && tv == 0) {
+          scannerMode = true;
+        }
       } 
     }
     if (tv == 1 && area <= targetArea) {
