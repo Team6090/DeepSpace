@@ -16,7 +16,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class PuppyDog extends Command {
 
-  double area, x, y, tv, targetArea;
+  double area, tx, tv, targetArea;
   double speedY, speedZ;
   double baseTime, thresholdTime, duration;
   double startingAngle, currentAngle, upperBoundAngle, lowerBoundAngle;
@@ -62,7 +62,7 @@ public class PuppyDog extends Command {
       currentAngle = Robot.drivetrain.getGyroYaw();
     }
     double area =  NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
-    double x = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+    double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
     double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
 
     if (tv == 0) {
@@ -73,6 +73,12 @@ public class PuppyDog extends Command {
     }
     else if (tv == 1 && area >= targetArea) {
       Robot.drivetrain.arcadeDrive(0.0d, 0.0d);
+    }
+    if (tx >= 15) {
+      //CW
+    }
+    if (tx <= 15) {
+      //CCW
     }
   }
 
