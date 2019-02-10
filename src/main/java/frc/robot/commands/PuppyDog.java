@@ -17,9 +17,9 @@ public class PuppyDog extends Command {
   double speedY, speedZ;
   double baseTime, thresholdTime, duration;
   double startingAngle, currentAngle, upperBoundAngle, lowerBoundAngle;
-  boolean specialCaseCW = false;
-  boolean specialCaseCCW = false;
   boolean scannerMode = false;
+  boolean CWDone = false;
+  boolean CCWDone = false;
 
   public PuppyDog(double speedY, double speedZ, double targetArea, double duration) {
     this.speedY = speedY;
@@ -50,23 +50,15 @@ public class PuppyDog extends Command {
 
     if (lowerBoundAngle < 0) { 
       lowerBoundAngle += 360; //If the angle is negative, convert it
-      specialCaseCCW = true;
     }
     if (upperBoundAngle > 360) {
       upperBoundAngle -= 360; //If the angle is above 360, subtract 360
-      specialCaseCW = true;
     }
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    /**
-     * Scanner mode will turn on if the target is ever lost
-     */
-    if (tv == 0) {
-      scannerMode = false;
-    }
     /**
      * This will convert the angle constantly
      */
@@ -85,19 +77,20 @@ public class PuppyDog extends Command {
     double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
 
     /**
-     * This is scannerMode, for when we start off not having a target, and scannerMode will continue in this loop
-     * until a target is found. The scannerMode boolean will keep the loop from being run everytime the target is
-     * lost, and will only run in the beginning of the program. This is to keep the scanner mode from running every
-     * time the offset looses the target. scannerMode will start CCW and when the lower bound is hit, it will go CW.
+     * Combined, these two paragraphs are the searching technique that the robot is going to use when the 
+     * limelight doesn't detect any targets.
      */
-    if (tv == 0 || scannerMode) {
+    if (tv == 0 && !CCWDone) {
       Robot.drivetrain.arcadeDrive(0.0d, -speedZ); //CCW
       if (currentAngle <= (lowerBoundAngle + 5) && currentAngle >= (lowerBoundAngle - 5) && tv == 0) {
-        Robot.drivetrain.arcadeDrive(0.0d, speedZ); //CW
-        if (currentAngle <= (upperBoundAngle + 5) && currentAngle >= (upperBoundAngle - 5) && tv == 0) {
-          scannerMode = true;
-        }
-      } 
+        CCWDone = true;
+      }
+    }
+    if (tv == 0 && CCWDone && !CWDone) {
+      Robot.drivetrain.arcadeDrive(0.0d, speedZ); //CW
+      if (currentAngle <= (upperBoundAngle + 5) && currentAngle >= (upperBoundAngle - 5) && tv == 0) {
+        CWDone = true;
+      }
     }
     if (tv == 1 && area <= targetArea) {
       Robot.drivetrain.arcadeDrive(speedY, 0.0); 
