@@ -12,6 +12,10 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -67,11 +71,21 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    /* 
-     * Check to see if the camera stream needs to be changed. If it does, the camera stream
-     * is automatically updated to display the feed for the camera at the set ID.
-     */
-    cameraController.update();
+    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+    NetworkTableEntry tx = table.getEntry("tx");
+    NetworkTableEntry ty = table.getEntry("ty");
+    NetworkTableEntry ta = table.getEntry("ta");
+
+    //read values periodically
+    double x = tx.getDouble(0.0);
+    double y = ty.getDouble(0.0);
+    double area = ta.getDouble(0.0);
+  
+     //post to smart dashboard periodically
+     SmartDashboard.putNumber("LimelightX", x);
+     SmartDashboard.putNumber("LimelightY", y);
+     SmartDashboard.putNumber("LimelightArea", area);
+     cameraController.update();
 
     /*
      * Update the SmartDashboard data, enabled. 
