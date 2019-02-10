@@ -18,16 +18,20 @@ public class PuppyDog extends Command {
 
   double area, x, y, tv, targetArea;
   double speedRight, speedLeft;
+  double baseTime, thresholdTime, duration;
 
-  public PuppyDog(double speedRight, double speedLeft, double targetArea) {
+  public PuppyDog(double speedRight, double speedLeft, double targetArea, double duration) {
     this.speedRight = speedRight;
     this.speedLeft = speedLeft;
     this.targetArea = targetArea;
+    this.duration = duration;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    baseTime = System.currentTimeMillis();
+    thresholdTime = baseTime + duration;
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -52,7 +56,7 @@ public class PuppyDog extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return (System.currentTimeMillis() >= thresholdTime);
   }
 
   // Called once after isFinished returns true
