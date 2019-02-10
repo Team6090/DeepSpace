@@ -17,12 +17,13 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public class PuppyDog extends Command {
 
   double area, x, y, tv, targetArea;
-  double speedRight, speedLeft;
+  double speedY, speedZ;
   double baseTime, thresholdTime, duration;
+  double startingAngle, currentAngle, upperBoundAngle, lowerBoundAngle;
 
-  public PuppyDog(double speedRight, double speedLeft, double targetArea, double duration) {
-    this.speedRight = speedRight;
-    this.speedLeft = speedLeft;
+  public PuppyDog(double speedY, double speedZ, double targetArea, double duration) {
+    this.speedY = speedY;
+    this.speedZ = speedZ;
     this.targetArea = targetArea;
     this.duration = duration;
   }
@@ -32,24 +33,38 @@ public class PuppyDog extends Command {
   protected void initialize() {
     baseTime = System.currentTimeMillis();
     thresholdTime = baseTime + duration;
+
+    if (Robot.drivetrain.getGyroYaw() < 0) {
+      startingAngle = Robot.drivetrain.getGyroYaw() + 360;
+    }
+    else {
+      startingAngle = Robot.drivetrain.getGyroYaw();
+    }
+    upperBoundAngle = startingAngle + 60;
+    lowerBoundAngle = startingAngle - 60;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    if (Robot.drivetrain.getGyroYaw() < 0) {
+      currentAngle = Robot.drivetrain.getGyroYaw() + 360;
+    }
+    else {
+      currentAngle = Robot.drivetrain.getGyroYaw();
+    }
     double area =  NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
     double x = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
     double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
 
-    while (tv == 0) {
-      Robot.drivetrain.set(0.3, -0.3);
+    if (tv == 0) {
+      Robot.drivetrain.arcadeDrive(0.0, speedZ);
     }
-    while (tv == 1 && area <= targetArea) {
-      Robot.drivetrain.set(speedLeft, speedRight);
-      
+    else if (tv == 1 && area <= targetArea) {
+      Robot.drivetrain.arcadeDrive(speedY, 0.0); 
     }
-    while (tv == 1 && area >= targetArea) {
-      Robot.drivetrain.set(0.0d, 0.0d);
+    else if (tv == 1 && area >= targetArea) {
+      Robot.drivetrain.arcadeDrive(0.0d, 0.0d);
     }
   }
 
