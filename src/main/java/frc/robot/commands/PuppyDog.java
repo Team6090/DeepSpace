@@ -77,17 +77,17 @@ public class PuppyDog extends Command {
         
       } 
     }
-    if (tv == 1 && area <= targetArea) {
-      Robot.drivetrain.arcadeDrive(speedY, 0.0); 
+    if (tv == 1 && area <= targetArea && tx > -10 && tx < 10) {
+      Robot.drivetrain.arcadeDrive(speedY, 0.0);
     }
     if (tv == 1 && area >= targetArea) {
       Robot.drivetrain.arcadeDrive(0.0d, 0.0d);
     }
-    if (tx >= 15) {
-      //CW
+    if (tx >= 10) {
+      Robot.drivetrain.arcadeDrive(0.0d, speedZ);
     }
-    if (tx <= 15) {
-      //CCW
+    if (tx <= -10) {
+      Robot.drivetrain.arcadeDrive(0.0d, -speedZ);
     }
   }
 
