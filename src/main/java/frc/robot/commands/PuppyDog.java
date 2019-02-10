@@ -40,8 +40,16 @@ public class PuppyDog extends Command {
     else {
       startingAngle = Robot.drivetrain.getGyroYaw();
     }
+    
     upperBoundAngle = startingAngle + 60;
     lowerBoundAngle = startingAngle - 60;
+
+    if (lowerBoundAngle < 0) { 
+      lowerBoundAngle += 360; //If the angle is negative, convert it 
+    }
+    if (upperBoundAngle> 360) {
+      upperBoundAngle -= 360; //If the angle is above 360, subtract 360
+    }
   }
 
   // Called repeatedly when this Command is scheduled to run
