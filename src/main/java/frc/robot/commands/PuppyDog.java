@@ -17,9 +17,10 @@ public class PuppyDog extends Command {
   double speedY, speedZ;
   double baseTime, thresholdTime, duration;
   double startingAngle, currentAngle, upperBoundAngle, lowerBoundAngle;
-  boolean scannerMode = false;
   boolean CWDone = false;
   boolean CCWDone = false;
+  boolean offsetCorrectionsX = false;
+  boolean targetAcquired;
 
   public PuppyDog(double speedY, double speedZ, double targetArea, double duration) {
     this.speedY = speedY;
@@ -34,25 +35,28 @@ public class PuppyDog extends Command {
     baseTime = System.currentTimeMillis();
     thresholdTime = baseTime + duration;
 
-    if (NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0) == 0) {
-      scannerMode = true;
-    }
-
     if (Robot.drivetrain.getGyroYaw() < 0) {
       startingAngle = Robot.drivetrain.getGyroYaw() + 360;
-    }
-    else {
+    } else {
       startingAngle = Robot.drivetrain.getGyroYaw();
     }
 
     upperBoundAngle = startingAngle + 60;
     lowerBoundAngle = startingAngle - 60;
 
-    if (lowerBoundAngle < 0) { 
-      lowerBoundAngle += 360; //If the angle is negative, convert it
+    if (lowerBoundAngle < 0) {
+      lowerBoundAngle += 360; // If the angle is negative, convert it
     }
     if (upperBoundAngle > 360) {
-      upperBoundAngle -= 360; //If the angle is above 360, subtract 360
+      upperBoundAngle -= 360; // If the angle is above 360, subtract 360
+    }
+    /**
+     * This will start off the command by finding whether or not a target is found.
+     */
+    if (tv == 0) {
+      targetAcquired = false;
+    } else {
+      targetAcquired = true;
     }
   }
 
@@ -64,45 +68,54 @@ public class PuppyDog extends Command {
      */
     if (Robot.drivetrain.getGyroYaw() < 0) {
       currentAngle = Robot.drivetrain.getGyroYaw() + 360;
-    }
-    else {
+    } else {
       currentAngle = Robot.drivetrain.getGyroYaw();
     }
 
     /**
      * This will assign variables from read values from the data tables
      */
-    double area =  NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
+    double area = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
     double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
     double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
 
     /**
-     * Combined, these two paragraphs are the searching technique that the robot is going to use when the 
-     * limelight doesn't detect any targets.
+     * Combined, these two paragraphs are the searching technique that the robot is
+     * going to use when the limelight doesn't detect any targets.
      */
-    if (tv == 0 && !CCWDone) {
-      Robot.drivetrain.arcadeDrive(0.0d, -speedZ); //CCW
-      if (currentAngle <= (lowerBoundAngle + 5) && currentAngle >= (lowerBoundAngle - 5) && tv == 0) {
-        CCWDone = true;
+    if (!targetAcquired) {
+      if (tv == 0 && !CCWDone) {
+        Robot.drivetrain.arcadeDrive(0.0d, -speedZ); // CCW
+        if (currentAngle <= (lowerBoundAngle + 5) && currentAngle >= (lowerBoundAngle - 5) && tv == 0) {
+          CCWDone = true;
+        }
       }
-    }
-    if (tv == 0 && CCWDone && !CWDone) {
-      Robot.drivetrain.arcadeDrive(0.0d, speedZ); //CW
-      if (currentAngle <= (upperBoundAngle + 5) && currentAngle >= (upperBoundAngle - 5) && tv == 0) {
-        CWDone = true;
+      if (tv == 0 && CCWDone && !CWDone) {
+        Robot.drivetrain.arcadeDrive(0.0d, speedZ); // CW
+        if (currentAngle <= (upperBoundAngle + 5) && currentAngle >= (upperBoundAngle - 5) && tv == 0) {
+          CWDone = true;
+          CCWDone = false;
+        }
       }
-    }
-    if (tv == 1 && area <= targetArea && tx > -10 && tx < 10) {
-      Robot.drivetrain.arcadeDrive(speedY, 0.0);
-    }
-    if (tv == 1 && area >= targetArea) {
-      Robot.drivetrain.arcadeDrive(0.0d, 0.0d);
-    }
-    if (tx >= 10) {
-      Robot.drivetrain.arcadeDrive(0.0d, speedZ);
-    }
-    if (tx <= -10) {
-      Robot.drivetrain.arcadeDrive(0.0d, -speedZ);
+    } else {
+      if (tx > -2 && tx < 2 && tv == 1) {
+        offsetCorrectionsX = false;
+      } else {
+        offsetCorrectionsX = true;
+      }
+      if (offsetCorrectionsX) {
+        if (offsetCorrectionsX && tx < 0) {
+          Robot.drivetrain.arcadeDrive(0.0d, speedZ); // CW Corrections
+        } else if (offsetCorrectionsX && tx > 0) {
+          Robot.drivetrain.arcadeDrive(0.0d, -speedZ); // CCW Corrections
+        }
+      } else {
+        if (tv == 1 && area < targetArea) {
+          Robot.drivetrain.arcadeDrive(speedY, 0.0);
+        } else if (tv == 1 && area >= targetArea) {
+          Robot.drivetrain.arcadeDrive(0.0d, 0.0d);
+        }
+      }
     }
   }
 
