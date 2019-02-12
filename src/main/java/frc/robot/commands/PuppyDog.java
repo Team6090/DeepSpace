@@ -27,18 +27,19 @@ public class PuppyDog extends Command {
     this.speedZ = speedZ;
     this.targetArea = targetArea;
     this.duration = duration;
+    requires(Robot.drivetrain);
   }
 
   @Override
   protected void initialize() {
 
-    /**
+    /*
      * Sets the timeout (threshold)
      */
     baseTime = System.currentTimeMillis();
     thresholdTime = baseTime + duration;
 
-    /**
+    /*
      * Converts starting yaw to always be 0-360 (for crossing over 0 or 360)
      */
     if (Robot.drivetrain.getGyroYaw() < 0) {
@@ -47,22 +48,25 @@ public class PuppyDog extends Command {
       startingAngle = Robot.drivetrain.getGyroYaw();
     }
 
-    /**
+    /*
      * Sets the bounds for the search mode
      */
     upperBoundAngle = startingAngle + 60;
     lowerBoundAngle = startingAngle - 60;
 
-    /**
+    /*
      * Converts bounds to always be 0-360 (for crossing over 0 or 360)
+     * 
+     * If the angle is negative, convert it
      */
     if (lowerBoundAngle < 0) {
-      lowerBoundAngle += 360; // If the angle is negative, convert it
+      lowerBoundAngle += 360;
     }
+    /* If the angle is above 360, subtract 360 */
     if (upperBoundAngle > 360) {
-      upperBoundAngle -= 360; // If the angle is above 360, subtract 360
+      upperBoundAngle -= 360;
     }
-    /**
+    /*
      * This will start off the command by finding whether or not a target is found, which will trigger the 
      * search mode.
      */
@@ -76,7 +80,7 @@ public class PuppyDog extends Command {
 
   @Override
   protected void execute() {
-    /**
+    /*
      * This will convert the angle constantly
      */
     if (Robot.drivetrain.getGyroYaw() < 0) {
@@ -85,14 +89,14 @@ public class PuppyDog extends Command {
       currentAngle = Robot.drivetrain.getGyroYaw();
     }
 
-    /**
+    /*
      * This will assign variables from read values from the data tables
      */
     double area = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
     double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
     double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
 
-    /**
+    /*
      * Combined, these two paragraphs are the searching technique that the robot is
      * going to use when the limelight doesn't detect any targets. This is the first half of the program that will
      * search a set amount of degrees (set in initilization) until a target is found. This will only run if it has
@@ -101,41 +105,49 @@ public class PuppyDog extends Command {
      */
     if (!targetAcquired && !searchDone && tv == 0) {
       if (!CCWDone) {
-        Robot.drivetrain.arcadeDrive(0.0d, -speedZ); // CCW
+        /* CCW */
+        Robot.drivetrain.arcadeDrive(0.0d, -speedZ);
         if (currentAngle <= (lowerBoundAngle + 5) && currentAngle >= (lowerBoundAngle - 5) && tv == 0) {
-          CCWDone = true; //Sets CCWDone so the next paragraph can start
+          /* Sets CCWDone so the next paragraph can start */
+          CCWDone = true;
         }
       }
       if (CCWDone && !CWDone) {
-        Robot.drivetrain.arcadeDrive(0.0d, speedZ); // CW
+        /* CW */
+        Robot.drivetrain.arcadeDrive(0.0d, speedZ);
         if (currentAngle <= (upperBoundAngle + 5) && currentAngle >= (upperBoundAngle - 5) && tv == 0) {
-          CWDone = true; //Sets CWDone to true so loop stops
-          CCWDone = false; //Triggers the first paragraph again
-          searchDone = true; //Keeps this loop from ever running again after the init triggers searchDone as false
+          /* Sets CWDone to true so loop stops */
+          CWDone = true;
+          /* Triggers the first paragraph again */
+          CCWDone = false;
+          /* Keeps this loop from ever running again after the init triggers searchDone as false */
+          searchDone = true;
         }
       }
-    } 
-    /**
-     * This is the second half where, once the target is found, approaching will begin, or offset corrections will
-     * begin, and will stop at a certain set margin relative to the center. All parameters were set in the previous
-     * if statement, so this will be triggered if there was a target detected in init, detected at any time, or if
-     * the search is finished.
-     */
-    else {
-      if (tx > -2 && tx < 2) { //Will trigger offset corrections if xoffset is outside of this range, otherwise will drive to and stop at target
-        if (area < targetArea) { //If not at target area yet, continue forwards
+    } else {
+      /*
+       * This is the second half where, once the target is found, approaching will begin, or offset corrections will
+       * begin, and will stop at a certain set margin relative to the center. All parameters were set in the previous
+       * if statement, so this will be triggered if there was a target detected in init, detected at any time, or if
+       * the search is finished.
+       * 
+       * Trigger offset corrections if xoffset is outside of this range, otherwise will drive to and stop at target
+       */
+      if (tx > -2 && tx < 2) {
+        /* If not at target area yet, continue forwards */
+        if (area < targetArea) {
           Robot.drivetrain.arcadeDrive(speedY, 0.0);
-        } 
-        else if (area >= targetArea) { //If at, or overshot target area, stop
+        } else if (area >= targetArea) { /* If at, or overshot target area, stop */
           Robot.drivetrain.arcadeDrive(0.0d, 0.0d);
         } 
-      }
-      else { //Offset corrections
-        if (tx < 0) { //If offset is negative
-         Robot.drivetrain.arcadeDrive(0.0d, speedZ); // CW Corrections
-        } 
-        else if (tx > 0) { //If offset is positive
-          Robot.drivetrain.arcadeDrive(0.0d, -speedZ); // CCW Corrections
+      } else { /* Offset corrections */
+        /* If offset is negative */
+        if (tx < 0) { //
+          /* CW Corrections */
+         Robot.drivetrain.arcadeDrive(0.0d, speedZ);
+        } else if (tx > 0) { /* If offset is positive */
+          /* CCW Corrections */
+          Robot.drivetrain.arcadeDrive(0.0d, -speedZ);
         }
       }
     }
@@ -149,14 +161,20 @@ public class PuppyDog extends Command {
     return (System.currentTimeMillis() >= thresholdTime);
   }
 
-  // Called once after isFinished returns true
+  /**
+   * Called once after isFinished returns true
+   */
   @Override
   protected void end() {
+    Robot.drivetrain.stop();
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
+  /**
+   * Called when another command which requires one or more of the same
+   * subsystems is scheduled to run
+   */
   @Override
   protected void interrupted() {
+    end();
   }
 }
