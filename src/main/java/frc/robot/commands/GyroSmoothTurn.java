@@ -9,8 +9,8 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-/*
- * This here thingy is going to turn the robot while also moving it forwards or backwards
+/**
+ * Turn the robot while also moving it forwards or backwards.
  * @author Ethan Snyder
  * @version 1.0
  * @since 1.0
@@ -28,6 +28,7 @@ public class GyroSmoothTurn extends Command {
   boolean specialCase = false;
 
   /**
+   * Set up GyroSmoothTurn.
    * @param inputAngle The goal angle that the robot is going to turn to
    * @param duration The time in which the timer will stop the turn after
    * @param speedZ The twisting direction of the joystick which will actually make the bot turn
@@ -42,51 +43,64 @@ public class GyroSmoothTurn extends Command {
   }
 
   /**
-   * The first part of this starts the failsafe time, it records the starting time. After that, the gyro yaw
-   * is zeroed out for convenience. The next two if statements are basically adjusting the ranges 
+   * Start the failsafe time, record the starting time. The gyro yaw
+   * is zeroed out for convenience. Adjust the ranges.
    */
   @Override
   protected void initialize() {
 
-    baseTime = System.currentTimeMillis(); //System clock starts
-    thresholdTime = baseTime + duration;  //Determines time that robot has to timeout after
+    /* The system clock starts. */
+    baseTime = System.currentTimeMillis();
+    /* Determines time that robot has to timeout after */
+    thresholdTime = baseTime + duration;
 
-    /**
+    /*
      * This will convert the starting angle
      */
     if (Robot.drivetrain.getGyroYaw() < 0) {
-      startingAngle = Robot.drivetrain.getGyroYaw() + 360; //Negative turn to 180-360
-    }
-    else {
-      startingAngle = Robot.drivetrain.getGyroYaw(); //Positives stay 0-180
+      /* Negative turn to 180-360 */
+      startingAngle = Robot.drivetrain.getGyroYaw() + 360;
+    } else {
+      /* Positives stay 0-180 */
+      startingAngle = Robot.drivetrain.getGyroYaw();
     }
 
-    totalAngleTurn = startingAngle + inputAngle; //Sets the total angle needed to turn
+    /* Sets the total angle needed to turn */
+    totalAngleTurn = startingAngle + inputAngle;
 
-    /**
+    /*
      * This will declare the turning direction of special cases when the angle passes over 0 or 360
      */
-    if (totalAngleTurn < 0) { 
-      totalAngleTurn += 360; //If the angle is negative, convert it 
-      specialCase = true;  //Trigger special case
-      clockwise = false; //Trigger counterclockwise
+    if (totalAngleTurn < 0) {
+      /* If the angle is negative, convert it  */ 
+      totalAngleTurn += 360;
+      /* Trigger special case */
+      specialCase = true;
+      /* Trigger counterclockwise */
+      clockwise = false;
     }
     if (totalAngleTurn > 360) {
-      totalAngleTurn -= 360; //If the angle is above 360, subtract 360
-      specialCase = true; //Trigger special case
-      clockwise = true; //Trigger clockwise
+      /* If the angle is above 360, subtract 360 */
+      totalAngleTurn -= 360;
+      /* Trigger special case */
+      specialCase = true;
+      /* Trigger clockwise */
+      clockwise = true;
     }
-    /**
+    /*
      * This will only run if the special cases do not already declare a turning direction
      */
-    if (!specialCase)
-      if (totalAngleTurn > startingAngle) { //If the input angle is bigger, turn clockwise
+    if (!specialCase) {
+      /* If the input angle is bigger, turn clockwise */
+      if (totalAngleTurn > startingAngle) {
         clockwise = true;
-    }
-      if (totalAngleTurn < startingAngle) { //If the input angle is smaller, turn counterclockwise
+      }
+      /* If the input angle is smaller, turn counterclockwise */
+      if (totalAngleTurn < startingAngle) {
         clockwise = false;
       }
     }
+  }
 
   /**
    * This is saying that if the targetAngle was originally negative, which means it will now be a large
@@ -96,7 +110,7 @@ public class GyroSmoothTurn extends Command {
    */
   @Override
   protected void execute() {
-    /**
+    /*
      * This should keep the angle read from the gyro constantly converted as long as currentAngle is 
      * referenced compared to always reading raw values from the getGyroYaw.
      */
@@ -108,12 +122,15 @@ public class GyroSmoothTurn extends Command {
 
     }
     if (!clockwise) {
-      Robot.drivetrain.arcadeDrive(speedY, -speedZ); //CCW turning
+      /* CCW turning */
+      Robot.drivetrain.arcadeDrive(speedY, -speedZ);
     }
     else if (clockwise) {
-      Robot.drivetrain.arcadeDrive(speedY, speedZ); //Clockwise turning
+      /* Clockwise turning */
+      Robot.drivetrain.arcadeDrive(speedY, speedZ);
     }
   }
+
   /**
    * This is going to set a range for the termination thingy, meaning that when the yaw of the robot is within
    * a range of the target angle, the program will kill itself
@@ -133,8 +150,9 @@ public class GyroSmoothTurn extends Command {
     System.out.println("Time elapsed: " + (System.currentTimeMillis() - baseTime) + ", and total angle turned: " + (currentAngle - startingAngle));
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
+  /**
+   * Finish this command.
+   */
   @Override
   protected void interrupted() {
     end();

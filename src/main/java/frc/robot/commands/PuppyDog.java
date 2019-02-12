@@ -11,6 +11,13 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
+/**
+ * Use the LimeLight to follow a vision target.
+ * @author Ethan Snyder
+ * @author Collin Heavner
+ * @version 1.0
+ * @since 1.0
+ */
 public class PuppyDog extends Command {
 
   double area, tx, tv, targetArea;
@@ -22,6 +29,13 @@ public class PuppyDog extends Command {
   boolean targetAcquired;
   boolean searchDone = true;
 
+  /**
+   * Set up PuppyDog.
+   * @param speedY Forward/backward speed.
+   * @param speedZ Rotation speed.
+   * @param targetArea The target area to stop at.
+   * @param duration How long to run the command for.
+   */
   public PuppyDog(double speedY, double speedZ, double targetArea, double duration) {
     this.speedY = speedY;
     this.speedZ = speedZ;
@@ -30,6 +44,9 @@ public class PuppyDog extends Command {
     requires(Robot.drivetrain);
   }
 
+  /**
+   * Start the clock, convert the gyro angle if needed.
+   */
   @Override
   protected void initialize() {
 
@@ -78,10 +95,13 @@ public class PuppyDog extends Command {
     }
   }
 
+  /**
+   * Follow the vision target. Scan if neccessary.
+   */
   @Override
   protected void execute() {
     /*
-     * This will convert the angle constantly
+     * Convert the angle constantly
      */
     if (Robot.drivetrain.getGyroYaw() < 0) {
       currentAngle = Robot.drivetrain.getGyroYaw() + 360;
@@ -90,7 +110,7 @@ public class PuppyDog extends Command {
     }
 
     /*
-     * This will assign variables from read values from the data tables
+     * Assign variables from read values from the data tables
      */
     double area = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
     double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
@@ -154,7 +174,7 @@ public class PuppyDog extends Command {
   }
 
   /**
-   * Program will only terminate when a timeout is reached.
+   * Terminate when a timeout is reached.
    */
   @Override
   protected boolean isFinished() {

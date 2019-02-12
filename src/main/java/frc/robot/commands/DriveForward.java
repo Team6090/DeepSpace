@@ -16,7 +16,6 @@ import frc.robot.Robot;
  * @version 1.0
  * @since 1.0
  */
-
 public class DriveForward extends Command {
   double baseEncoderCount, thresholdEncoderCount, currentEncoderCount = 0;
   double encoderCount;
@@ -30,9 +29,17 @@ public class DriveForward extends Command {
   double speedRefRight;
   double speedRefLeft;
   double speedRefAdjLeft;
-  double currentAngle;
+  float currentAngle;
   double speedRefLeftFinal;
 
+  /**
+   * Drive forward.
+   * @param encoderCount The number of encoder counts to drive forward. For the SparkMax motor controllers, this
+   * is actually motor revolutions.
+   * @param durationUntilTimeOut The duration to drive forward. Driving will stop when either the motor revolution
+   * count is at the target, or this duration is reached.
+   * @param driveForwardSpeedRef The speed at which to drive forward.
+   */
   public DriveForward(int encoderCount, long durationUntilTimeOut, double driveForwardSpeedRef) {
     this.encoderCount = encoderCount;
     this.durationUntilTimeOut = durationUntilTimeOut;
@@ -44,16 +51,23 @@ public class DriveForward extends Command {
     requires(Robot.drivetrain);
     
   }
+
+  /**
+   * Calculate the threshhold time, get the current gyro angle, calculate drift bounds.
+   */
   @Override
   protected void initialize() {
     /* Start clock and angle value readings*/
     baseTime = System.currentTimeMillis();
     thresholdTime = baseTime + durationUntilTimeOut;
-    startingAngle = Robot.drivetrain.getGyroYaw();
-    currentAngle = Robot.drivetrain.getGyroYaw();
+    startingAngle = currentAngle = Robot.drivetrain.getGyroYaw();
     driftCorrectionTargetMax = startingAngle + correctionDeadband;
     driftCorrectionTargetMin = startingAngle - correctionDeadband;
   }
+
+  /**
+   * Drive the robot forward. If it starts to drift, correct.
+   */
   @Override
   protected void execute() {
     if (!haveBaseCount) {
@@ -62,15 +76,20 @@ public class DriveForward extends Command {
       haveBaseCount = true;
     }
 
-      currentEncoderCount = Robot.drivetrain.getLeftEncoderPosition();
-      currentAngle = Robot.drivetrain.getGyroYaw();
-      speedRefAdjLeft = Robot.drivetrain.syncAngle(startingAngle, currentAngle); 		// Sync robot to gyro angle setpoint
-      speedRefLeftFinal = speedRefLeft + speedRefAdjLeft;
-      System.out.println ("speedRefAdjLeft " + speedRefAdjLeft); 
-      Robot.drivetrain.set (speedRefLeftFinal, -speedRefRight); //invert right side motor to drive forward 
+    currentEncoderCount = Robot.drivetrain.getLeftEncoderPosition();
+    currentAngle = Robot.drivetrain.getGyroYaw();
+
+    /* Sync robot to gyro angle setpoint */
+    speedRefAdjLeft = Robot.drivetrain.syncAngle(startingAngle, currentAngle);
+    speedRefLeftFinal = speedRefLeft + speedRefAdjLeft;
+    System.out.println("speedRefAdjLeft " + speedRefAdjLeft);
+    /* invert right side motor to drive forward  */ 
+    Robot.drivetrain.set(speedRefLeftFinal, -speedRefRight);
   }
   
-
+  /**
+   * Stop when either the timeout was reached, or the encoder count was reached.
+   */
   @Override
   protected boolean isFinished(){
     if (((thresholdEncoderCount) <= currentEncoderCount) || ((System.currentTimeMillis()) >= thresholdTime)){
@@ -82,11 +101,17 @@ public class DriveForward extends Command {
     }
   }
 
+  /**
+   * Stop the drivetrain.
+   */
   @Override
   protected void end(){
     Robot.drivetrain.stop();
   }
 
+  /**
+   * Stop the drivetrain.
+   */
   @Override
   protected void interrupted() {
     end();
