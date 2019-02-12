@@ -19,8 +19,8 @@ public class PuppyDog extends Command {
   double startingAngle, currentAngle, upperBoundAngle, lowerBoundAngle;
   boolean CWDone = false;
   boolean CCWDone = false;
-  boolean offsetCorrectionsX = false;
   boolean targetAcquired;
+  boolean searchDone = true;
 
   public PuppyDog(double speedY, double speedZ, double targetArea, double duration) {
     this.speedY = speedY;
@@ -29,21 +29,33 @@ public class PuppyDog extends Command {
     this.duration = duration;
   }
 
-  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+
+    /**
+     * Sets the timeout (threshold)
+     */
     baseTime = System.currentTimeMillis();
     thresholdTime = baseTime + duration;
 
+    /**
+     * Converts starting yaw to always be 0-360 (for crossing over 0 or 360)
+     */
     if (Robot.drivetrain.getGyroYaw() < 0) {
       startingAngle = Robot.drivetrain.getGyroYaw() + 360;
     } else {
       startingAngle = Robot.drivetrain.getGyroYaw();
     }
 
+    /**
+     * Sets the bounds for the search mode
+     */
     upperBoundAngle = startingAngle + 60;
     lowerBoundAngle = startingAngle - 60;
 
+    /**
+     * Converts bounds to always be 0-360 (for crossing over 0 or 360)
+     */
     if (lowerBoundAngle < 0) {
       lowerBoundAngle += 360; // If the angle is negative, convert it
     }
@@ -51,16 +63,17 @@ public class PuppyDog extends Command {
       upperBoundAngle -= 360; // If the angle is above 360, subtract 360
     }
     /**
-     * This will start off the command by finding whether or not a target is found.
+     * This will start off the command by finding whether or not a target is found, which will trigger the 
+     * search mode.
      */
     if (tv == 0) {
       targetAcquired = false;
+      searchDone = false;
     } else {
       targetAcquired = true;
     }
   }
 
-  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     /**
@@ -81,45 +94,56 @@ public class PuppyDog extends Command {
 
     /**
      * Combined, these two paragraphs are the searching technique that the robot is
-     * going to use when the limelight doesn't detect any targets.
+     * going to use when the limelight doesn't detect any targets. This is the first half of the program that will
+     * search a set amount of degrees (set in initilization) until a target is found. This will only run if it has
+     * not been done before (!searchDone) and the init has declared no target has been found (!targetAcquired), and
+     * a target has still not been found.
      */
-    if (!targetAcquired) {
-      if (tv == 0 && !CCWDone) {
+    if (!targetAcquired && !searchDone && tv == 0) {
+      if (!CCWDone) {
         Robot.drivetrain.arcadeDrive(0.0d, -speedZ); // CCW
         if (currentAngle <= (lowerBoundAngle + 5) && currentAngle >= (lowerBoundAngle - 5) && tv == 0) {
-          CCWDone = true;
+          CCWDone = true; //Sets CCWDone so the next paragraph can start
         }
       }
-      if (tv == 0 && CCWDone && !CWDone) {
+      if (CCWDone && !CWDone) {
         Robot.drivetrain.arcadeDrive(0.0d, speedZ); // CW
         if (currentAngle <= (upperBoundAngle + 5) && currentAngle >= (upperBoundAngle - 5) && tv == 0) {
-          CWDone = true;
-          CCWDone = false;
+          CWDone = true; //Sets CWDone to true so loop stops
+          CCWDone = false; //Triggers the first paragraph again
+          searchDone = true; //Keeps this loop from ever running again after the init triggers searchDone as false
         }
       }
-    } else {
-      if (tx > -2 && tx < 2 && tv == 1) {
-        offsetCorrectionsX = false;
-      } else {
-        offsetCorrectionsX = true;
-      }
-      if (offsetCorrectionsX) {
-        if (offsetCorrectionsX && tx < 0) {
-          Robot.drivetrain.arcadeDrive(0.0d, speedZ); // CW Corrections
-        } else if (offsetCorrectionsX && tx > 0) {
-          Robot.drivetrain.arcadeDrive(0.0d, -speedZ); // CCW Corrections
-        }
-      } else {
-        if (tv == 1 && area < targetArea) {
+    } 
+    /**
+     * This is the second half where, once the target is found, approaching will begin, or offset corrections will
+     * begin, and will stop at a certain set margin relative to the center. All parameters were set in the previous
+     * if statement, so this will be triggered if there was a target detected in init, detected at any time, or if
+     * the search is finished.
+     */
+    else {
+      if (tx > -2 && tx < 2) { //Will trigger offset corrections if xoffset is outside of this range, otherwise will drive to and stop at target
+        if (area < targetArea) { //If not at target area yet, continue forwards
           Robot.drivetrain.arcadeDrive(speedY, 0.0);
-        } else if (tv == 1 && area >= targetArea) {
+        } 
+        else if (area >= targetArea) { //If at, or overshot target area, stop
           Robot.drivetrain.arcadeDrive(0.0d, 0.0d);
+        } 
+      }
+      else { //Offset corrections
+        if (tx < 0) { //If offset is negative
+         Robot.drivetrain.arcadeDrive(0.0d, speedZ); // CW Corrections
+        } 
+        else if (tx > 0) { //If offset is positive
+          Robot.drivetrain.arcadeDrive(0.0d, -speedZ); // CCW Corrections
         }
       }
     }
   }
 
-  // Make this return true when this Command no longer needs to run execute()
+  /**
+   * Program will only terminate when a timeout is reached.
+   */
   @Override
   protected boolean isFinished() {
     return (System.currentTimeMillis() >= thresholdTime);
