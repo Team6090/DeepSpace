@@ -75,16 +75,19 @@ public class Robot extends TimedRobot {
     NetworkTableEntry tx = table.getEntry("tx");
     NetworkTableEntry ty = table.getEntry("ty");
     NetworkTableEntry ta = table.getEntry("ta");
+    NetworkTableEntry ts = table.getEntry("ts");
 
     //read values periodically
     double x = tx.getDouble(0.0);
     double y = ty.getDouble(0.0);
     double area = ta.getDouble(0.0);
+    double skew = ts.getDouble(0.0);
   
      //post to smart dashboard periodically
      SmartDashboard.putNumber("LimelightX", x);
      SmartDashboard.putNumber("LimelightY", y);
      SmartDashboard.putNumber("LimelightArea", area);
+     SmartDashboard.putNumber("LimelightSkew", skew);
      cameraController.update();
 
     /*
