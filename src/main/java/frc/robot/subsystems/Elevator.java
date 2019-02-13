@@ -15,7 +15,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.ElevatorWithJoystick;
+import frc.robot.commands.ElevatorController;
 
 /**
  * The elevator is a single motor. This subsystem simply handles setting the speed,
@@ -34,6 +34,19 @@ public class Elevator extends Subsystem {
    */
   public Elevator() {
     /* TODO: PID Configuration goes here. */
+    double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
+    kP = 0.1;
+    kI = 0.001;
+    kD = 0;
+    kIz = 0;
+    kFF = 0;
+    kMaxOutput = 1;
+    kMinOutput = -1;
+    getPIDController().setP(kP);
+    getPIDController().setI(kI);
+    getPIDController().setD(kD);
+    getPIDController().setIZone(kIz);
+    getPIDController().setOutputRange(kMinOutput, kMaxOutput);
   }
 
   /**
@@ -109,6 +122,6 @@ public class Elevator extends Subsystem {
    */
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new ElevatorWithJoystick());
+    setDefaultCommand(new ElevatorController());
   }
 }
