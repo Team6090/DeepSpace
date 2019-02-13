@@ -108,7 +108,11 @@ public class Elevator extends Subsystem {
   /**
    * Set the controller reference value based on the selected
    * control mode.
-   * @param value The value to set depending on the control mode. For basic duty cycle control this should be a value between -1 and 1 Otherwise: Voltage Control: Voltage (volts) Velocity Control: Velocity (RPM) Position Control: Position (Rotations) Current Control: Current (Amps)
+   * @param value The value to set depending on the control mode.
+   * For basic duty cycle control this should be a value between -1 and 1
+   * Otherwise: Voltage Control: Voltage (volts) Velocity Control:
+   * Velocity (RPM) Position Control: Position (Rotations)
+   * Current Control: Current (Amps)
    * @param ctrl The control type to override with.
    * @param pidSlot The PID slot to run this command in.
    * @return CANError Set to REV_OK if successful
