@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANError;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -28,6 +29,7 @@ public class Elevator extends Subsystem {
 
   /* Set up the brushless elevator motor. */
   private final CANSparkMax elevatorMotor = new CANSparkMax(RobotMap.elevatorMotor, MotorType.kBrushless);
+  
 
   /**
    * Set up the elevator motor and subsystem.
@@ -35,6 +37,7 @@ public class Elevator extends Subsystem {
   public Elevator() {
     /* TODO: PID Configuration goes here. */
     double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
+    int slot = 1;
     kP = 0.1;
     kI = 0.001;
     kD = 0;
@@ -42,11 +45,13 @@ public class Elevator extends Subsystem {
     kFF = 0;
     kMaxOutput = 1;
     kMinOutput = -1;
-    getPIDController().setP(kP);
-    getPIDController().setI(kI);
-    getPIDController().setD(kD);
-    getPIDController().setIZone(kIz);
+    getPIDController().setP(kP, slot);
+    getPIDController().setI(kI, slot);
+    getPIDController().setD(kD, slot);
+    getPIDController().setFF(kFF, slot);
+    getPIDController().setIZone(kIz,slot);
     getPIDController().setOutputRange(kMinOutput, kMaxOutput);
+    
   }
 
   /**

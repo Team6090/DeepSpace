@@ -21,7 +21,7 @@ import frc.robot.Robot;
 public class ElevatorController extends Command {
 
   /* The maximum height the elevator can travel */
-  private final double maxHeight = 12;
+  private final double maxHeight = 9999;
   /* The base increment for postion control */
   private final double increment = 2;
 
@@ -47,6 +47,11 @@ public class ElevatorController extends Command {
     requires(Robot.elevator);
   }
 
+  @Override
+  protected void initialize() {
+    manualOffset = Robot.elevator.getPosition();
+  }
+
   /**
    * Use the XBox Controller to control the elevator. 
    * 
@@ -62,13 +67,8 @@ public class ElevatorController extends Command {
   protected void execute() {
     /* The speed reference is pulled directly from the joystick. */
     double speedRef = Robot.oi.xBoxLeftJoystickVertical();
+    presetPosition = Robot.elevator.getPosition();
 
-    /*
-     * The different setpoints. See the button mapping chart above,
-     * this is all pretty straight-forward. Each block sets the manual
-     * offset to 0, and sets the preset postition to the desired position
-     * depending on which button was pressed.
-     */
     if (Robot.oi.xBoxA()) {
       manualOffset = 0;
       presetPosition = bottomRef;
@@ -78,37 +78,19 @@ public class ElevatorController extends Command {
     } else if (Robot.oi.xBoxX()) {
       manualOffset = 0;
       presetPosition = topHatchRef;
-    } else {
-      /* No buttons were pressed, calculate the manual offset */
-      if (((manualOffset + presetPosition) < maxHeight) || (speedRef > 0)) {
-        manualOffset = manualOffset + (increment * speedRef);
+    }
+    double ref = 0;
+    if (Robot.oi.xBoxY()) {
+      if (((manualOffset + presetPosition) < maxHeight)) {
+        manualOffset = manualOffset + (-increment * speedRef);
       }
+      ref = manualOffset - presetPosition;
+      Robot.elevator.setReference(ref, ControlType.kPosition, 1);
+    } else {
+      manualOffset = presetPosition;
     }
 
-    /* The Y button allows manual control over the elevator. */
-    if (Robot.oi.xBoxY()) {
-      /* 
-       * Pass the joystick reference into the velocity controller.
-       * 
-       * I could not find a "percent control" which is what we used for the
-       * TalonSRX last year, but according to my research (which may not be correct),
-       * this should achieve the same effect.
-       */
-      Robot.elevator.setReference(speedRef, ControlType.kVelocity);
-    } else {
-      /* The absolute position to end at. */
-      double targetAbsolutePosition = presetPosition + manualOffset;
-      /*
-       * Pass the target position into the position controller.
-       * 
-       * Not quite MotionMagic though, so it probably won't have all the
-       * fancy ramp-up and ramp-down stuff, but it should get the job done.
-       * 
-       * Theoretically. Maybe. I'll be honest I'm not quite sure exactly what
-       * this will do, because I have no experience with the CANSparkMax API.
-       */
-      Robot.elevator.setReference(targetAbsolutePosition, ControlType.kPosition);
-    }
+    System.out.println("manualOffset = " + manualOffset + " Preset Position = " + presetPosition + " Ref = " + ref);
   }
 
   /**
