@@ -18,10 +18,9 @@ import frc.robot.Robot;
 public class GyroSmoothTurn extends Command {
 
   double inputAngle, startingAngle, totalAngleTurn, currentAngle;
-  
-  double speedLeft;
   double speedRight;
-
+  double speedAdjLeft;
+  double speedLeftFinal;
   long duration, baseTime, thresholdTime;
 
   /**
@@ -31,11 +30,12 @@ public class GyroSmoothTurn extends Command {
    * @param speedLeft The twisting direction of the joystick which will actually make the bot turn
    * @param speedRight The forwards and backwards joystick inputs which will make the bot go vroom
    */
-  public GyroSmoothTurn(double inputAngle, long duration, double speedLeft, double speedRight) {
+  public GyroSmoothTurn(double inputAngle, long duration, double speedLeftFinal, double speedRight) {
     this.speedRight = speedRight;
-    this.speedLeft = speedLeft;
+    this.speedLeftFinal = speedLeftFinal;
     this.inputAngle = inputAngle;
     this.duration = duration;
+
     requires(Robot.drivetrain);
   }
 
@@ -97,10 +97,9 @@ public class GyroSmoothTurn extends Command {
       currentAngle = Robot.drivetrain.getGyroYaw();
 
     }
-    /**
-     * This will run the motors the set amount
-     */
-      Robot.drivetrain.set(speedLeft, speedRight);
+      speedAdjLeft = Robot.drivetrain.syncAngle(startingAngle, inputAngle);
+      speedLeftFinal = speedAdjLeft + Robot.drivetrain.getLeft();
+      Robot.drivetrain.set(speedLeftFinal, speedRight);
   }
 
   /**
