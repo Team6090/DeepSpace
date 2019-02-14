@@ -27,6 +27,7 @@ public class PuppyDog extends Command {
   boolean CWDone = false;
   boolean CCWDone = false;
   boolean targetAcquired;
+  boolean searchDone = true;
 
   /**
    * Set up PuppyDog.
@@ -88,6 +89,7 @@ public class PuppyDog extends Command {
      */
     if (tv == 0) {
       targetAcquired = false;
+      searchDone = false;
     } else {
       targetAcquired = true;
     }
@@ -121,17 +123,16 @@ public class PuppyDog extends Command {
      * not been done before (!searchDone) and the init has declared no target has been found (!targetAcquired), and
      * a target has still not been found.
      */
-    if (!targetAcquired && tv == 0) {
-      if (!CCWDone && tv == 0) {
+    if (!targetAcquired && !searchDone && tv == 0) {
+      if (!CCWDone) {
         /* CCW */
         Robot.drivetrain.arcadeDrive(0.0d, -speedZ);
         if (currentAngle <= (lowerBoundAngle + 5) && currentAngle >= (lowerBoundAngle - 5) && tv == 0) {
           /* Sets CCWDone so the next paragraph can start */
           CCWDone = true;
-          CWDone = false;
         }
       }
-      if (CCWDone && !CWDone && tv == 0) {
+      if (CCWDone && !CWDone) {
         /* CW */
         Robot.drivetrain.arcadeDrive(0.0d, speedZ);
         if (currentAngle <= (upperBoundAngle + 5) && currentAngle >= (upperBoundAngle - 5) && tv == 0) {
@@ -139,6 +140,8 @@ public class PuppyDog extends Command {
           CWDone = true;
           /* Triggers the first paragraph again */
           CCWDone = false;
+          /* Keeps this loop from ever running again after the init triggers searchDone as false */
+          searchDone = true;
         }
       }
     } else {
@@ -150,7 +153,7 @@ public class PuppyDog extends Command {
        * 
        * Trigger offset corrections if xoffset is outside of this range, otherwise will drive to and stop at target
        */
-      if (tx > -5 && tx < 5) {
+      if (tx > -2 && tx < 2) {
         /* If not at target area yet, continue forwards */
         if (area < targetArea) {
           Robot.drivetrain.arcadeDrive(speedY, 0.0);
@@ -159,12 +162,12 @@ public class PuppyDog extends Command {
         } 
       } else { /* Offset corrections */
         /* If offset is negative */
-        if (tx < 0) { //
+        if (tx < 0) {
           /* CW Corrections */
-         Robot.drivetrain.arcadeDrive(0.0d, -speedZ);
+         Robot.drivetrain.arcadeDrive(0.0d, speedZ);
         } else if (tx > 0) { /* If offset is positive */
           /* CCW Corrections */
-          Robot.drivetrain.arcadeDrive(0.0d, speedZ);
+          Robot.drivetrain.arcadeDrive(0.0d, -speedZ);
         }
       }
     }
