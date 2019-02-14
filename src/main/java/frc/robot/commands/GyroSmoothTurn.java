@@ -18,27 +18,25 @@ import frc.robot.Robot;
 public class GyroSmoothTurn extends Command {
 
   double inputAngle, startingAngle, totalAngleTurn, currentAngle;
-  
-  double speedZ;
-  double speedY;
-
+  double speedRight;
+  double speedAdjLeft;
+  double speedLeftFinal;
   long duration, baseTime, thresholdTime;
-
-  boolean clockwise;
-  boolean specialCase = false;
 
   /**
    * Set up GyroSmoothTurn.
    * @param inputAngle The goal angle that the robot is going to turn to
    * @param duration The time in which the timer will stop the turn after
-   * @param speedZ The twisting direction of the joystick which will actually make the bot turn
-   * @param speedY The forwards and backwards joystick inputs which will make the bot go vroom
+   * @param speedLeft The twisting direction of the joystick which will actually make the bot turn
+   * @param speedRight The forwards and backwards joystick inputs which will make the bot go vroom
    */
-  public GyroSmoothTurn(double inputAngle, long duration, double speedZ, double speedY) {
-    this.speedY = speedY;
-    this.speedZ = speedZ;
+  public GyroSmoothTurn(double inputAngle, long duration, double speedRef) {
+    this.speedRight = speedRef;
+    this.speedLeftFinal = speedRef;
     this.inputAngle = inputAngle;
     this.duration = duration;
+
+
     requires(Robot.drivetrain);
   }
 
@@ -74,31 +72,10 @@ public class GyroSmoothTurn extends Command {
     if (totalAngleTurn < 0) {
       /* If the angle is negative, convert it  */ 
       totalAngleTurn += 360;
-      /* Trigger special case */
-      specialCase = true;
-      /* Trigger counterclockwise */
-      clockwise = false;
     }
     if (totalAngleTurn > 360) {
       /* If the angle is above 360, subtract 360 */
       totalAngleTurn -= 360;
-      /* Trigger special case */
-      specialCase = true;
-      /* Trigger clockwise */
-      clockwise = true;
-    }
-    /*
-     * This will only run if the special cases do not already declare a turning direction
-     */
-    if (!specialCase) {
-      /* If the input angle is bigger, turn clockwise */
-      if (totalAngleTurn > startingAngle) {
-        clockwise = true;
-      }
-      /* If the input angle is smaller, turn counterclockwise */
-      if (totalAngleTurn < startingAngle) {
-        clockwise = false;
-      }
     }
   }
 
@@ -121,14 +98,9 @@ public class GyroSmoothTurn extends Command {
       currentAngle = Robot.drivetrain.getGyroYaw();
 
     }
-    if (!clockwise) {
-      /* CCW turning */
-      Robot.drivetrain.arcadeDrive(speedY, -speedZ);
-    }
-    else if (clockwise) {
-      /* Clockwise turning */
-      Robot.drivetrain.arcadeDrive(speedY, speedZ);
-    }
+      speedAdjLeft = Robot.drivetrain.syncAngle(startingAngle, inputAngle);
+      speedLeftFinal = speedAdjLeft + Robot.drivetrain.getLeft();
+      Robot.drivetrain.set(speedLeftFinal, speedRight);
   }
 
   /**

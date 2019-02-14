@@ -49,11 +49,10 @@ public class DriveForward extends Command {
     this.speedRefAdjLeft = 0.0d;
     haveBaseCount = false;
     requires(Robot.drivetrain);
-    
   }
 
   /**
-   * Calculate the threshhold time, get the current gyro angle, calculate drift bounds.
+   * Calculate the threshhold time, get the current gyro angle, and calculate drift bounds.
    */
   @Override
   protected void initialize() {
@@ -83,12 +82,12 @@ public class DriveForward extends Command {
     speedRefAdjLeft = Robot.drivetrain.syncAngle(startingAngle, currentAngle);
     speedRefLeftFinal = speedRefLeft + speedRefAdjLeft;
     System.out.println("speedRefAdjLeft " + speedRefAdjLeft);
-    /* invert right side motor to drive forward  */ 
+    /* invert right side motor to drive forward  */
     Robot.drivetrain.set(speedRefLeftFinal, -speedRefRight);
   }
   
   /**
-   * Stop when either the timeout was reached, or the encoder count was reached.
+   * Stop when either the timeout is reached, or the encoder count is reached.
    */
   @Override
   protected boolean isFinished(){
@@ -109,9 +108,6 @@ public class DriveForward extends Command {
     Robot.drivetrain.stop();
   }
 
-  /**
-   * Stop the drivetrain.
-   */
   @Override
   protected void interrupted() {
     end();
