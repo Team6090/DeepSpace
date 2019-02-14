@@ -30,11 +30,12 @@ public class GyroSmoothTurn extends Command {
    * @param speedLeft The twisting direction of the joystick which will actually make the bot turn
    * @param speedRight The forwards and backwards joystick inputs which will make the bot go vroom
    */
-  public GyroSmoothTurn(double inputAngle, long duration, double speedLeftFinal, double speedRight) {
-    this.speedRight = speedRight;
-    this.speedLeftFinal = speedLeftFinal;
+  public GyroSmoothTurn(double inputAngle, long duration, double speedRef) {
+    this.speedRight = speedRef;
+    this.speedLeftFinal = speedRef;
     this.inputAngle = inputAngle;
     this.duration = duration;
+
 
     requires(Robot.drivetrain);
   }

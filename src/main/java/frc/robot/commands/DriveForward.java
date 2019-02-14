@@ -82,7 +82,7 @@ public class DriveForward extends Command {
     speedRefAdjLeft = Robot.drivetrain.syncAngle(startingAngle, currentAngle);
     speedRefLeftFinal = speedRefLeft + speedRefAdjLeft;
     System.out.println("speedRefAdjLeft " + speedRefAdjLeft);
-    /* invert right side motor to drive forward  */ 
+    /* invert right side motor to drive forward  */
     Robot.drivetrain.set(speedRefLeftFinal, -speedRefRight);
   }
   
