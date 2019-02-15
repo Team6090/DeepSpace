@@ -18,17 +18,16 @@ import edu.wpi.first.networktables.NetworkTableInstance;
  */
 public class GyroSmoothTurn extends Command {
 
-  double startingAngle, totalAngleTurn, currentAngle;
+  double currentAngle, targetAngle;
   double speedRef;
   double speedLeft;
   double speedRight;
   long duration, baseTime, thresholdTime;
-  double area, tx, tv;
+  double area, tx, tv, targetArea;
   boolean endProgram = false;
-  double speedModIncrease = 1.025;
-  double speedModDecrease = 0.975;
   double leftSpeedFinal, rightSpeedFinal;
   boolean CW;
+  boolean forwardMode = false;
 
   /**
    * Set up GyroSmoothTurn.
@@ -37,9 +36,10 @@ public class GyroSmoothTurn extends Command {
    * @param speedLeft The twisting direction of the joystick which will actually make the bot turn
    * @param speedRight The forwards and backwards joystick inputs which will make the bot go vroom
    */
-  public GyroSmoothTurn(long duration, double speedRef) {
+  public GyroSmoothTurn(long duration, double speedRef, double targetArea) {
     this.speedRef = speedRef;
     this.duration = duration;
+    this.targetArea = targetArea;
     requires(Robot.drivetrain);
   }
 
@@ -66,41 +66,16 @@ public class GyroSmoothTurn extends Command {
     /* Determines time that robot has to timeout after */
     thresholdTime = baseTime + duration;
 
-    /*
-     * This will convert the starting angle
-     */
-    if (Robot.drivetrain.getGyroYaw() < 0) {
-      /* Negative turn to 180-360 */
-      startingAngle = Robot.drivetrain.getGyroYaw() + 360;
-    } else {
-      /* Positives stay 0-180 */
-      startingAngle = Robot.drivetrain.getGyroYaw();
-    }
-
     /**
      * This will decide which motors are sped up to turn which way, determined by the boolean
      */
     if (tx < 0) {
       CW = false;
-      leftSpeedFinal = speedLeft * 1.25;
+      leftSpeedFinal = speedLeft * 1.4;
     }
     else if (tx > 0) {
       CW = true;
-      rightSpeedFinal = speedRight * 1.25;
-    }
-
-    totalAngleTurn = startingAngle;
-    
-    /*
-     * This will declare the turning direction of special cases when the angle passes over 0 or 360
-     */
-    if (totalAngleTurn < 0) {
-      /* If the angle is negative, convert it  */ 
-      totalAngleTurn += 360;
-    }
-    if (totalAngleTurn > 360) {
-      /* If the angle is above 360, subtract 360 */
-      totalAngleTurn -= 360;
+      rightSpeedFinal = speedRight * 1.4;
     }
   }
 
@@ -131,11 +106,22 @@ public class GyroSmoothTurn extends Command {
     /*
      * This will make the motors turn the detemined amount and speeds set in the init class
      */
-    if (CW) {
-      Robot.drivetrain.set(leftSpeedFinal, speedRight);
+    if (!forwardMode)
+      if (CW) {
+       Robot.drivetrain.set(leftSpeedFinal, speedRight);
+      }
+      else if (!CW) {
+       Robot.drivetrain.set(speedLeft, rightSpeedFinal);
+      }
+      if (tx < 0.5 && tx > -0.5) {
+       currentAngle = targetAngle;
+       forwardMode = true;
     }
-    else if (!CW) {
-      Robot.drivetrain.set(speedLeft, rightSpeedFinal);
+    if (forwardMode) {
+      Robot.drivetrain.set(speedLeft, speedRight);
+      if (area > targetArea) {
+        endProgram = true;
+      }
     }
   }
   /**
@@ -154,7 +140,7 @@ public class GyroSmoothTurn extends Command {
   @Override
   protected void end() {
     Robot.drivetrain.arcadeDrive(0, 0);
-    System.out.println("Time elapsed: " + (System.currentTimeMillis() - baseTime) + ", and total angle turned: " + (currentAngle - startingAngle));
+    System.out.println("Time elapsed: " + (System.currentTimeMillis() - baseTime));
   }
 
   /**
