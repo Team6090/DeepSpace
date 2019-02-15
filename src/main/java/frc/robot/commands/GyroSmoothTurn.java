@@ -103,26 +103,6 @@ public class GyroSmoothTurn extends Command {
     else {
       currentAngle = Robot.drivetrain.getGyroYaw();
     }
-    /*
-     * This will make the motors turn the detemined amount and speeds set in the init class
-     */
-    if (!forwardMode)
-      if (CW) {
-       Robot.drivetrain.set(leftSpeedFinal, speedRight);
-      }
-      else if (!CW) {
-       Robot.drivetrain.set(speedLeft, rightSpeedFinal);
-      }
-      if (tx < 0.5 && tx > -0.5) {
-       currentAngle = targetAngle;
-       forwardMode = true;
-    }
-    if (forwardMode) {
-      Robot.drivetrain.set(speedLeft, speedRight);
-      if (area > targetArea) {
-        endProgram = true;
-      }
-    }
   }
   /**
    * This is going to set a range for the termination thingy, meaning that when the yaw of the robot is within
