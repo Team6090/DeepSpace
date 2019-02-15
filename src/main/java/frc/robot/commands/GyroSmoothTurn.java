@@ -65,9 +65,7 @@ public class GyroSmoothTurn extends Command {
     /* Determines time that robot has to timeout after */
     thresholdTime = baseTime + duration;
 
-    /**
-     * This will decide which motors are sped up to turn which way, determined by the boolean
-     */
+    /*This will decide which motors are sped up to turn which way, determined by the boolean*/
     if (tx < 0) {
       CW = false;
       leftSpeedFinal = speedLeft * 1.4;
@@ -87,25 +85,21 @@ public class GyroSmoothTurn extends Command {
    */
   @Override
   protected void execute() {
-    /*
-     * Assign variables from read values from the data tables
-     */
+
+    /*Assign variables from read values from the data tables*/
     double area = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
     double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
     //double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
-    /*
-     * This should keep the angle read from the gyro constantly converted as long as currentAngle is 
-     * referenced compared to always reading raw values from the getGyroYaw.
-     */
+    
+    /*Converting yaw to currentAngle, 0-360*/
     if (Robot.drivetrain.getGyroYaw() < 0) {
       currentAngle = Robot.drivetrain.getGyroYaw() + 360;
     }
     else {
       currentAngle = Robot.drivetrain.getGyroYaw();
     }
-    /*
-     * This will make the motors turn the detemined amount and speeds set in the init class
-     */
+
+    /*This will make the motors turn the detemined amount and speeds set in the init class*/
     if (!forwardMode)
       if (CW) {
        Robot.drivetrain.set(speedLeft, rightSpeedFinal);
@@ -125,8 +119,7 @@ public class GyroSmoothTurn extends Command {
     }
   }
   /**
-   * This is going to set a range for the termination thingy, meaning that when the yaw of the robot is within
-   * a range of the target angle, the program will kill itself
+   * Either stop upon timeout or upon endProgram
    */
   @Override
   protected boolean isFinished() {
@@ -134,8 +127,7 @@ public class GyroSmoothTurn extends Command {
   }
 
   /**
-   * Stops the motors when the program is terminated, and prints out the ending values for time and
-   * angles.
+   * Stops the motors when the program is terminated, and prints out the ending values for timeout.
    */
   @Override
   protected void end() {
