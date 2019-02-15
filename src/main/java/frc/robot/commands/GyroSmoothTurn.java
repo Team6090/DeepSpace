@@ -8,10 +8,11 @@
 package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.subsystems.DriveTrain;
 
 /**
  * Turn the robot while also moving it forwards or backwards.
- * @author Ethan Snyder
+ * @author Ethan Snyder, Collin Heavner
  * @version 1.0
  * @since 1.0
  */
@@ -35,8 +36,6 @@ public class GyroSmoothTurn extends Command {
     this.speedLeftFinal = speedRef;
     this.inputAngle = inputAngle;
     this.duration = duration;
-
-
     requires(Robot.drivetrain);
   }
 
@@ -96,9 +95,7 @@ public class GyroSmoothTurn extends Command {
     }
     else {
       currentAngle = Robot.drivetrain.getGyroYaw();
-
     }
-      speedAdjLeft = Robot.drivetrain.syncAngle(startingAngle, inputAngle);
       speedLeftFinal = speedAdjLeft + Robot.drivetrain.getLeft();
       Robot.drivetrain.set(speedLeftFinal, speedRight);
   }
