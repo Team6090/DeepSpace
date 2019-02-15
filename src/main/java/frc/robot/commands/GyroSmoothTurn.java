@@ -12,7 +12,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 /**
  * Turn the robot while also moving it forwards or backwards.
- * @author Ethan Snyder
+ * @author Ethan Snyder, Collin Heavner
  * @version 1.0
  * @since 1.0
  */
@@ -128,15 +128,8 @@ public class GyroSmoothTurn extends Command {
     else {
       currentAngle = Robot.drivetrain.getGyroYaw();
     }
-    /**
-     * This will make the motors turn the detemined amount and speeds set in the init class
-     */
-    if (CW) {
-      Robot.drivetrain.set(leftSpeedFinal, speedRight);
-    }
-    else if (!CW) {
-      Robot.drivetrain.set(speedLeft, rightSpeedFinal);
-    }
+      speedLeftFinal = speedAdjLeft + Robot.drivetrain.getLeft();
+      Robot.drivetrain.set(speedLeftFinal, speedRight);
   }
   /**
    * This is going to set a range for the termination thingy, meaning that when the yaw of the robot is within
