@@ -31,9 +31,9 @@ public class ElevatorController extends Command {
   /*
    * Position references for elevator setpoints
    */
-  private final int bottomRef = 1;
-  private final int middleHatchRef = 5;
-  private final int topHatchRef = 10;
+  private final int bottomHatchRef = 10;
+  private final int middleHatchRef = 2000;
+  private final int topHatchRef = 4000;
 
   /*
    * Loop variables, used in setting the position reference
@@ -42,6 +42,7 @@ public class ElevatorController extends Command {
   private double manualOffset = 0;
   private int presetPosition = 0;
   private double positionRef = 0;
+  private double basePosition = 0;
 
   /**
    * Construct the ElevatorWithJoystick command. This command requires
@@ -84,13 +85,22 @@ public class ElevatorController extends Command {
      */
     if (Robot.oi.xBoxY()) {
       Robot.elevator.setSpeed(speedRef);
+      manualOffset = 0;
+      basePosition = presetPosition;
     } else {
+      if (Robot.oi.xBoxA()) {
+        basePosition = bottomHatchRef;
+      } else if (Robot.oi.xBoxX()) {
+        basePosition = middleHatchRef;
+      } else if (Robot.oi.xBoxB()) {
+        basePosition = topHatchRef;
+      }
       /* Calculate the manual offset */
       if (((manualOffset + presetPosition) < maxHeight)) {
         manualOffset = manualOffset + (-increment * speedRef);
       }
       /* Calculate the position reference */
-      positionRef = manualOffset - presetPosition;
+      positionRef = basePosition + manualOffset;
       /* Use MotionMagic to get to the position reference */
       Robot.elevator.set(ControlMode.MotionMagic, positionRef);
     }
