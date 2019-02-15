@@ -57,9 +57,9 @@ public class GyroSmoothTurn extends Command {
     double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
     double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
     
-    //if (tv == 0) {
-      //endProgram = true;
-    //}
+    if (tv == 0) {
+      endProgram = true;
+    }
 
     /* The system clock starts. */
     baseTime = System.currentTimeMillis();
@@ -128,8 +128,15 @@ public class GyroSmoothTurn extends Command {
     else {
       currentAngle = Robot.drivetrain.getGyroYaw();
     }
-      speedLeftFinal = speedAdjLeft + Robot.drivetrain.getLeft();
-      Robot.drivetrain.set(speedLeftFinal, speedRight);
+    /*
+     * This will make the motors turn the detemined amount and speeds set in the init class
+     */
+    if (CW) {
+      Robot.drivetrain.set(leftSpeedFinal, speedRight);
+    }
+    else if (!CW) {
+      Robot.drivetrain.set(speedLeft, rightSpeedFinal);
+    }
   }
   /**
    * This is going to set a range for the termination thingy, meaning that when the yaw of the robot is within
@@ -137,7 +144,7 @@ public class GyroSmoothTurn extends Command {
    */
   @Override
   protected boolean isFinished() {
-    return (System.currentTimeMillis() >= thresholdTime /*|| endProgram*/);
+    return (System.currentTimeMillis() >= thresholdTime || endProgram);
   }
 
   /**
