@@ -7,7 +7,7 @@
 
 package frc.robot.commands;
 
-import com.revrobotics.ControlType;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
@@ -20,24 +20,28 @@ import frc.robot.Robot;
  */
 public class ElevatorController extends Command {
 
+  /* A small deadband on the elevator joystick */
+  private final double joystickDeadband = 0.2d;
+
   /* The maximum height the elevator can travel */
-  private final double maxHeight = 9999;
+  private final int maxHeight = 9999999;
   /* The base increment for postion control */
-  private final double increment = 2;
+  private final int increment = 50;
 
   /*
    * Position references for elevator setpoints
    */
-  private final double bottomRef = 1;
-  private final double middleHatchRef = 5;
-  private final double topHatchRef = 10;
+  private final int bottomRef = 1;
+  private final int middleHatchRef = 5;
+  private final int topHatchRef = 10;
 
   /*
    * Loop variables, used in setting the position reference
    * on the motor.
    */
   private double manualOffset = 0;
-  private double presetPosition = 0;
+  private int presetPosition = 0;
+  private double positionRef = 0;
 
   /**
    * Construct the ElevatorWithJoystick command. This command requires
@@ -67,30 +71,32 @@ public class ElevatorController extends Command {
   protected void execute() {
     /* The speed reference is pulled directly from the joystick. */
     double speedRef = Robot.oi.xBoxLeftJoystickVertical();
+    /* The XBox controller has a small amount of drift, so do nothing if it's not within the deadband. */
+    if ((!(speedRef > joystickDeadband) && !(speedRef < -joystickDeadband))) {
+      speedRef = 0.0d;
+    }
+    /* Get the feedback. */
     presetPosition = Robot.elevator.getPosition();
 
-    if (Robot.oi.xBoxA()) {
-      manualOffset = 0;
-      presetPosition = bottomRef;
-    } else if (Robot.oi.xBoxB()) {
-      manualOffset = 0;
-      presetPosition = middleHatchRef;
-    } else if (Robot.oi.xBoxX()) {
-      manualOffset = 0;
-      presetPosition = topHatchRef;
-    }
-    double ref = 0;
+    /*
+     * If the Y-button is pressed, control the elevator by speed reference.
+     * By default, control the elevator by position reference.
+     */
     if (Robot.oi.xBoxY()) {
+      Robot.elevator.setSpeed(speedRef);
+    } else {
+      /* Calculate the manual offset */
       if (((manualOffset + presetPosition) < maxHeight)) {
         manualOffset = manualOffset + (-increment * speedRef);
       }
-      ref = manualOffset - presetPosition;
-      Robot.elevator.setReference(ref, ControlType.kPosition, 1);
-    } else {
-      manualOffset = presetPosition;
+      /* Calculate the position reference */
+      positionRef = manualOffset - presetPosition;
+      /* Use MotionMagic to get to the position reference */
+      Robot.elevator.set(ControlMode.MotionMagic, positionRef);
     }
 
-    System.out.println("manualOffset = " + manualOffset + " Preset Position = " + presetPosition + " Ref = " + ref);
+    /* Print out some stuff - Uncomment to view. */
+    //System.out.println("manualOffset = " + manualOffset + " presetPosition = " + presetPosition + " positionRef = " + positionRef + " speedRef = " + speedRef);
   }
 
   /**
