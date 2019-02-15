@@ -47,7 +47,7 @@ public class OI {
     /* Joystick Button Actions */
     joystickButton4.whenPressed(new DriveForward(160, 5000l, 0.4d));
     joystickButton3.whenPressed(new GyroRotate(90.0d, 10000l, 0.4d, 0.0d));
-    joystickButton6.whenPressed(new GyroSmoothTurn(0, 0, 0));
+    joystickButton6.whenPressed(new GyroSmoothTurn(10000, 0.3d));
 
     /* 
      * Variables are Right Side Speed, Left Side Speed, Target Area, 

@@ -8,6 +8,7 @@
 package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 /**
  * Turn the robot while also moving it forwards or backwards.
@@ -17,11 +18,17 @@ import frc.robot.Robot;
  */
 public class GyroSmoothTurn extends Command {
 
-  double inputAngle, startingAngle, totalAngleTurn, currentAngle;
+  double startingAngle, totalAngleTurn, currentAngle;
+  double speedRef;
+  double speedLeft;
   double speedRight;
-  double speedAdjLeft;
-  double speedLeftFinal;
   long duration, baseTime, thresholdTime;
+  double area, tx, tv;
+  boolean endProgram = false;
+  double speedModIncrease = 1.025;
+  double speedModDecrease = 0.975;
+  double leftSpeedFinal, rightSpeedFinal;
+  boolean CW;
 
   /**
    * Set up GyroSmoothTurn.
@@ -30,13 +37,9 @@ public class GyroSmoothTurn extends Command {
    * @param speedLeft The twisting direction of the joystick which will actually make the bot turn
    * @param speedRight The forwards and backwards joystick inputs which will make the bot go vroom
    */
-  public GyroSmoothTurn(double inputAngle, long duration, double speedRef) {
-    this.speedRight = speedRef;
-    this.speedLeftFinal = speedRef;
-    this.inputAngle = inputAngle;
+  public GyroSmoothTurn(long duration, double speedRef) {
+    this.speedRef = speedRef;
     this.duration = duration;
-
-
     requires(Robot.drivetrain);
   }
 
@@ -46,6 +49,17 @@ public class GyroSmoothTurn extends Command {
    */
   @Override
   protected void initialize() {
+
+    speedLeft = speedRef;
+    speedRight = -speedRef;
+
+    double area = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
+    double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+    double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
+    
+    //if (tv == 0) {
+      //endProgram = true;
+    //}
 
     /* The system clock starts. */
     baseTime = System.currentTimeMillis();
@@ -63,9 +77,20 @@ public class GyroSmoothTurn extends Command {
       startingAngle = Robot.drivetrain.getGyroYaw();
     }
 
-    /* Sets the total angle needed to turn */
-    totalAngleTurn = startingAngle + inputAngle;
+    /**
+     * This will decide which motors are sped up to turn which way, determined by the boolean
+     */
+    if (tx < 0) {
+      CW = false;
+      leftSpeedFinal = speedLeft * 1.25;
+    }
+    else if (tx > 0) {
+      CW = true;
+      rightSpeedFinal = speedRight * 1.25;
+    }
 
+    totalAngleTurn = startingAngle;
+    
     /*
      * This will declare the turning direction of special cases when the angle passes over 0 or 360
      */
@@ -88,6 +113,12 @@ public class GyroSmoothTurn extends Command {
   @Override
   protected void execute() {
     /*
+     * Assign variables from read values from the data tables
+     */
+    double area = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
+    double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+    double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
+    /*
      * This should keep the angle read from the gyro constantly converted as long as currentAngle is 
      * referenced compared to always reading raw values from the getGyroYaw.
      */
@@ -96,20 +127,24 @@ public class GyroSmoothTurn extends Command {
     }
     else {
       currentAngle = Robot.drivetrain.getGyroYaw();
-
     }
-      speedAdjLeft = Robot.drivetrain.syncAngle(startingAngle, inputAngle);
-      speedLeftFinal = speedAdjLeft + Robot.drivetrain.getLeft();
-      Robot.drivetrain.set(speedLeftFinal, speedRight);
+    /**
+     * This will make the motors turn the detemined amount and speeds set in the init class
+     */
+    if (CW) {
+      Robot.drivetrain.set(leftSpeedFinal, speedRight);
+    }
+    else if (!CW) {
+      Robot.drivetrain.set(speedLeft, rightSpeedFinal);
+    }
   }
-
   /**
    * This is going to set a range for the termination thingy, meaning that when the yaw of the robot is within
    * a range of the target angle, the program will kill itself
    */
   @Override
   protected boolean isFinished() {
-    return (System.currentTimeMillis() >= thresholdTime || (currentAngle > (totalAngleTurn - 2) && currentAngle < (totalAngleTurn + 2)));
+    return (System.currentTimeMillis() >= thresholdTime /*|| endProgram*/);
   }
 
   /**
