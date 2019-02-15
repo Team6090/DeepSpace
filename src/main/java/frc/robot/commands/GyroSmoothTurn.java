@@ -19,9 +19,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public class GyroSmoothTurn extends Command {
 
   double currentAngle, targetAngle;
-  double speedRef;
-  double speedLeft;
-  double speedRight;
+  double speedRef, speedLeft, speedRight;
   long duration, baseTime, thresholdTime;
   double area, tx, tv, targetArea;
   boolean endProgram = false;
@@ -43,6 +41,7 @@ public class GyroSmoothTurn extends Command {
     requires(Robot.drivetrain);
   }
 
+
   /**
    * Start the failsafe time, record the starting time. The gyro yaw
    * is zeroed out for convenience. Adjust the ranges.
@@ -53,7 +52,7 @@ public class GyroSmoothTurn extends Command {
     speedLeft = speedRef;
     speedRight = -speedRef;
 
-    double area = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
+    //double area = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
     double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
     double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
     
@@ -73,11 +72,12 @@ public class GyroSmoothTurn extends Command {
       CW = false;
       leftSpeedFinal = speedLeft * 1.4;
     }
-    else if (tx > 0) {
+    if (tx > 0) {
       CW = true;
       rightSpeedFinal = speedRight * 1.4;
     }
   }
+
 
   /**
    * This is saying that if the targetAngle was originally negative, which means it will now be a large
@@ -92,7 +92,7 @@ public class GyroSmoothTurn extends Command {
      */
     double area = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
     double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
-    double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
+    //double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
     /*
      * This should keep the angle read from the gyro constantly converted as long as currentAngle is 
      * referenced compared to always reading raw values from the getGyroYaw.
@@ -102,6 +102,26 @@ public class GyroSmoothTurn extends Command {
     }
     else {
       currentAngle = Robot.drivetrain.getGyroYaw();
+    }
+    /*
+     * This will make the motors turn the detemined amount and speeds set in the init class
+     */
+    if (!forwardMode)
+      if (CW) {
+       Robot.drivetrain.set(speedLeft, rightSpeedFinal);
+      }
+      if (!CW) {
+      Robot.drivetrain.set(leftSpeedFinal, speedRight);
+      }
+      if (tx < 1 && tx > 1) {
+       currentAngle = targetAngle;
+       forwardMode = true;
+    }
+    if (forwardMode) {
+      Robot.drivetrain.set(speedLeft, speedRight);
+      if (area > targetArea) {
+        endProgram = true;
+      }
     }
   }
   /**
