@@ -128,8 +128,6 @@ public class GyroSmoothTurn extends Command {
     else {
       currentAngle = Robot.drivetrain.getGyroYaw();
     }
-      speedLeftFinal = speedAdjLeft + Robot.drivetrain.getLeft();
-      Robot.drivetrain.set(speedLeftFinal, speedRight);
   }
   /**
    * This is going to set a range for the termination thingy, meaning that when the yaw of the robot is within
