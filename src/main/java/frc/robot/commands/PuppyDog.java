@@ -121,7 +121,7 @@ public class PuppyDog extends Command {
      * not been done before (!searchDone) and the init has declared no target has been found (!targetAcquired), and
      * a target has still not been found.
      */
-    if (!targetAcquired && !searchDone && tv == 0) {
+    if (!targetAcquired) {
       if (!CCWDone) {
         /* CCW */
         Robot.drivetrain.arcadeDrive(0.0d, -speedZ);
