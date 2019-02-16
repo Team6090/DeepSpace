@@ -28,7 +28,7 @@ import frc.robot.commands.joystick.DriveWithJoystick;
 public class DriveTrain extends Subsystem {
 
   /* Wheel diameter in inches */
-  public static final int WHEEL_DIAMETER = 8;
+  public static final double WHEEL_DIAMETER = 7.87;
   /* Gearbox ratio */
   public static final double GEAR_RATIO = 14.17;
 
