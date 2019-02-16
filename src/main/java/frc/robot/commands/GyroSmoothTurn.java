@@ -49,6 +49,9 @@ public class GyroSmoothTurn extends Command {
   @Override
   protected void initialize() {
 
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3);
+
+
     speedLeft = speedRef;
     speedRight = -speedRef;
 
@@ -131,8 +134,10 @@ public class GyroSmoothTurn extends Command {
    */
   @Override
   protected void end() {
-    Robot.drivetrain.arcadeDrive(0, 0);
+    Robot.drivetrain.set(0, 0);
     System.out.println("Time elapsed: " + (System.currentTimeMillis() - baseTime));
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
+
   }
 
   /**
