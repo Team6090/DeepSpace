@@ -19,9 +19,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public class GyroSmoothTurn extends Command {
 
   double currentAngle, targetAngle;
-  double speedRef;
-  double speedLeft;
-  double speedRight;
+  double speedRef, speedLeft, speedRight;
   long duration, baseTime, thresholdTime;
   double area, tx, tv, targetArea;
   boolean endProgram = false;
@@ -43,6 +41,7 @@ public class GyroSmoothTurn extends Command {
     requires(Robot.drivetrain);
   }
 
+
   /**
    * Start the failsafe time, record the starting time. The gyro yaw
    * is zeroed out for convenience. Adjust the ranges.
@@ -53,7 +52,7 @@ public class GyroSmoothTurn extends Command {
     speedLeft = speedRef;
     speedRight = -speedRef;
 
-    double area = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
+    //double area = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
     double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
     double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
     
@@ -66,18 +65,17 @@ public class GyroSmoothTurn extends Command {
     /* Determines time that robot has to timeout after */
     thresholdTime = baseTime + duration;
 
-    /**
-     * This will decide which motors are sped up to turn which way, determined by the boolean
-     */
+    /*This will decide which motors are sped up to turn which way, determined by the boolean*/
     if (tx < 0) {
       CW = false;
       leftSpeedFinal = speedLeft * 1.4;
     }
-    else if (tx > 0) {
+    if (tx > 0) {
       CW = true;
       rightSpeedFinal = speedRight * 1.4;
     }
   }
+
 
   /**
    * This is saying that if the targetAngle was originally negative, which means it will now be a large
@@ -87,26 +85,41 @@ public class GyroSmoothTurn extends Command {
    */
   @Override
   protected void execute() {
-    /*
-     * Assign variables from read values from the data tables
-     */
+
+    /*Assign variables from read values from the data tables*/
     double area = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
     double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
-    double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
-    /*
-     * This should keep the angle read from the gyro constantly converted as long as currentAngle is 
-     * referenced compared to always reading raw values from the getGyroYaw.
-     */
+    //double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
+    
+    /*Converting yaw to currentAngle, 0-360*/
     if (Robot.drivetrain.getGyroYaw() < 0) {
       currentAngle = Robot.drivetrain.getGyroYaw() + 360;
     }
     else {
       currentAngle = Robot.drivetrain.getGyroYaw();
     }
+
+    /*This will make the motors turn the detemined amount and speeds set in the init class*/
+    if (!forwardMode)
+      if (CW) {
+       Robot.drivetrain.set(speedLeft, rightSpeedFinal);
+      }
+      if (!CW) {
+      Robot.drivetrain.set(leftSpeedFinal, speedRight);
+      }
+      if (tx < 1 && tx > 1) {
+       currentAngle = targetAngle;
+       forwardMode = true;
+    }
+    if (forwardMode) {
+      Robot.drivetrain.set(speedLeft, speedRight);
+      if (area > targetArea) {
+        endProgram = true;
+      }
+    }
   }
   /**
-   * This is going to set a range for the termination thingy, meaning that when the yaw of the robot is within
-   * a range of the target angle, the program will kill itself
+   * Either stop upon timeout or upon endProgram
    */
   @Override
   protected boolean isFinished() {
@@ -114,8 +127,7 @@ public class GyroSmoothTurn extends Command {
   }
 
   /**
-   * Stops the motors when the program is terminated, and prints out the ending values for time and
-   * angles.
+   * Stops the motors when the program is terminated, and prints out the ending values for timeout.
    */
   @Override
   protected void end() {
