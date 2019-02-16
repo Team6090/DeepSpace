@@ -29,7 +29,7 @@ public class DriveTrain extends Subsystem {
 
   /* Wheel measurements in inches */
   public static final double WHEEL_DIAMETER = 7.87;
-  /* Theoretical: WHEEL_DIAMETER * Math.PI (Approx 24.7 inches) - Actual: 22 and 3/8 inches */
+  /* Theoretical: (WHEEL_DIAMETER * Math.PI) (Approx 24.7 inches) - Actual: 22 and 3/8 inches */
   public static final double WHEEL_CIRCUMFERENCE = 22 + (3 / 8);
   /* Gearbox ratio */
   public static final double GEAR_RATIO = 14.17;
