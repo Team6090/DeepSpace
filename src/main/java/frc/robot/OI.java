@@ -9,9 +9,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.CommandDestroyer;
 import frc.robot.commands.DriveForward;
 import frc.robot.commands.GyroRotate;
 import frc.robot.commands.GyroSmoothTurn;
+import frc.robot.commands.LimelightSeek;
 import frc.robot.commands.PuppyDog;
 
 /**
@@ -23,39 +25,42 @@ import frc.robot.commands.PuppyDog;
  */
 public class OI {
   /* Joysticks Ports */
-  public static final int joystickPort = 0;
-  public static final int xBoxPort = 1;
+  public static final int JOYSTICK_PORT = 0;
+  public static final int XBOX_PORT = 1;
 
   /* Joystick Axes */
-  public static final int sliderAxis = 3;
+  public static final int SLIDER_AXIS = 3;
 
   /* Throttle configurations */
-  public static final double throttleLowerBound = 0.3d;
+  public static final double THROTTLE_LOWER_BOUND = 0.3d;
 
   /* Joysticks */
-  private Joystick joystick = new Joystick(joystickPort);
-  private Joystick xBoxJoystick = new Joystick(xBoxPort);
+  private Joystick joystick = new Joystick(JOYSTICK_PORT);
+  private Joystick xBoxJoystick = new Joystick(XBOX_PORT);
 
   /* Joystick Buttons */
-  private JoystickButton joystickButton3 = new JoystickButton(joystick, 3);
-  private JoystickButton joystickButton4 = new JoystickButton(joystick, 4);
-  private JoystickButton joystickButton5 = new JoystickButton(joystick, 5);
-  private JoystickButton joystickButton6 = new JoystickButton(joystick, 6);
-
-
+  public static final int JOYSTICK_BUTTON_COUNT = 12;
+  private JoystickButton[] joystickButton = new JoystickButton[JOYSTICK_BUTTON_COUNT];
+  
   public OI() {
-    /* Joystick Button Actions */
-    joystickButton3.whenPressed(new GyroRotate(90.0d, 10000l, 0.4d, 0.0d));
-    joystickButton4.whenPressed(new DriveForward(160, 5000l, 0.4d));
-    joystickButton5.whenPressed(new PuppyDog(0.35d, 0.35d, 25.00d, 100000d));
-    joystickButton6.whenPressed(new GyroSmoothTurn(10000, 0.3, 25.00));
+    /* Instantiate all the buttons for easy use, and less code. */
+    for (int i = 1; i <= JOYSTICK_BUTTON_COUNT; i++) {
+      joystickButton[i] = new JoystickButton(joystick, i);
+    }
 
+    /* Joystick Button Actions */
+    joystickButton[3].whenPressed(new GyroRotate(90.0d, 10000l, 0.4d, 0.0d));
+    joystickButton[4].whenPressed(new DriveForward(160, 5000l, 0.4d));
     /* 
      * Variables are Right Side Speed, Left Side Speed, Target Area, 
      * and Duration in Milliseconds respectively.
      */
-    
-
+    joystickButton[5].whenPressed(new PuppyDog(0.3d, 0.3d, 25.00d, 100000d));
+    joystickButton[6].whenPressed(new GyroSmoothTurn(10000l, 0.3, 25.00));
+    /*Seeking command(lowerBoundAngle, upperBoundAngle, speedZ*/
+    joystickButton[7].whenPressed(new LimelightSeek(-90, 90, 0.4));
+    /* Destroy all currently running commands */
+    joystickButton[11].whenPressed(new CommandDestroyer());
   }
 
   /**
@@ -63,7 +68,7 @@ public class OI {
    * @return The raw axis value of the slider.
    */
   public double getRawThrottle() {
-    return this.joystick.getRawAxis(sliderAxis);
+    return this.joystick.getRawAxis(SLIDER_AXIS);
   }
 
   /**
@@ -78,8 +83,8 @@ public class OI {
   public double getThrottle() {
     /* Set the scale to go 0 -> 1 */
     double throttle = (0.5d * getRawThrottle()) + 0.5d;
-    /* Calculate the scale to go from throttleLowerBound -> 1 */
-    return ((1 - throttleLowerBound) * throttle) + throttleLowerBound;
+    /* Calculate the scale to go from THROTTLE_LOWER_BOUND -> 1 */
+    return ((1 - THROTTLE_LOWER_BOUND) * throttle) + THROTTLE_LOWER_BOUND;
   }
 
   /**
