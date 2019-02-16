@@ -18,9 +18,10 @@ public class Limelight {
     private NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable(limelightTableName);
 
     /**
-     * Set the Limelight settings based on the Joystick
+     * Set the Limelight settings based on external factors and states.
      */
-    public void updateWithJoystick() {
+    public void update() {
+        /* POV controls the stream, and the LEDs */
         switch (Robot.oi.getJoystickPOV()) {
             case UP:
               setStreamingMode(Limelight.StreamMode.PIP_MAIN);
@@ -35,6 +36,12 @@ public class Limelight {
               setLedMode(Limelight.LedState.FORCE_OFF);
             default:
               break;
+          }
+          /* The intake arm determines the pipeline. */
+          if (Robot.intake.armIsUp()) {
+              setPipeline(0);
+          } else {
+              setPipeline(1);
           }
     }
 

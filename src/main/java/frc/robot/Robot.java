@@ -70,10 +70,9 @@ public class Robot extends TimedRobot {
     robotDebug.update();
 
     /*
-     * Update the Limelight's settings based on the definitions
-     * in this function. 
+     * Update the Limelight's settings based on external factors.
      */
-    limelight.updateWithJoystick();
+    limelight.update();
 
   }
 
