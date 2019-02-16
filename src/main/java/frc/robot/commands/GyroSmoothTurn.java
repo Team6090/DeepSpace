@@ -23,7 +23,7 @@ public class GyroSmoothTurn extends Command {
   long duration, baseTime, thresholdTime;
   double area, tx, tv, targetArea;
   boolean endProgram = false;
-  double leftSpeedFinal, rightSpeedFinal;
+  double leftSpeedFinal;
   boolean CW;
   boolean forwardMode = false;
 
@@ -66,13 +66,13 @@ public class GyroSmoothTurn extends Command {
     thresholdTime = baseTime + duration;
 
     /*This will decide which motors are sped up to turn which way, determined by the boolean*/
-    if (tx < 0) {
+    if (tx > 0) {
       CW = false;
       leftSpeedFinal = speedLeft * 1.4;
     }
-    if (tx > 0) {
+    else if (tx < 0) {
       CW = true;
-      rightSpeedFinal = speedRight * 1.4;
+      leftSpeedFinal = speedLeft * 0.6;
     }
   }
 
@@ -102,7 +102,7 @@ public class GyroSmoothTurn extends Command {
     /*This will make the motors turn the detemined amount and speeds set in the init class*/
     if (!forwardMode)
       if (CW) {
-       Robot.drivetrain.set(speedLeft, rightSpeedFinal);
+       Robot.drivetrain.set(leftSpeedFinal, speedRight);
       }
       if (!CW) {
       Robot.drivetrain.set(leftSpeedFinal, speedRight);
