@@ -19,14 +19,14 @@ import frc.robot.Robot;
  */
 public class PuppyDog extends LimelightCommand {
 
-  boolean haveTarget;
-  double area, horizontalOffset, targetArea;
-  double speedY, speedZ;
-  double baseTime, thresholdTime, duration;
-  double startingAngle, currentAngle, upperBoundAngle, lowerBoundAngle;
-  boolean CWDone = false;
-  boolean CCWDone = false;
-  boolean targetAcquired;
+  private boolean haveTarget;
+  private double area, horizontalOffset, targetArea;
+  private double speedY, speedZ;
+  private double baseTime, thresholdTime, duration;
+  private double startingAngle, currentAngle, upperBoundAngle, lowerBoundAngle;
+  private boolean CWDone = false;
+  private boolean CCWDone = false;
+  private boolean targetAcquired;
 
   /**
    * Set up PuppyDog.

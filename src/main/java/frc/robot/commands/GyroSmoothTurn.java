@@ -9,7 +9,6 @@ package frc.robot.commands;
 
 import frc.robot.LimelightCommand;
 import frc.robot.Robot;
-import edu.wpi.first.networktables.NetworkTableInstance;
 
 /**
  * Turn the robot while also moving it forwards or backwards.
@@ -19,14 +18,13 @@ import edu.wpi.first.networktables.NetworkTableInstance;
  */
 public class GyroSmoothTurn extends LimelightCommand {
 
-  double currentAngle, targetAngle;
-  double speedRef, speedLeft, speedRight;
-  long duration, baseTime, thresholdTime;
-  double area, tx, tv, targetArea;
-  boolean endProgram = false;
-  double leftSpeedFinal, rightSpeedFinal;
-  boolean CW;
-  boolean forwardMode = false;
+  private double speedRef, speedLeft, speedRight;
+  private long duration, baseTime, thresholdTime;
+  private double area, horizontalOffset, targetArea;
+  private boolean endProgram = false;
+  private double leftSpeedFinal, rightSpeedFinal;
+  private boolean CW;
+  private boolean forwardMode = false;
 
   /**
    * Set up GyroSmoothTurn.
@@ -55,7 +53,7 @@ public class GyroSmoothTurn extends LimelightCommand {
     speedLeft = speedRef;
     speedRight = -speedRef;
 
-    double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+    horizontalOffset = Robot.limelight.getHorizontalOffset();
 
     /* The system clock starts. */
     baseTime = System.currentTimeMillis();
@@ -63,11 +61,11 @@ public class GyroSmoothTurn extends LimelightCommand {
     thresholdTime = baseTime + duration;
 
     /*This will decide which motors are sped up to turn which way, determined by the boolean*/
-    if (tx > 0) {
+    if (horizontalOffset > 0) {
       CW = true;
       leftSpeedFinal = (speedLeft * 1.4);
     }
-    else if (tx < 0) {
+    else if (horizontalOffset < 0) {
       CW = false;
       rightSpeedFinal = (speedRight * 1.4);
 
@@ -82,18 +80,8 @@ public class GyroSmoothTurn extends LimelightCommand {
   @Override
   protected void execute() {
 
-    /*Assign variables from read values from the data tables*/
-    double area = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
-    double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
-    //double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
-
-    /*Converting yaw to currentAngle, 0-360*/
-    if (Robot.drivetrain.getGyroYaw() < 0) {
-      currentAngle = Robot.drivetrain.getGyroYaw() + 360;
-    }
-    else {
-      currentAngle = Robot.drivetrain.getGyroYaw();
-    }
+    area = Robot.limelight.getTargetArea();
+    horizontalOffset = Robot.limelight.getHorizontalOffset();
 
     /*This will make the motors turn the detemined amount and speeds set in the init class*/
     if (!forwardMode)
@@ -103,8 +91,7 @@ public class GyroSmoothTurn extends LimelightCommand {
       else if (!CW) {
       Robot.drivetrain.set(speedLeft, rightSpeedFinal);
       }
-      if (tx < 2 && tx > -2) {
-       currentAngle = targetAngle;
+      if (horizontalOffset < 2 && horizontalOffset > -2) {
        forwardMode = true;
       }
       else {
@@ -117,6 +104,7 @@ public class GyroSmoothTurn extends LimelightCommand {
       }
     }
   }
+
   /**
    * Either stop upon timeout or upon endProgram
    */
@@ -131,11 +119,10 @@ public class GyroSmoothTurn extends LimelightCommand {
   @Override
   protected void end() {
     super.end();
-    Robot.drivetrain.set(0, 0);
+    Robot.drivetrain.stop();
     System.out.println("Time elapsed: " + (System.currentTimeMillis() - baseTime));
-    //NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
-
   }
+
   /**
    * Finish this command.
    */
