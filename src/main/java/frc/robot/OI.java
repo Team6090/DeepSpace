@@ -10,11 +10,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.CommandDestroyer;
-import frc.robot.commands.DriveForward;
-import frc.robot.commands.GyroRotate;
-import frc.robot.commands.LimelightSmoothTurn;
-import frc.robot.commands.LimelightSeek;
-import frc.robot.commands.PuppyDog;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -28,39 +23,29 @@ public class OI {
   public static final int JOYSTICK_PORT = 0;
   public static final int XBOX_PORT = 1;
 
-  /* Joystick Axes */
+  /* Joystick Axes & Buttons */
   public static final int SLIDER_AXIS = 3;
+  public static final int JOYSTICK_BUTTON_COUNT = 12;
 
   /* Throttle configurations */
   public static final double THROTTLE_LOWER_BOUND = 0.3d;
+
 
   /* Joysticks */
   private Joystick joystick = new Joystick(JOYSTICK_PORT);
   private Joystick xBoxJoystick = new Joystick(XBOX_PORT);
 
   /* Joystick Buttons */
-  public static final int JOYSTICK_BUTTON_COUNT = 13;
-  private JoystickButton[] joystickButton = new JoystickButton[JOYSTICK_BUTTON_COUNT];
+  private JoystickButton[] joystickButton = new JoystickButton[JOYSTICK_BUTTON_COUNT + 1];
   
   public OI() {
     /* Instantiate all the buttons for easy use, and less code. */
     joystickButton[0] = null; /* There is no button on 0. */
-    for (int i = 1; i < JOYSTICK_BUTTON_COUNT; i++) {
+    for (int i = 1; i <= JOYSTICK_BUTTON_COUNT; i++) {
       joystickButton[i] = new JoystickButton(joystick, i);
     }
-
-    /* Joystick Button Actions */
-    joystickButton[3].whenPressed(new GyroRotate(90.0d, 10000l, 0.4d, 0.0d));
-    joystickButton[4].whenPressed(new DriveForward(160, 5000l, 0.4d));
-    /* 
-     * Variables are Right Side Speed, Left Side Speed, Target Area, 
-     * and Duration in Milliseconds respectively.
-     */
-    joystickButton[5].whenPressed(new PuppyDog(0.3d, 0.3d, 25.00d, 100000d));
-    joystickButton[6].whenPressed(new LimelightSmoothTurn(10000l, 0.3, 25.00));
-    /*Seeking command(lowerBoundAngle, upperBoundAngle, speedZ*/
-    joystickButton[7].whenPressed(new LimelightSeek(-90, 90, 0.4));
-    /* Destroy all currently running commands */
+    /* Assign button actions here */
+    joystickButton[4].whenPressed(new TestGroup());
     joystickButton[11].whenPressed(new CommandDestroyer());
   }
 

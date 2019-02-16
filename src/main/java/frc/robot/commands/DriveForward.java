@@ -81,7 +81,6 @@ public class DriveForward extends Command {
     /* Sync robot to gyro angle setpoint */
     speedRefAdjLeft = Robot.drivetrain.syncAngle(startingAngle, currentAngle);
     speedRefLeftFinal = speedRefLeft + speedRefAdjLeft;
-    System.out.println("speedRefAdjLeft " + speedRefAdjLeft);
     /* invert right side motor to drive forward  */
     Robot.drivetrain.set(speedRefLeftFinal, -speedRefRight);
   }
@@ -95,7 +94,6 @@ public class DriveForward extends Command {
       haveBaseCount = false;
       return true;
     } else {
-      System.out.println (" Current Angle = " + currentAngle);
       return false;
     }
   }

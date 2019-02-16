@@ -15,7 +15,7 @@ import frc.robot.Robot;
  * @version 1.0
  * @since 1.0
  */
-public class GyroRotate extends Command {
+public class Rotate extends Command {
 
   double inputAngle, startingAngle, totalAngleTurn, currentAngle;
   
@@ -34,7 +34,7 @@ public class GyroRotate extends Command {
    * @param speedZ The twisting direction of the joystick which will actually make the bot turn
    * @param speedY The forwards and backwards joystick inputs which will make the bot go vroom
    */
-  public GyroRotate(double inputAngle, long duration, double speedZ, double speedY) {
+  public Rotate(double inputAngle, long duration, double speedZ, double speedY) {
     this.speedY = speedY;
     this.speedZ = speedZ;
     this.inputAngle = inputAngle;

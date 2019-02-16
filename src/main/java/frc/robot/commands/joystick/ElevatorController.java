@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.joystick;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
