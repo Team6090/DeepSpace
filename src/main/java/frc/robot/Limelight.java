@@ -18,6 +18,27 @@ public class Limelight {
     private NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable(limelightTableName);
 
     /**
+     * Set the Limelight settings based on the Joystick
+     */
+    public void updateWithJoystick() {
+        switch (Robot.oi.getJoystickPOV()) {
+            case UP:
+              setStreamingMode(Limelight.StreamMode.PIP_MAIN);
+              break;
+            case DOWN:
+              setStreamingMode(Limelight.StreamMode.PIP_SECONDARY);
+              break;
+            case LEFT:
+              setLedMode(Limelight.LedState.FORCE_ON);
+              break;
+            case RIGHT:
+              setLedMode(Limelight.LedState.FORCE_OFF);
+            default:
+              break;
+          }
+    }
+
+    /**
      * Fetch a value from the Limelight network table.
      * @param variableName The variable to get the value of.
      * @return A Java Double holding the value of the given variable, or 0, if

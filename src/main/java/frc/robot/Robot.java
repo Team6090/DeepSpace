@@ -33,16 +33,6 @@ public class Robot extends TimedRobot {
   /* Joystick related functionality. */
   public static OI oi = new OI();
 
-  /* 
-   * The camera controller allows multiple cameras to be used.
-   * It checks for a camera ID written to the network tables, and
-   * updates the CameraServer to display that ID. This allows the
-   * camera stream can be easily switched from the dashboard.
-   * 
-   * See CameraController.java for what the constructor parameters do.
-   */
-  private CameraController cameraController = new CameraController(2, 12, 320, 240, RobotMap.frontCamera, "Camera");
-
   /*
    * The RobotDebug class outputs just about every value we can possibly
    * read to the smart dashboard, but only if it is constructed to true.
@@ -57,8 +47,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    /* Limelight defaults */
     limelight.setLedMode(Limelight.LedState.FORCE_OFF);
     limelight.setCameraMode(Limelight.CameraMode.VISION);
+    limelight.setStreamingMode(Limelight.StreamMode.PIP_SECONDARY);
 
   }
 
@@ -72,16 +64,16 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-
-    /**
-     * Update the camera controller.
-     */
-     cameraController.update();
-
     /*
      * Update the SmartDashboard data, when enabled. 
      */
     robotDebug.update();
+
+    /*
+     * Update the Limelight's settings based on the definitions
+     * in this function. 
+     */
+    limelight.updateWithJoystick();
 
   }
 
