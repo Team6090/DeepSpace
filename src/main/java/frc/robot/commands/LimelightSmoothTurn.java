@@ -16,7 +16,7 @@ import frc.robot.Robot;
  * @version 1.0
  * @since 1.0
  */
-public class GyroSmoothTurn extends LimelightCommand {
+public class LimelightSmoothTurn extends LimelightCommand {
 
   private double speedRef, speedLeft, speedRight;
   private long duration, baseTime, thresholdTime;
@@ -33,7 +33,7 @@ public class GyroSmoothTurn extends LimelightCommand {
    * @param speedLeft The twisting direction of the joystick which will actually make the bot turn
    * @param speedRight The forwards and backwards joystick inputs which will make the bot go vroom
    */
-  public GyroSmoothTurn(long duration, double speedRef, double targetArea) {
+  public LimelightSmoothTurn(long duration, double speedRef, double targetArea) {
     this.speedRef = speedRef;
     this.duration = duration;
     this.targetArea = targetArea;

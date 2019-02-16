@@ -68,7 +68,23 @@ public class CameraController {
    * specified in the SmartDashboard. Call this function in {@code Robot.robotPeriodic()}.
    */
   public void update() {
-    /* TODO: Add camera switching functionality to the joystick, if desired. */
+    /* Camera switching functionality on the joystick. */
+    switch (Robot.oi.getJoystickPOV()) {
+      case UP:
+        Robot.limelight.setStreamingMode(Limelight.StreamMode.PIP_MAIN);
+        break;
+      case DOWN:
+        Robot.limelight.setStreamingMode(Limelight.StreamMode.PIP_SECONDARY);
+        break;
+      case LEFT:
+        SmartDashboard.putNumber(smartDashboardKey, RobotMap.frontCamera);
+        break;
+      case RIGHT:
+        SmartDashboard.putNumber(smartDashboardKey, RobotMap.rearCamera);
+        break;
+      default:
+        break;
+    }
 
     /*
      * Fetch the desired camera ID from the Smart Dashboard.

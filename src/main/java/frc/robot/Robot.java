@@ -61,7 +61,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    //NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
+    limelight.setLedMode(Limelight.LedState.FORCE_OFF);
+    limelight.setCameraMode(Limelight.CameraMode.VISION);
 
   }
 
@@ -75,27 +76,14 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-    NetworkTableEntry tx = table.getEntry("tx");
-    NetworkTableEntry ty = table.getEntry("ty");
-    NetworkTableEntry ta = table.getEntry("ta");
-    NetworkTableEntry ts = table.getEntry("ts");
 
-    //read values periodically
-    double x = tx.getDouble(0.0);
-    double y = ty.getDouble(0.0);
-    double area = ta.getDouble(0.0);
-    double skew = ts.getDouble(0.0);
-  
-     //post to smart dashboard periodically
-     SmartDashboard.putNumber("LimelightX", x);
-     SmartDashboard.putNumber("LimelightY", y);
-     SmartDashboard.putNumber("LimelightArea", area);
-     SmartDashboard.putNumber("LimelightSkew", skew);
+    /**
+     * Update the camera controller.
+     */
      cameraController.update();
 
     /*
-     * Update the SmartDashboard data, enabled. 
+     * Update the SmartDashboard data, when enabled. 
      */
     robotDebug.update();
 

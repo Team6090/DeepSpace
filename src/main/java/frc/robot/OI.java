@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.CommandDestroyer;
 import frc.robot.commands.DriveForward;
 import frc.robot.commands.GyroRotate;
-import frc.robot.commands.GyroSmoothTurn;
+import frc.robot.commands.LimelightSmoothTurn;
 import frc.robot.commands.LimelightSeek;
 import frc.robot.commands.PuppyDog;
 
@@ -57,7 +57,7 @@ public class OI {
      * and Duration in Milliseconds respectively.
      */
     joystickButton[5].whenPressed(new PuppyDog(0.3d, 0.3d, 25.00d, 100000d));
-    joystickButton[6].whenPressed(new GyroSmoothTurn(10000l, 0.3, 25.00));
+    joystickButton[6].whenPressed(new LimelightSmoothTurn(10000l, 0.3, 25.00));
     /*Seeking command(lowerBoundAngle, upperBoundAngle, speedZ*/
     joystickButton[7].whenPressed(new LimelightSeek(-90, 90, 0.4));
     /* Destroy all currently running commands */
@@ -118,6 +118,45 @@ public class OI {
    */
   public boolean getJoystickButton(int button) {
     return this.joystick.getRawButton(button);
+  }
+
+  /**
+   * All possible states of the Joystick POV.
+   */
+  public static enum JoystickPovPosition {
+    UP, DOWN, LEFT, RIGHT,
+    DIAG_UP_LEFT, DIAG_UP_RIGHT, DIAG_DOWN_LEFT, DIAG_DOWN_RIGHT,
+    NEUTRAL, UNKNOWN
+  }
+
+  /**
+   * Get the state of the Joystick POV.
+   * @return A JoystickPovPosition that represents the current POV position.
+   */
+  public JoystickPovPosition getJoystickPOV() {
+    switch(this.joystick.getPOV()) {
+      case -1:
+        return JoystickPovPosition.NEUTRAL;
+      case 0:
+        return JoystickPovPosition.UP;
+      case 45:
+        return JoystickPovPosition.DIAG_UP_RIGHT;
+      case 90:
+        return JoystickPovPosition.RIGHT;
+      case 135:
+        return JoystickPovPosition.DIAG_DOWN_RIGHT;
+      case 180:
+        return JoystickPovPosition.DOWN;
+      case 225:
+        return JoystickPovPosition.DIAG_DOWN_LEFT;
+      case 270:
+        return JoystickPovPosition.LEFT;
+      case 315:
+        return JoystickPovPosition.DIAG_UP_LEFT;
+      default:
+        return JoystickPovPosition.UNKNOWN;
+      
+    }
   }
 
   /**
