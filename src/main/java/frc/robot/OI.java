@@ -23,37 +23,39 @@ import frc.robot.commands.PuppyDog;
  */
 public class OI {
   /* Joysticks Ports */
-  public static final int joystickPort = 0;
-  public static final int xBoxPort = 1;
+  public static final int JOYSTICK_PORT = 0;
+  public static final int XBOX_PORT = 1;
 
   /* Joystick Axes */
-  public static final int sliderAxis = 3;
+  public static final int SLIDER_AXIS = 3;
 
   /* Throttle configurations */
-  public static final double throttleLowerBound = 0.3d;
+  public static final double THROTTLE_LOWER_BOUND = 0.3d;
 
   /* Joysticks */
-  private Joystick joystick = new Joystick(joystickPort);
-  private Joystick xBoxJoystick = new Joystick(xBoxPort);
+  private Joystick joystick = new Joystick(JOYSTICK_PORT);
+  private Joystick xBoxJoystick = new Joystick(XBOX_PORT);
 
   /* Joystick Buttons */
-  private JoystickButton joystickButton3 = new JoystickButton(joystick, 3);
-  private JoystickButton joystickButton4 = new JoystickButton(joystick, 4);
-  private JoystickButton joystickButton5 = new JoystickButton(joystick, 5);
-  private JoystickButton joystickButton6 = new JoystickButton(joystick, 6);
-
-
+  public static final int JOYSTICK_BUTTON_COUNT = 12;
+  private JoystickButton[] joystickButton = new JoystickButton[JOYSTICK_BUTTON_COUNT];
+  
   public OI() {
+    /* Instantiate all the buttons for easy use, and less code. */
+    for (int i = 1; i <= JOYSTICK_BUTTON_COUNT; i++) {
+      joystickButton[i] = new JoystickButton(joystick, i);
+    }
+
     /* Joystick Button Actions */
-    joystickButton4.whenPressed(new DriveForward(160, 5000l, 0.4d));
-    joystickButton3.whenPressed(new GyroRotate(90.0d, 10000l, 0.4d, 0.0d));
-    joystickButton6.whenPressed(new GyroSmoothTurn(10000, 0.3, 25.00));
+    joystickButton[4].whenPressed(new DriveForward(160, 5000l, 0.4d));
+    joystickButton[3].whenPressed(new GyroRotate(90.0d, 10000l, 0.4d, 0.0d));
+    joystickButton[6].whenPressed(new GyroSmoothTurn(10000, 0.3, 25.00));
 
     /* 
      * Variables are Right Side Speed, Left Side Speed, Target Area, 
      * and Duration in Milliseconds respectively.
      */
-    joystickButton5.whenPressed(new PuppyDog(0.3d, 0.3d, 25.00d, 100000d));
+    joystickButton[5].whenPressed(new PuppyDog(0.3d, 0.3d, 25.00d, 100000d));
 
   }
 
@@ -62,7 +64,7 @@ public class OI {
    * @return The raw axis value of the slider.
    */
   public double getRawThrottle() {
-    return this.joystick.getRawAxis(sliderAxis);
+    return this.joystick.getRawAxis(SLIDER_AXIS);
   }
 
   /**
@@ -77,8 +79,8 @@ public class OI {
   public double getThrottle() {
     /* Set the scale to go 0 -> 1 */
     double throttle = (0.5d * getRawThrottle()) + 0.5d;
-    /* Calculate the scale to go from throttleLowerBound -> 1 */
-    return ((1 - throttleLowerBound) * throttle) + throttleLowerBound;
+    /* Calculate the scale to go from THROTTLE_LOWER_BOUND -> 1 */
+    return ((1 - THROTTLE_LOWER_BOUND) * throttle) + THROTTLE_LOWER_BOUND;
   }
 
   /**
