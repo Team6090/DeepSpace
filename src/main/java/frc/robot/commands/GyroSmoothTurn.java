@@ -49,17 +49,12 @@ public class GyroSmoothTurn extends Command {
   @Override
   protected void initialize() {
     endProgram = false;
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3);
     speedLeft = speedRef;
     speedRight = -speedRef;
 
     //double area = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
     double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
     double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
-    
-    if (tv == 0) {
-      endProgram = true;
-    }
 
     /* The system clock starts. */
     baseTime = System.currentTimeMillis();
@@ -73,7 +68,7 @@ public class GyroSmoothTurn extends Command {
     }
     else if (tx < -1) {
       CW = true;
-      leftSpeedFinal = speedLeft * 0.5;
+      leftSpeedFinal = speedLeft * 0.6;
     }
   }
   /**
@@ -90,6 +85,8 @@ public class GyroSmoothTurn extends Command {
     double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
     //double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
     
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3);
+
     /*Converting yaw to currentAngle, 0-360*/
     if (Robot.drivetrain.getGyroYaw() < 0) {
       currentAngle = Robot.drivetrain.getGyroYaw() + 360;
@@ -132,7 +129,7 @@ public class GyroSmoothTurn extends Command {
   protected void end() {
     Robot.drivetrain.set(0, 0);
     System.out.println("Time elapsed: " + (System.currentTimeMillis() - baseTime));
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
+    //NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
 
   }
   /**
