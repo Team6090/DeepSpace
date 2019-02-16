@@ -31,6 +31,9 @@ public class Robot extends TimedRobot {
   public static Elevator elevator = new Elevator();
   public static Intake intake = new Intake();
 
+  /* Limelight related functionality */
+  public static Limelight limelight = new Limelight();
+
   /* Joystick related functionality. */
   public static OI oi = new OI();
 

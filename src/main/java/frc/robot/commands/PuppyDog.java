@@ -7,9 +7,8 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.LimelightCommand;
 import frc.robot.Robot;
-import edu.wpi.first.networktables.NetworkTableInstance;
 
 /**
  * Use the LimeLight to follow a vision target.
@@ -18,9 +17,10 @@ import edu.wpi.first.networktables.NetworkTableInstance;
  * @version 1.0
  * @since 1.0
  */
-public class PuppyDog extends Command {
+public class PuppyDog extends LimelightCommand {
 
-  double area, tx, tv, targetArea;
+  boolean haveTarget;
+  double area, horizontalOffset, targetArea;
   double speedY, speedZ;
   double baseTime, thresholdTime, duration;
   double startingAngle, currentAngle, upperBoundAngle, lowerBoundAngle;
@@ -48,8 +48,7 @@ public class PuppyDog extends Command {
    */
   @Override
   protected void initialize() {
-
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3);
+    super.initialize();
 
     /*
      * Sets the timeout (threshold)
@@ -88,11 +87,7 @@ public class PuppyDog extends Command {
      * This will start off the command by finding whether or not a target is found, which will trigger the 
      * search mode.
      */
-    if (tv == 0) {
-      targetAcquired = false;
-    } else {
-      targetAcquired = true;
-    }
+    targetAcquired = Robot.limelight.hasValidTargets();
   }
 
   /**
@@ -112,9 +107,9 @@ public class PuppyDog extends Command {
     /*
      * Assign variables from read values from the data tables
      */
-    double area = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
-    double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
-    double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
+    area = Robot.limelight.getTargetArea();
+    horizontalOffset = Robot.limelight.getHorizontalOffset();
+    haveTarget = Robot.limelight.hasValidTargets();
 
     /*
      * Combined, these two paragraphs are the searching technique that the robot is
@@ -127,7 +122,7 @@ public class PuppyDog extends Command {
       if (!CCWDone) {
         /* CCW */
         Robot.drivetrain.arcadeDrive(0.0d, -speedZ);
-        if (currentAngle <= (lowerBoundAngle + 5) && currentAngle >= (lowerBoundAngle - 5) && tv == 0) {
+        if (currentAngle <= (lowerBoundAngle + 5) && currentAngle >= (lowerBoundAngle - 5) && !haveTarget) {
           /* Sets CCWDone so the next paragraph can start */
           CCWDone = true;
           CWDone = false;
@@ -136,13 +131,13 @@ public class PuppyDog extends Command {
       if (CCWDone && !CWDone) {
         /* CW */
         Robot.drivetrain.arcadeDrive(0.0d, speedZ);
-        if (currentAngle <= (upperBoundAngle + 5) && currentAngle >= (upperBoundAngle - 5) && tv == 0) {
+        if (currentAngle <= (upperBoundAngle + 5) && currentAngle >= (upperBoundAngle - 5) && !haveTarget) {
           /* Sets CWDone to true so loop stops */
           CWDone = true;
           /* Triggers the first paragraph again */
           CCWDone = false;
         }
-        if (tv == 1){
+        if (haveTarget){
           targetAcquired = true;
         }
       }
@@ -155,7 +150,7 @@ public class PuppyDog extends Command {
        * 
        * Trigger offset corrections if xoffset is outside of this range, otherwise will drive to and stop at target
        */
-      if (tx > -5 && tx < 5) {
+      if (horizontalOffset > -5 && horizontalOffset < 5) {
         /* If not at target area yet, continue forwards */
         if (area < targetArea) {
           Robot.drivetrain.arcadeDrive(speedY, 0.0);
@@ -164,10 +159,10 @@ public class PuppyDog extends Command {
         } 
       } else { /* Offset corrections */
         /* If offset is negative */
-        if (tx < 0) {
+        if (horizontalOffset < 0) {
           /* CW Corrections */
          Robot.drivetrain.arcadeDrive(0.0d, -speedZ);
-        } else if (tx > 0) { /* If offset is positive */
+        } else if (horizontalOffset > 0) { /* If offset is positive */
           /* CCW Corrections */
           Robot.drivetrain.arcadeDrive(0.0d, speedZ);
         }
@@ -188,7 +183,7 @@ public class PuppyDog extends Command {
    */
   @Override
   protected void end() {
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
+    super.end();
     Robot.drivetrain.stop();
   }
 

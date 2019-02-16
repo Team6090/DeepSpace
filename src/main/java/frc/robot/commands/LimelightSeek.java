@@ -7,13 +7,12 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.LimelightCommand;
 import frc.robot.Robot;
-import edu.wpi.first.networktables.NetworkTableInstance;
 
-public class LimelightSeek extends Command {
+public class LimelightSeek extends LimelightCommand {
 
-  double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
+  boolean tv = Robot.limelight.hasValidTargets();
   double currentAngle, startingAngle, lowerBoundAngle, upperBoundAngle;
   boolean searchMode = false;
   boolean CWDone = false;
@@ -28,11 +27,15 @@ public class LimelightSeek extends Command {
     requires(Robot.drivetrain);
   }
 
-  // Called just before this Command runs the first time
+  /**
+   * Called just before this Command runs the first time.
+   */
   @Override
   protected void initialize() {
+    super.initialize();
+
     /*Activates searchMode*/
-    if (tv == 0) {
+    if (!tv) {
       searchMode = true;
     }
      /*Converts starting yaw to always be 0-360 (for crossing over 0 or 360*/
@@ -51,11 +54,13 @@ public class LimelightSeek extends Command {
     }
   }
 
-  // Called repeatedly when this Command is scheduled to run
+  /**
+   * Called repeatedly when this Command is scheduled to run.
+   */
   @Override
   protected void execute() {
 
-    /*Convert the angle constantly*/
+    /* Convert the angle constantly */
     if (Robot.drivetrain.getGyroYaw() < 0) {
       currentAngle = Robot.drivetrain.getGyroYaw() + 360;
     } else {
@@ -65,21 +70,21 @@ public class LimelightSeek extends Command {
     /**
      * This is the good stuff, this is the moment you've all been waiting for
      */
-    if (tv == 0 || searchMode) {
-      if (!CCWDone && tv == 0) {
+    if (!tv || searchMode) {
+      if (!CCWDone && !tv) {
         /* CCW */
         Robot.drivetrain.arcadeDrive(0.0d, -speedZ);
-        if (currentAngle <= (lowerBoundAngle + 5) && currentAngle >= (lowerBoundAngle - 5) && tv == 0) {
+        if (currentAngle <= (lowerBoundAngle + 5) && currentAngle >= (lowerBoundAngle - 5) && !tv) {
           /*Sets CCWDone true so the next paragraph can start*/
           CCWDone = true;
           /*Sets CWDone true so this can be run on a loop*/
           CWDone = false;
         }
       }
-      if (CCWDone && !CWDone && tv == 0) {
+      if (CCWDone && !CWDone && !tv) {
         /* CW */
         Robot.drivetrain.arcadeDrive(0.0d, speedZ);
-        if (currentAngle <= (upperBoundAngle + 5) && currentAngle >= (upperBoundAngle - 5) && tv == 0) {
+        if (currentAngle <= (upperBoundAngle + 5) && currentAngle >= (upperBoundAngle - 5) && !tv) {
           /* Sets CWDone to true so loop stops */
           CWDone = true;
           /* Triggers the first paragraph again */
@@ -89,26 +94,34 @@ public class LimelightSeek extends Command {
         }
       }
     }
-    if (tv == 1) {
+    if (tv) {
       endProgram = true;
     }
   }
 
-  // Make this return true when this Command no longer needs to run execute()
+  /**
+   * Make this return true when this Command no longer needs to run execute().
+   */
   @Override
   protected boolean isFinished() {
-    return (endProgram);
+    return endProgram;
   }
 
-  // Called once after isFinished returns true
+  /**
+   * Called once after isFinished returns true
+   */
   @Override
   protected void end() {
-    Robot.drivetrain.arcadeDrive(0.0, 0.0);
+    super.end();
+    Robot.drivetrain.stop();
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
+  /*
+   * Called when another command which requires one or more of the same
+   * subsystems is scheduled to run
+   */
   @Override
   protected void interrupted() {
+    end();
   }
 }
