@@ -22,14 +22,19 @@ public class LimelightCommand extends Command {
      * When the LimelightCommand is initialized:
      * <ul>
      *  <li>Turn the LED lights on.</li>
+     *  <li>Put the vision camera in the main window.</li>
      * </ul>
      */
     @Override
     protected void initialize() {
         super.initialize();
         Robot.limelight.setLedMode(Limelight.LedState.FORCE_ON);
+        Robot.limelight.setStreamingMode(Limelight.StreamMode.PIP_MAIN);
     }
 
+    /**
+     * Make sure all subclasses Override this!!!
+     */
     @Override
     protected boolean isFinished() {
         System.out.println("LimelightCommand.isFinished() : Override This!");
@@ -40,11 +45,13 @@ public class LimelightCommand extends Command {
      * When the LimelightCommand ends:
      * <ul>
      *  <li>Turn the LED lights off.</li>
+     *  <li>Put the vision camera in the secondary window.</li>
      * </ul>
      */
     @Override
     protected void end() {
         super.end();
         Robot.limelight.setLedMode(Limelight.LedState.FORCE_OFF);
+        Robot.limelight.setStreamingMode(Limelight.StreamMode.PIP_SECONDARY);
     }
 }
