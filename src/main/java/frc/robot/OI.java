@@ -45,6 +45,7 @@ public class OI {
       joystickButton[i] = new JoystickButton(joystick, i);
     }
     /* Assign button actions here */
+    joystickButton[4].whenPressed(new TestGroup());
     joystickButton[11].whenPressed(new CommandDestroyer());
   }
 
