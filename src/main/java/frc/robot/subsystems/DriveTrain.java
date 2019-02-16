@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
-import frc.robot.commands.DriveWithJoystick;
+import frc.robot.commands.joystick.DriveWithJoystick;
 
 /**
  * The drivetrain is a simple tank drive, with two motors on each side.

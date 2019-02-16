@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.IntakeWithJoystick;
+import frc.robot.commands.joystick.IntakeWithJoystick;
 
 /**
  * Handles all of our intaking mechanisms, which includes:

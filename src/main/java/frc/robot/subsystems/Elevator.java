@@ -14,7 +14,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.ElevatorController;
+import frc.robot.commands.joystick.ElevatorController;
 
 /**
  * The elevator is a single motor. This subsystem simply handles setting the speed,
