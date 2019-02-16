@@ -18,20 +18,17 @@ import frc.robot.Robot;
  */
 public class LimelightSmoothTurn extends LimelightCommand {
 
-  private double speedRef, speedLeft, speedRight;
+  private double speedRef, speedLeft, speedRight, leftSpeedFinal, rightSpeedFinal, speedMultiplier = 1.4;
   private long duration, baseTime, thresholdTime;
   private double area, horizontalOffset, targetArea;
-  private boolean endProgram = false;
-  private double leftSpeedFinal, rightSpeedFinal;
+  private boolean endProgram = false, forwardMode = false;
   private boolean CW;
-  private boolean forwardMode = false;
 
   /**
    * Set up GyroSmoothTurn.
-   * @param inputAngle The goal angle that the robot is going to turn to
-   * @param duration The time in which the timer will stop the turn after
-   * @param speedLeft The twisting direction of the joystick which will actually make the bot turn
-   * @param speedRight The forwards and backwards joystick inputs which will make the bot go vroom
+   * @param targetArea: The area that the program will stop after hitting, preferably 20ish
+   * @param duration: Timeout time
+   * @param speedRef: The default speed of the thing
    */
   public LimelightSmoothTurn(long duration, double speedRef, double targetArea) {
     this.speedRef = speedRef;
@@ -47,27 +44,25 @@ public class LimelightSmoothTurn extends LimelightCommand {
    */
   @Override
   protected void initialize() {
+    /*Limelight start, offset collected, endProgram made false so no restarting code required*/
     super.initialize();
-    endProgram = false;
-    
-    speedLeft = speedRef;
-    speedRight = -speedRef;
-
     horizontalOffset = Robot.limelight.getHorizontalOffset();
+    endProgram = false;
 
-    /* The system clock starts. */
+    /* The system clock starts, timeout calculated*/
     baseTime = System.currentTimeMillis();
-    /* Determines time that robot has to timeout after */
     thresholdTime = baseTime + duration;
 
     /*This will decide which motors are sped up to turn which way, determined by the boolean*/
+    speedLeft = speedRef;
+    speedRight = -speedRef;
     if (horizontalOffset > 0) {
       CW = true;
-      leftSpeedFinal = (speedLeft * 1.4);
+      leftSpeedFinal = (speedLeft * speedMultiplier);
     }
     else if (horizontalOffset < 0) {
       CW = false;
-      rightSpeedFinal = (speedRight * 1.4);
+      rightSpeedFinal = (speedRight * speedMultiplier);
 
     }
   }
