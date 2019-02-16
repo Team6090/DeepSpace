@@ -39,12 +39,13 @@ public class OI {
   private Joystick xBoxJoystick = new Joystick(XBOX_PORT);
 
   /* Joystick Buttons */
-  public static final int JOYSTICK_BUTTON_COUNT = 12;
+  public static final int JOYSTICK_BUTTON_COUNT = 13;
   private JoystickButton[] joystickButton = new JoystickButton[JOYSTICK_BUTTON_COUNT];
   
   public OI() {
     /* Instantiate all the buttons for easy use, and less code. */
-    for (int i = 1; i <= JOYSTICK_BUTTON_COUNT; i++) {
+    joystickButton[0] = null; /* There is no button on 0. */
+    for (int i = 1; i < JOYSTICK_BUTTON_COUNT; i++) {
       joystickButton[i] = new JoystickButton(joystick, i);
     }
 
