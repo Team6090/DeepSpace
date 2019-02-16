@@ -54,7 +54,6 @@ public class GyroSmoothTurn extends Command {
 
     //double area = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
     double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
-    double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
 
     /* The system clock starts. */
     baseTime = System.currentTimeMillis();
