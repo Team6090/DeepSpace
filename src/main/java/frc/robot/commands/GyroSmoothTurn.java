@@ -48,7 +48,7 @@ public class GyroSmoothTurn extends Command {
    */
   @Override
   protected void initialize() {
-
+    endProgram = false;
     speedLeft = speedRef;
     speedRight = -speedRef;
 
@@ -66,13 +66,13 @@ public class GyroSmoothTurn extends Command {
     thresholdTime = baseTime + duration;
 
     /*This will decide which motors are sped up to turn which way, determined by the boolean*/
-    if (tx > 0) {
+    if (tx > 1) {
       CW = false;
       leftSpeedFinal = speedLeft * 1.4;
     }
-    else if (tx < 0) {
+    else if (tx < -1) {
       CW = true;
-      leftSpeedFinal = speedLeft * 0.6;
+      leftSpeedFinal = speedLeft * 0.5;
     }
   }
 
@@ -104,10 +104,10 @@ public class GyroSmoothTurn extends Command {
       if (CW) {
        Robot.drivetrain.set(leftSpeedFinal, speedRight);
       }
-      if (!CW) {
+      else if (!CW) {
       Robot.drivetrain.set(leftSpeedFinal, speedRight);
       }
-      if (tx < 1 && tx > 1) {
+      if (tx < 2 && tx > -2) {
        currentAngle = targetAngle;
        forwardMode = true;
     }
@@ -131,10 +131,9 @@ public class GyroSmoothTurn extends Command {
    */
   @Override
   protected void end() {
-    Robot.drivetrain.arcadeDrive(0, 0);
+    Robot.drivetrain.set(0, 0);
     System.out.println("Time elapsed: " + (System.currentTimeMillis() - baseTime));
   }
-
   /**
    * Finish this command.
    */
