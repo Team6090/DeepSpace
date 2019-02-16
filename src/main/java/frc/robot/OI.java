@@ -23,18 +23,19 @@ public class OI {
   public static final int JOYSTICK_PORT = 0;
   public static final int XBOX_PORT = 1;
 
-  /* Joystick Axes */
+  /* Joystick Axes & Buttons */
   public static final int SLIDER_AXIS = 3;
+  public static final int JOYSTICK_BUTTON_COUNT = 12;
 
   /* Throttle configurations */
   public static final double THROTTLE_LOWER_BOUND = 0.3d;
+
 
   /* Joysticks */
   private Joystick joystick = new Joystick(JOYSTICK_PORT);
   private Joystick xBoxJoystick = new Joystick(XBOX_PORT);
 
   /* Joystick Buttons */
-  public static final int JOYSTICK_BUTTON_COUNT = 12;
   private JoystickButton[] joystickButton = new JoystickButton[JOYSTICK_BUTTON_COUNT + 1];
   
   public OI() {
