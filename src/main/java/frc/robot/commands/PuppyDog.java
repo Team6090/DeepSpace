@@ -140,6 +140,9 @@ public class PuppyDog extends Command {
           /* Triggers the first paragraph again */
           CCWDone = false;
         }
+        if (tv == 1){
+          targetAcquired = true;
+        }
       }
     } else {
       /*

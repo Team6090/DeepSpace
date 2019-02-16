@@ -53,7 +53,7 @@ public class OI {
      * Variables are Right Side Speed, Left Side Speed, Target Area, 
      * and Duration in Milliseconds respectively.
      */
-    joystickButton5.whenPressed(new PuppyDog(0.4d, 0.4d, 25.00d, 100000d));
+    joystickButton5.whenPressed(new PuppyDog(0.3d, 0.3d, 25.00d, 100000d));
 
   }
 
