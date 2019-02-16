@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.CommandDestroyer;
 import frc.robot.commands.DriveForward;
 import frc.robot.commands.GyroRotate;
 import frc.robot.commands.GyroSmoothTurn;
@@ -47,16 +48,16 @@ public class OI {
     }
 
     /* Joystick Button Actions */
-    joystickButton[4].whenPressed(new DriveForward(160, 5000l, 0.4d));
     joystickButton[3].whenPressed(new GyroRotate(90.0d, 10000l, 0.4d, 0.0d));
-    joystickButton[6].whenPressed(new GyroSmoothTurn(10000l, 0.3, 25.00));
-
+    joystickButton[4].whenPressed(new DriveForward(160, 5000l, 0.4d));
     /* 
      * Variables are Right Side Speed, Left Side Speed, Target Area, 
      * and Duration in Milliseconds respectively.
      */
     joystickButton[5].whenPressed(new PuppyDog(0.3d, 0.3d, 25.00d, 100000d));
-
+    joystickButton[6].whenPressed(new GyroSmoothTurn(10000l, 0.3, 25.00));
+    /* Destroy all currently running commands */
+    joystickButton[11].whenPressed(new CommandDestroyer());
   }
 
   /**
