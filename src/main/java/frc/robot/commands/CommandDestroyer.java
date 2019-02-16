@@ -44,16 +44,25 @@ public class CommandDestroyer extends Command {
     s.run();
   }
 
+  /**
+   * After init, this command is done.
+   */
   @Override
   protected boolean isFinished() {
     return true;
   }
 
+  /**
+   * Confirm the homicide
+   */
   @Override
   protected void end() {
     System.out.println("All Commands Brutally Murdered. DriveWithJoysick spawned from the ruins.");
   }
 
+  /**
+   * This should actually never happen. No thing can stop us now...
+   */
   @Override
   protected void interrupted() {
     end();
