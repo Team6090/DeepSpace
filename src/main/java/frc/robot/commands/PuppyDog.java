@@ -114,11 +114,8 @@ public class PuppyDog extends LimelightCommand {
           /* Triggers the first paragraph again */
           CCWDone = false;
         }
-        if (haveTarget) {
-          haveTarget = true;
-        }
       }
-    } else {
+    } else if (haveTarget) {
       /*
        * This is the second half where, once the target is found, approaching will begin, or offset corrections will
        * begin, and will stop at a certain set margin relative to the center. All parameters were set in the previous
