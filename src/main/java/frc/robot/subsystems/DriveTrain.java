@@ -27,6 +27,11 @@ import frc.robot.commands.joystick.DriveWithJoystick;
  */
 public class DriveTrain extends Subsystem {
 
+  /* Wheel diameter in inches */
+  public static final int WHEEL_DIAMETER = 8;
+  /* Gearbox ratio */
+  public static final double GEAR_RATIO = 14.17;
+
   /* Set up the motors. */
   private final CANSparkMax leftMotor = new CANSparkMax(RobotMap.leftMotor, MotorType.kBrushless);
   private final CANSparkMax leftSlaveMotor = new CANSparkMax(RobotMap.leftSlaveMotor, MotorType.kBrushless);
@@ -48,6 +53,24 @@ public class DriveTrain extends Subsystem {
    */
   public DriveTrain() {
     diffdrive.setDeadband(0.02d);
+  }
+
+  /**
+   * Convert a distance into encoder counts.
+   * @param distance  The distance, in inches, to convert to motor revolutions.
+   * @return Motor revolutions.
+   */
+  public static double distanceToMotorRevs(double distance) {
+    return distance * ((WHEEL_DIAMETER * Math.PI) / GEAR_RATIO);
+  }
+
+  /**
+   * Convert motor revolutions into a distance.
+   * @param motorRevs The number of motor revolutions to convert to distance.
+   * @return Distance, in inches.
+   */
+  public static double motorRevsToDistance(double motorRevs) {
+    return (motorRevs * GEAR_RATIO) / (WHEEL_DIAMETER * Math.PI);
   }
 
   /**
