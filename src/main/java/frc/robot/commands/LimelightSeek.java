@@ -21,8 +21,10 @@ public class LimelightSeek extends Command {
   boolean endProgram = false;
   double speedZ, speedY;
 
-  public LimelightSeek(double searchArea, double speedZ) {
+  public LimelightSeek(double lowerBoundAngle, double upperBoundAngle, double speedZ) {
     this.speedZ = speedZ;
+    this.upperBoundAngle = upperBoundAngle;
+    this.lowerBoundAngle = lowerBoundAngle;
     requires(Robot.drivetrain);
   }
 

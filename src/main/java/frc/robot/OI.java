@@ -13,6 +13,7 @@ import frc.robot.commands.CommandDestroyer;
 import frc.robot.commands.DriveForward;
 import frc.robot.commands.GyroRotate;
 import frc.robot.commands.GyroSmoothTurn;
+import frc.robot.commands.LimelightSeek;
 import frc.robot.commands.PuppyDog;
 
 /**
@@ -56,6 +57,8 @@ public class OI {
      */
     joystickButton[5].whenPressed(new PuppyDog(0.3d, 0.3d, 25.00d, 100000d));
     joystickButton[6].whenPressed(new GyroSmoothTurn(10000l, 0.3, 25.00));
+    /*Seeking command(lowerBoundAngle, upperBoundAngle, speedZ*/
+    joystickButton[7].whenPressed(new LimelightSeek(-90, 90, 0.4));
     /* Destroy all currently running commands */
     joystickButton[11].whenPressed(new CommandDestroyer());
   }
