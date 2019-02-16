@@ -49,6 +49,7 @@ public class GyroSmoothTurn extends Command {
   @Override
   protected void initialize() {
     endProgram = false;
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3);
     speedLeft = speedRef;
     speedRight = -speedRef;
 
@@ -75,8 +76,6 @@ public class GyroSmoothTurn extends Command {
       leftSpeedFinal = speedLeft * 0.5;
     }
   }
-
-
   /**
    * This is saying that if the targetAngle was originally negative, which means it will now be a large
    * postive, it will not invert the motors, meaning the robot will turn counterclockwise to get to that
@@ -133,6 +132,8 @@ public class GyroSmoothTurn extends Command {
   protected void end() {
     Robot.drivetrain.set(0, 0);
     System.out.println("Time elapsed: " + (System.currentTimeMillis() - baseTime));
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
+
   }
   /**
    * Finish this command.

@@ -49,6 +49,8 @@ public class PuppyDog extends Command {
   @Override
   protected void initialize() {
 
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3);
+
     /*
      * Sets the timeout (threshold)
      */
@@ -186,6 +188,7 @@ public class PuppyDog extends Command {
    */
   @Override
   protected void end() {
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
     Robot.drivetrain.stop();
   }
 
