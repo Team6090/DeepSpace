@@ -1,6 +1,7 @@
-package frc.robot;
+package frc.robot.lib.vision;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.Robot;
 import edu.wpi.first.networktables.NetworkTable;
 
 /**
