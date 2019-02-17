@@ -18,40 +18,56 @@ public class Limelight {
     /* An instance of the Limelight table. */
     private NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable(limelightTableName);
 
+    private boolean toggleStreamMode = false, toggleLedMode = false, toggleCamMode = false;
+    private final int scanUpdate = 8;
+    private int currentScan = 0;
     /**
      * Set the Limelight settings based on external factors and states.
      */
     public void update() {
+        if (currentScan == scanUpdate) {
+            currentScan = 0;
+        } else {
+            currentScan++;
+            return;
+        }
+        System.out.println("Limelight.update(): Updating settings...");
         /* POV controls the stream, and the LEDs */
         switch (Robot.oi.getJoystickPOV()) {
             case UP:
-              setStreamingMode(StreamMode.PIP_MAIN);
-              break;
-            case DOWN:
-              setStreamingMode(StreamMode.PIP_SECONDARY);
-              break;
+                if (toggleStreamMode) {
+                    setStreamingMode(StreamMode.PIP_MAIN);
+                } else {
+                    setStreamingMode(StreamMode.PIP_SECONDARY);
+                }
+                toggleStreamMode = !toggleStreamMode;
+                break;
             case LEFT:
-              setLedMode(LedState.FORCE_ON);
-              break;
+                if (toggleLedMode) {
+                    setLedMode(LedState.FORCE_ON);
+                } else {
+                    setLedMode(LedState.FORCE_OFF);
+                }
+                toggleLedMode = !toggleLedMode;
+                break;
             case RIGHT:
-              setLedMode(LedState.FORCE_OFF);
+                if (toggleCamMode) {
+                    setCameraMode(CameraMode.VISION);
+                } else {
+                    setCameraMode(CameraMode.DRIVER);
+                }
+                toggleCamMode = !toggleCamMode;
+                break;
             default:
-              break;
-          }
-          /* The intake arm determines the pipeline. */
-          if (Robot.intake.armIsUp()) {
-              setCameraMode(CameraMode.DRIVER);
-              setPipeline(0);
-          } else {
-              setCameraMode(CameraMode.VISION);
-              setPipeline(1);
-          }
-          
-          if (Robot.oi.getJoystickButton(5)) {
-              setCameraMode(CameraMode.DRIVER);
-          } else if (Robot.oi.getJoystickButton(6)) {
-              setCameraMode(CameraMode.VISION);
-          }
+                break;
+        }
+
+        /* The intake arm determines the pipeline. */
+        if (Robot.intake.armIsUp()) {
+            setPipeline(0);
+        } else {
+            setPipeline(1);
+        }
     }
 
     /**
