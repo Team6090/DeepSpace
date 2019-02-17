@@ -7,6 +7,7 @@
 
 package frc.robot.commands.vision;
 
+import frc.robot.lib.vision.Limelight;
 import frc.robot.lib.vision.LimelightCommand;
 import frc.robot.Robot;
 
@@ -27,6 +28,7 @@ public class LimelightSeek extends LimelightCommand {
   private double speedZ;
 
   public LimelightSeek(double lowerBoundAngle, double upperBoundAngle, double speedZ) {
+    super(Limelight.REFLECTIVE_PIPELINE);
     this.speedZ = speedZ;
     this.upperBoundAngle = upperBoundAngle;
     this.lowerBoundAngle = lowerBoundAngle;

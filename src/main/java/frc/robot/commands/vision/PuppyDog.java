@@ -7,6 +7,7 @@
 
 package frc.robot.commands.vision;
 
+import frc.robot.lib.vision.Limelight;
 import frc.robot.lib.vision.LimelightCommand;
 import frc.robot.Robot;
 
@@ -34,6 +35,7 @@ public class PuppyDog extends LimelightCommand {
    * @param duration How long to run the command for.
    */
   public PuppyDog(double speedY, double speedZ, double targetArea, double duration) {
+    super(Limelight.REFLECTIVE_PIPELINE);
     this.speedY = speedY;
     this.speedZ = speedZ;
     this.targetArea = targetArea;

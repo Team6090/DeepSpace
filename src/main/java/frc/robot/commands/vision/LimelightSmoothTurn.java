@@ -7,6 +7,7 @@
 
 package frc.robot.commands.vision;
 
+import frc.robot.lib.vision.Limelight;
 import frc.robot.lib.vision.LimelightCommand;
 import frc.robot.Robot;
 
@@ -31,6 +32,7 @@ public class LimelightSmoothTurn extends LimelightCommand {
    * @param speedRef: The default speed of the thing
    */
   public LimelightSmoothTurn(long duration, double speedRef, double targetArea) {
+    super(Limelight.REFLECTIVE_PIPELINE);
     this.speedRef = speedRef;
     this.duration = duration;
     this.targetArea = targetArea;

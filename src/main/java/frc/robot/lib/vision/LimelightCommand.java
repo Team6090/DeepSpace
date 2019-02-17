@@ -20,11 +20,24 @@ import frc.robot.Robot;
  */
 public class LimelightCommand extends Command {
 
+    private int startPipeline;
+    private int pipeline;
+
+    public LimelightCommand(int pipeline) {
+        if (pipeline <= 0 && pipeline <= 9) {
+            this.pipeline = pipeline;
+        } else {
+            this.pipeline = -1;
+            throw new IllegalArgumentException();
+        }
+    }
+
     /**
      * When the LimelightCommand is initialized:
      * <ul>
      * <li>Turn the LED lights on.</li>
      * <li>Put the vision camera in the main window.</li>
+     * <li>Set the pipeline</li>
      * </ul>
      */
     @Override
@@ -32,6 +45,8 @@ public class LimelightCommand extends Command {
         super.initialize();
         Robot.limelight.setLedMode(Limelight.LedState.FORCE_ON);
         Robot.limelight.setStreamingMode(Limelight.StreamMode.PIP_MAIN);
+        startPipeline = (int) Robot.limelight.getPipe();
+        Robot.limelight.setPipeline(pipeline);
         /*
          * Sleep 500 ms to give the Limelight time to process after
          * turning on the LEDs.
@@ -57,6 +72,7 @@ public class LimelightCommand extends Command {
      * <ul>
      *  <li>Turn the LED lights off.</li>
      *  <li>Put the vision camera in the secondary window.</li>
+     *  <li>Return the pipeline back to what it was before this command started.</li>
      * </ul>
      */
     @Override
@@ -64,5 +80,6 @@ public class LimelightCommand extends Command {
         super.end();
         Robot.limelight.setLedMode(Limelight.LedState.FORCE_OFF);
         Robot.limelight.setStreamingMode(Limelight.StreamMode.PIP_SECONDARY);
+        Robot.limelight.setPipeline(startPipeline);
     }
 }

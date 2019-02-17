@@ -7,6 +7,7 @@
 
 package frc.robot.commands.vision;
 
+import frc.robot.lib.vision.Limelight;
 import frc.robot.lib.vision.LimelightCommand;
 import frc.robot.Robot;
 
@@ -18,6 +19,7 @@ public class GaffTapeAlign extends LimelightCommand {
   double xOffset, xOffsetLowerBound = -2, xOffsetUpperBound = 2;
 
   public GaffTapeAlign(double speedRef, double speedMultiplier, double xOffsetLowerBound, double xOffsetUpperBound) {
+    super(Limelight.GAFF_PIPELINE);
     this.speedMultiplier = speedMultiplier;
     this.xOffsetLowerBound = xOffsetLowerBound;
     this.xOffsetUpperBound = xOffsetUpperBound;

@@ -13,6 +13,10 @@ import edu.wpi.first.networktables.NetworkTable;
  * @since 1.0
  */
 public class Limelight {
+
+    public static final int REFLECTIVE_PIPELINE = 0;
+    public static final int GAFF_PIPELINE = 1;
+
     /* The name of the Limelight network table. */
     private String limelightTableName = "limelight";
     /* An instance of the Limelight table. */
