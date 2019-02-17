@@ -24,6 +24,8 @@ public class Limelight {
 
     /* Store the states of the toggles so that the buttons can switch between states. */
     private boolean toggleStreamMode = false, toggleLedMode = false, toggleCamMode = false;
+    private int pipelineCount = 2, currentPipeline = 0;
+    private boolean pipelineJoystickOverride = false;
     /* Only update the settings after this many scans */
     private final int scanUpdate = 8;
     /* Store the current scan to see whether or not the settings should be updated. */
@@ -70,17 +72,28 @@ public class Limelight {
                 }
                 toggleCamMode = !toggleCamMode;
                 break;
+            case DOWN:
+                if (currentPipeline + 1 < pipelineCount) {
+                    currentPipeline++;
+                } else {
+                    currentPipeline = 0;
+                }
+                pipelineJoystickOverride = true;
+                setPipeline(currentPipeline);
+                break;
             default:
                 break;
         }
-
+        
         /* The intake arm determines the pipeline. */
-        if (Robot.intake.armIsUp()) {
-            /* Pipeline 0 is for the reflective tape. */
-            setPipeline(0);
-        } else {
-            /* Pipe 1 is for the gaff tape. */
-            setPipeline(1);
+        if (!pipelineJoystickOverride) {
+            if (Robot.intake.armIsUp()) {
+                /* Pipeline 0 is for the reflective tape. */
+                setPipeline(REFLECTIVE_PIPELINE);
+            } else {
+                /* Pipe 1 is for the gaff tape. */
+                setPipeline(GAFF_PIPELINE);
+            }
         }
     }
 
