@@ -35,10 +35,10 @@ public class DriveTrain extends Subsystem {
   public static final double GEAR_RATIO = 14.17;
 
   /* Set up the motors. */
-  private final CANSparkMax leftMotor = new CANSparkMax(RobotMap.leftMotor, MotorType.kBrushless);
-  private final CANSparkMax leftSlaveMotor = new CANSparkMax(RobotMap.leftSlaveMotor, MotorType.kBrushless);
-  private final CANSparkMax rightMotor = new CANSparkMax(RobotMap.rightMotor, MotorType.kBrushless);
-  private final CANSparkMax rightSlaveMotor = new CANSparkMax(RobotMap.rightSlaveMotor, MotorType.kBrushless);
+  private final CANSparkMax leftMotor = new CANSparkMax(RobotMap.LEFT_MOTOR, MotorType.kBrushless);
+  private final CANSparkMax leftSlaveMotor = new CANSparkMax(RobotMap.LEFT_SLAVE_MOTOR, MotorType.kBrushless);
+  private final CANSparkMax rightMotor = new CANSparkMax(RobotMap.RIGHT_MOTOR, MotorType.kBrushless);
+  private final CANSparkMax rightSlaveMotor = new CANSparkMax(RobotMap.RIGHT_SLAVE_MOTOR, MotorType.kBrushless);
 
   /* Speed controller groups. */
   private final SpeedControllerGroup leftSideMotors = new SpeedControllerGroup(leftMotor, leftSlaveMotor);
