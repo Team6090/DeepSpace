@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commandgroups.TestGroup;
 import frc.robot.commands.CommandDestroyer;
+import frc.robot.commands.vision.GaffTapeAlign;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -46,8 +47,10 @@ public class OI {
       joystickButton[i] = new JoystickButton(joystick, i);
     }
     /* Assign button actions here */
-    joystickButton[4].whenPressed(new TestGroup());
     joystickButton[11].whenPressed(new CommandDestroyer());
+    /* TODO: These are temporary, remove for comp. */
+    joystickButton[3].whenPressed(new GaffTapeAlign(0.3, 1.2, -2, 2));
+    joystickButton[4].whenPressed(new TestGroup());
   }
 
   /**
