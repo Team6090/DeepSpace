@@ -9,7 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.DriveForward;
-
+import static frc.robot.subsystems.DriveTrain.distanceToMotorRevs;
 public class TestGroup extends CommandGroup {
   /**
    * Add your docs here.
@@ -19,7 +19,7 @@ public class TestGroup extends CommandGroup {
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
     // these will run in order.
-    addSequential(new DriveForward(14, 150000, 0.4d));
+    addSequential(new DriveForward(distanceToMotorRevs(4*12), 150000, 0.4d));
     // To run multiple commands at the same time,
     // use addParallel()
     // e.g. addParallel(new Command1());

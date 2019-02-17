@@ -40,7 +40,7 @@ public class DriveForward extends Command {
    * count is at the target, or this duration is reached.
    * @param driveForwardSpeedRef The speed at which to drive forward.
    */
-  public DriveForward(int encoderCount, long durationUntilTimeOut, double driveForwardSpeedRef) {
+  public DriveForward(double encoderCount, long durationUntilTimeOut, double driveForwardSpeedRef) {
     this.encoderCount = encoderCount;
     this.durationUntilTimeOut = durationUntilTimeOut;
     this.driveForwardSpeedRef = driveForwardSpeedRef;
