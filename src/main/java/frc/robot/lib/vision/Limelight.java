@@ -18,23 +18,31 @@ public class Limelight {
     /* An instance of the Limelight table. */
     private NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable(limelightTableName);
 
+    /* Store the states of the toggles so that the buttons can switch between states. */
     private boolean toggleStreamMode = false, toggleLedMode = false, toggleCamMode = false;
+    /* Only update the settings after this many scans */
     private final int scanUpdate = 8;
+    /* Store the current scan to see whether or not the settings should be updated. */
     private int currentScan = 0;
     /**
      * Set the Limelight settings based on external factors and states.
      */
     public void update() {
+        /* 
+         * If our current scan is equal to the update scan,
+         * update the settings, and set the counter to 0.
+         */
         if (currentScan == scanUpdate) {
             currentScan = 0;
         } else {
+            /* Do nothing but iterate the counter, this is not the update scan. */
             currentScan++;
             return;
         }
-        System.out.println("Limelight.update(): Updating settings...");
+
         /* POV controls the stream, and the LEDs */
         switch (Robot.oi.getJoystickPOV()) {
-            case UP:
+            case UP: /* Toggles the Picture-In-Picture mode. */
                 if (toggleStreamMode) {
                     setStreamingMode(StreamMode.PIP_MAIN);
                 } else {
@@ -42,7 +50,7 @@ public class Limelight {
                 }
                 toggleStreamMode = !toggleStreamMode;
                 break;
-            case LEFT:
+            case LEFT: /* Toggles the LED lights */
                 if (toggleLedMode) {
                     setLedMode(LedState.FORCE_ON);
                 } else {
@@ -50,7 +58,7 @@ public class Limelight {
                 }
                 toggleLedMode = !toggleLedMode;
                 break;
-            case RIGHT:
+            case RIGHT: /* Toggles the Limelight vision mode. */
                 if (toggleCamMode) {
                     setCameraMode(CameraMode.VISION);
                 } else {
@@ -64,8 +72,10 @@ public class Limelight {
 
         /* The intake arm determines the pipeline. */
         if (Robot.intake.armIsUp()) {
+            /* Pipeline 0 is for the reflective tape. */
             setPipeline(0);
         } else {
+            /* Pipe 1 is for the gaff tape. */
             setPipeline(1);
         }
     }
