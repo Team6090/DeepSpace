@@ -7,7 +7,7 @@
 
 package frc.robot.commands.vision;
 
-import frc.robot.LimelightCommand;
+import frc.robot.lib.vision.LimelightCommand;
 import frc.robot.Robot;
 
 public class GaffTapeAlign extends LimelightCommand {
