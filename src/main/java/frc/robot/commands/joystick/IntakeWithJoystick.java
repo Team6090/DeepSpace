@@ -17,6 +17,14 @@ import frc.robot.Robot;
  * @since 1.0
  */
 public class IntakeWithJoystick extends Command {
+
+  /* The width of the intake pulse in scans (multiply this by 20ms to get milliseconds) */
+  private final int intakeMotorPulseWidth = 10;
+
+  /* The loop controlling variables */
+  private int currentPulse = 0;
+  private boolean scanOn = false;
+
   /**
    * Construct the IntakeWithJoystick command. This command requires
    * the intake subystem.
@@ -49,9 +57,19 @@ public class IntakeWithJoystick extends Command {
     double leftTriggerValue = Robot.oi.xBoxLeftTrigger();
     double rightTriggerValue = Robot.oi.xBoxRightTrigger();
     if (leftTriggerValue > 0.0) {
-      /* Multiply by -1 to intake. */
-      Robot.intake.setSpeed(leftTriggerValue * -1.0);
+      /* Pulse the motor when intaking using the motor pulse width defined above. */
+      currentPulse++;
+      if (currentPulse == intakeMotorPulseWidth) {
+        scanOn = !scanOn;
+        currentPulse = 0;
+      }
+      if (scanOn) {
+        Robot.intake.setSpeed(leftTriggerValue * -1.0);
+      } else {
+        Robot.intake.stop();
+      }
     } else if (rightTriggerValue > 0.0) {
+      /* Eject at the raw speed. */
       Robot.intake.setSpeed(rightTriggerValue);
     } else {
       Robot.intake.stop();

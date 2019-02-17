@@ -7,19 +7,19 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.joystick.IntakeWithJoystick;
 
 /**
- * Handles all of our intaking mechanisms, which includes:
- * - The air compressor (for handling pneumatics)
- * - Arm pivot solenoids
- * - An intake motor
- * - The spring-loaded hatch release solenoid.
+ * Handles all of our intaking mechanisms, which includes: - The air compressor
+ * (for handling pneumatics) - Arm pivot solenoids - An intake motor - The
+ * spring-loaded hatch release solenoid.
+ * 
  * @author Jordan Bancino
  * @version 1.0
  * @since 1.0
@@ -36,7 +36,7 @@ public class Intake extends Subsystem {
   private final Solenoid hatchRelease = new Solenoid(RobotMap.PNEUMATIC_CONTROL_MODULE, RobotMap.HATCH_RELEASE);
 
   /* Intake Motor */
-  private final Victor intakeMotor = new Victor(RobotMap.INTAKE_MOTOR);
+  private final WPI_TalonSRX intakeMotor = new WPI_TalonSRX(RobotMap.INTAKE_MOTOR);
 
   /* Store the state of the arm. */
   private boolean armUp;
@@ -59,6 +59,7 @@ public class Intake extends Subsystem {
 
   /**
    * Set the state of the intake arm pivot.
+   * 
    * @param state {@code true} to put the arm down, {@code false} to bring it up.
    */
   private void setIntakeArmPivot(boolean state) {
@@ -83,6 +84,7 @@ public class Intake extends Subsystem {
 
   /**
    * Whether or not the arm is up or down.
+   * 
    * @return True if the arm is up.
    */
   public boolean armIsUp() {
@@ -91,6 +93,7 @@ public class Intake extends Subsystem {
 
   /**
    * Set the speed of the intake motor.
+   * 
    * @param speed The desired speed of the intake motor.
    */
   public void setSpeed(double speed) {
@@ -99,14 +102,32 @@ public class Intake extends Subsystem {
 
   /**
    * Get the current speed of the intake motor.
+   * 
    * @return The current speed of the intake motor.
    */
   public double getSpeed() {
     return intakeMotor.get();
   }
 
+  /**
+   * Get the motor output voltage.
+   * @return Voltage units.
+   */
+  public double getMotorOutputVoltage() {
+    return intakeMotor.getMotorOutputVoltage();
+  }
+
+  /**
+   * Fire a one-way actuator.
+   */
   public void hatchRelease() {
     hatchRelease.set(true);
+    try {
+      Thread.sleep(200);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    hatchRelease.set(false);
   }
 
   /**
