@@ -24,7 +24,7 @@ public class LimelightCommand extends Command {
     private int pipeline;
 
     public LimelightCommand(int pipeline) {
-        if (pipeline <= 0 && pipeline <= 9) {
+        if (pipeline >= 0 && pipeline <= 9) {
             this.pipeline = pipeline;
         } else {
             this.pipeline = -1;
@@ -49,7 +49,7 @@ public class LimelightCommand extends Command {
         Robot.limelight.setPipeline(pipeline);
         /*
          * Sleep 500 ms to give the Limelight time to process after
-         * turning on the LEDs.
+         * setting the settings.
          */
         try {
             Thread.sleep(500);
