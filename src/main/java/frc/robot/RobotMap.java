@@ -21,7 +21,7 @@ public class RobotMap {
    public static final int RIGHT_SLAVE_MOTOR = 4;
 
    /* Elevator */
-   public static final int elevatorMotor = 5;
+   public static final int ELEVATOR_MOTOR = 5;
 
    /* Intake */
    public static final int INTAKE_ARM_PIVOT_DOWN = 4;

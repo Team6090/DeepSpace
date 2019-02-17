@@ -26,7 +26,7 @@ import frc.robot.commands.joystick.ElevatorController;
 public class Elevator extends Subsystem {
 
   /* Set up the elevator motor. */
-  private final WPI_TalonSRX elevatorMotor = new WPI_TalonSRX(RobotMap.elevatorMotor);
+  private final WPI_TalonSRX elevatorMotor = new WPI_TalonSRX(RobotMap.ELEVATOR_MOTOR);
   
   private final int timeoutMs = 10;
 
