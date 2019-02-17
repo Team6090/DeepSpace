@@ -10,26 +10,17 @@ package frc.robot;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.DriveForward;
 
+/**
+ * A test command group.
+ * @author Collin Heavner
+ * @version 1.0
+ * @since 1.0
+ */
 public class TestGroup extends CommandGroup {
   /**
-   * Add your docs here.
+   * Create this test group.
    */
   public TestGroup() {
-    // Add Commands here:
-    // e.g. addSequential(new Command1());
-    // addSequential(new Command2());
-    // these will run in order.
     addSequential(new DriveForward(14, 150000, 0.4d));
-    // To run multiple commands at the same time,
-    // use addParallel()
-    // e.g. addParallel(new Command1());
-    // addSequential(new Command2());
-    // Command1 and Command2 will run in parallel.
-
-    // A command group will require all of the subsystems that each member
-    // would require.
-    // e.g. if Command1 requires chassis, and Command2 requires arm,
-    // a CommandGroup containing them would require both the chassis and the
-    // arm.
   }
 }
