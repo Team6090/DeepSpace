@@ -5,9 +5,10 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot;
+package frc.robot.lib.vision;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 
 /**
  * A custom Limelight command that automatically handles Limelight functions for

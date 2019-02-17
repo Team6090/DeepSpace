@@ -15,24 +15,24 @@ package frc.robot;
  */
 public class RobotMap {
    /* Drivetrain */
-   public static final int leftMotor = 1;
-   public static final int leftSlaveMotor = 2;
-   public static final int rightMotor = 3;
-   public static final int rightSlaveMotor = 4;
+   public static final int LEFT_MOTOR = 1;
+   public static final int LEFT_SLAVE_MOTOR = 2;
+   public static final int RIGHT_MOTOR = 3;
+   public static final int RIGHT_SLAVE_MOTOR = 4;
 
    /* Elevator */
-   public static final int elevatorMotor = 5;
+   public static final int ELEVATOR_MOTOR = 5;
 
    /* Intake */
-   public static final int intakeArmPivotDown = 4;
-   public static final int intakeArmPivotUp = 5;
-   public static final int intakeMotor = 1;
-   public static final int hatchRelease = 7;
+   public static final int INTAKE_ARM_PIVOT_DOWN = 4;
+   public static final int INTAKE_ARM_PIVOT_UP = 5;
+   public static final int INTAKE_MOTOR = 1;
+   public static final int HATCH_RELEASE = 7;
 
    /* USB Cameras */
-   public static final int frontCamera = 0;
-   public static final int rearCamera  = 1;
+   public static final int FRONT_CAMERA = 0;
+   public static final int REAR_CAMERA  = 1;
 
    /* Misc. */
-   public static final int pneumaticModule = 60;
+   public static final int PNEUMATIC_CONTROL_MODULE = 60;
 }

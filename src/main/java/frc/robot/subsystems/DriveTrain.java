@@ -29,16 +29,16 @@ public class DriveTrain extends Subsystem {
 
   /* Wheel measurements in inches */
   public static final double WHEEL_DIAMETER = 7.87;
-  /* Theoretical: WHEEL_DIAMETER * Math.PI (Approx 24.7 inches) - Actual: 22 and 3/8 inches */
+  /* Theoretical: (WHEEL_DIAMETER * Math.PI) (Approx 24.7 inches) - Actual: 22 and 3/8 inches */
   public static final double WHEEL_CIRCUMFERENCE = 22 + (3 / 8);
   /* Gearbox ratio */
   public static final double GEAR_RATIO = 14.17;
 
   /* Set up the motors. */
-  private final CANSparkMax leftMotor = new CANSparkMax(RobotMap.leftMotor, MotorType.kBrushless);
-  private final CANSparkMax leftSlaveMotor = new CANSparkMax(RobotMap.leftSlaveMotor, MotorType.kBrushless);
-  private final CANSparkMax rightMotor = new CANSparkMax(RobotMap.rightMotor, MotorType.kBrushless);
-  private final CANSparkMax rightSlaveMotor = new CANSparkMax(RobotMap.rightSlaveMotor, MotorType.kBrushless);
+  private final CANSparkMax leftMotor = new CANSparkMax(RobotMap.LEFT_MOTOR, MotorType.kBrushless);
+  private final CANSparkMax leftSlaveMotor = new CANSparkMax(RobotMap.LEFT_SLAVE_MOTOR, MotorType.kBrushless);
+  private final CANSparkMax rightMotor = new CANSparkMax(RobotMap.RIGHT_MOTOR, MotorType.kBrushless);
+  private final CANSparkMax rightSlaveMotor = new CANSparkMax(RobotMap.RIGHT_SLAVE_MOTOR, MotorType.kBrushless);
 
   /* Speed controller groups. */
   private final SpeedControllerGroup leftSideMotors = new SpeedControllerGroup(leftMotor, leftSlaveMotor);

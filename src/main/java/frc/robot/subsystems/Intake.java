@@ -27,16 +27,16 @@ import frc.robot.commands.joystick.IntakeWithJoystick;
 public class Intake extends Subsystem {
 
   /* The compressor */
-  private final Compressor airCompressor = new Compressor(RobotMap.pneumaticModule);
+  private final Compressor airCompressor = new Compressor(RobotMap.PNEUMATIC_CONTROL_MODULE);
 
   /* Pivot solenoids */
-  private final Solenoid pivotDown = new Solenoid(RobotMap.pneumaticModule, RobotMap.intakeArmPivotDown);
-  private final Solenoid pivotUp = new Solenoid(RobotMap.pneumaticModule, RobotMap.intakeArmPivotUp);
+  private final Solenoid pivotDown = new Solenoid(RobotMap.PNEUMATIC_CONTROL_MODULE, RobotMap.INTAKE_ARM_PIVOT_DOWN);
+  private final Solenoid pivotUp = new Solenoid(RobotMap.PNEUMATIC_CONTROL_MODULE, RobotMap.INTAKE_ARM_PIVOT_UP);
 
-  private final Solenoid hatchRelease = new Solenoid(RobotMap.pneumaticModule, RobotMap.hatchRelease);
+  private final Solenoid hatchRelease = new Solenoid(RobotMap.PNEUMATIC_CONTROL_MODULE, RobotMap.HATCH_RELEASE);
 
   /* Intake Motor */
-  private final Victor intakeMotor = new Victor(RobotMap.intakeMotor);
+  private final Victor intakeMotor = new Victor(RobotMap.INTAKE_MOTOR);
 
   /* Store the state of the arm. */
   private boolean armUp;
