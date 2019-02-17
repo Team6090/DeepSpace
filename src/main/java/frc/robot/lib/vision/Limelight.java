@@ -25,24 +25,32 @@ public class Limelight {
         /* POV controls the stream, and the LEDs */
         switch (Robot.oi.getJoystickPOV()) {
             case UP:
-              setStreamingMode(Limelight.StreamMode.PIP_MAIN);
+              setStreamingMode(StreamMode.PIP_MAIN);
               break;
             case DOWN:
-              setStreamingMode(Limelight.StreamMode.PIP_SECONDARY);
+              setStreamingMode(StreamMode.PIP_SECONDARY);
               break;
             case LEFT:
-              setLedMode(Limelight.LedState.FORCE_ON);
+              setLedMode(LedState.FORCE_ON);
               break;
             case RIGHT:
-              setLedMode(Limelight.LedState.FORCE_OFF);
+              setLedMode(LedState.FORCE_OFF);
             default:
               break;
           }
           /* The intake arm determines the pipeline. */
           if (Robot.intake.armIsUp()) {
+              setCameraMode(CameraMode.DRIVER);
               setPipeline(0);
           } else {
+              setCameraMode(CameraMode.VISION);
               setPipeline(1);
+          }
+          
+          if (Robot.oi.getJoystickButton(5)) {
+              setCameraMode(CameraMode.DRIVER);
+          } else if (Robot.oi.getJoystickButton(6)) {
+              setCameraMode(CameraMode.VISION);
           }
     }
 
