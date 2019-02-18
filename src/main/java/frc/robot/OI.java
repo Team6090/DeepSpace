@@ -49,7 +49,7 @@ public class OI {
     /* Assign button actions here */
     joystickButton[11].whenPressed(new CommandDestroyer());
     /* TODO: These are temporary, remove for comp. */
-    joystickButton[3].whenPressed(new GaffTapeAlign(0.2, 1.5, -2, 2));
+    joystickButton[3].whenPressed(new GaffTapeAlign(0.1, 1.25, -2, 2));
     joystickButton[4].whenPressed(new TestGroup());
   }
 

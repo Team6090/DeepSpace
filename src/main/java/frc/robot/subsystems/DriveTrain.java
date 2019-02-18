@@ -33,6 +33,8 @@ public class DriveTrain extends Subsystem {
   public static final double WHEEL_CIRCUMFERENCE = 22 + (3 / 8);
   /* Gearbox ratio */
   public static final double GEAR_RATIO = 14.17;
+  /*Constant: motor revs per inch*/
+  public static final double ENCODER_CONSTANT = .603125;
 
   /* Set up the motors. */
   private final CANSparkMax leftMotor = new CANSparkMax(RobotMap.LEFT_MOTOR, MotorType.kBrushless);
@@ -75,6 +77,9 @@ public class DriveTrain extends Subsystem {
     return (motorRevs * GEAR_RATIO) / WHEEL_CIRCUMFERENCE;
   }
 
+  public static double distanceToMotorRevs2(double distance) {
+    return (distance * ENCODER_CONSTANT);
+  }
   /**
    * By default, enable control from the joystick.
    */

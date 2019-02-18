@@ -13,12 +13,12 @@ import frc.robot.Robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class GaffTapeAlign extends LimelightCommand {
-  double motorRevs = Robot.drivetrain.distanceToMotorRevs(10.0); 
+  double motorRevs = Robot.drivetrain.distanceToMotorRevs2(36.0); 
   boolean hasTarget = Robot.limelight.hasValidTargets();
   boolean endProgram, CW, correctionsDone = false;
   double speedLeft, speedRight, speedRef, speedMultiplier;
   double xOffset, xOffsetLowerBound = -5, xOffsetUpperBound = 5;
-  double currentEncoderCount, baseEncoderCountRight, baseEncoderCountLeft;
+  double currentEncoderCount, baseEncoderCountRight, baseEncoderCountLeft, thresholdEncoderCount;
 
   public GaffTapeAlign(double speedRef, double speedMultiplier, double xOffsetLowerBound, double xOffsetUpperBound) {
     super(Limelight.GAFF_PIPELINE);
@@ -51,6 +51,8 @@ public class GaffTapeAlign extends LimelightCommand {
     speedRight = -speedRef;
     speedLeft = speedRef;
     hasTarget = Robot.limelight.hasValidTargets();
+    thresholdEncoderCount = baseEncoderCountLeft + motorRevs;
+    SmartDashboard.putNumber("thresholdEncoderCount", thresholdEncoderCount);
   }
 
   /*Called repeatedly when this Command is scheduled to run*/
@@ -93,13 +95,15 @@ public class GaffTapeAlign extends LimelightCommand {
     
     SmartDashboard.putNumber("motorRevs", motorRevs);
     SmartDashboard.putNumber("motorRevscalc", (currentEncoderCount - baseEncoderCountLeft));
+    SmartDashboard.putNumber("currentEncoderCount", currentEncoderCount);
 
-    return (endProgram || ((currentEncoderCount - baseEncoderCountLeft) >= motorRevs) || (currentEncoderCount - baseEncoderCountRight) >= motorRevs);
+    return (endProgram || (currentEncoderCount >= thresholdEncoderCount)) /*|| (currentEncoderCount - baseEncoderCountRight) >= motorRevs*/;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.drivetrain.set(0.0, 0.0);
     Robot.drivetrain.stop();
     System.out.println("Motor Revs:" + motorRevs + "Total Encoder Counts Moved (Left):" + (currentEncoderCount - baseEncoderCountLeft) + "Total Encoder Counts Moved (Right):" + (currentEncoderCount - baseEncoderCountRight));
   }
