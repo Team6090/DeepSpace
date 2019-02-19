@@ -34,7 +34,7 @@ public class DriveTrain extends Subsystem {
   /* Gearbox ratio */
   public static final double GEAR_RATIO = 14.17;
   /*Constant: motor revs per inch*/
-  public static final double ENCODER_CONSTANT = .603125;
+  public static final double ENCODER_CONSTANT = 0.603125;
 
   /* Set up the motors. */
   private final CANSparkMax leftMotor = new CANSparkMax(RobotMap.LEFT_MOTOR, MotorType.kBrushless);
