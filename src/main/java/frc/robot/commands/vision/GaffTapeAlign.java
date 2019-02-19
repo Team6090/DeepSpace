@@ -39,7 +39,6 @@ public class GaffTapeAlign extends LimelightCommand {
       System.out.println("Invalid pipeline, command stopping.");
     }
 
-    baseEncoderCountRight = Robot.drivetrain.getRightEncoderPosition();
     baseEncoderCountLeft = Robot.drivetrain.getLeftEncoderPosition();
   
     SmartDashboard.putNumber("baseEncoderCountLeft", baseEncoderCountLeft);
@@ -65,7 +64,7 @@ public class GaffTapeAlign extends LimelightCommand {
       if (xOffset < 0) {
         if (xOffset > xOffsetLowerBound && xOffset < xOffsetUpperBound) {
           Robot.drivetrain.set(speedLeft, speedRight);
-          currentEncoderCount = Robot.drivetrain.getRightEncoderPosition();
+          currentEncoderCount = Robot.drivetrain.getLeftEncoderPosition();
         }
         else {
           Robot.drivetrain.set(speedLeft, (speedRight * speedMultiplier));
@@ -75,16 +74,21 @@ public class GaffTapeAlign extends LimelightCommand {
       else if (xOffset > 0) {
         if (xOffset > xOffsetLowerBound && xOffset < xOffsetUpperBound) {
           Robot.drivetrain.set(speedLeft, speedRight);
-          currentEncoderCount = Robot.drivetrain.getRightEncoderPosition();
+          currentEncoderCount = Robot.drivetrain.getLeftEncoderPosition();
         }
         else {
           Robot.drivetrain.set((speedLeft * speedMultiplier), speedRight);
-          currentEncoderCount = Robot.drivetrain.getRightEncoderPosition();
+          if (Robot.drivetrain.getRightEncoderPosition() < 0) {
+          currentEncoderCount = -Robot.drivetrain.getRightEncoderPosition();
+          }
+          else {
+            currentEncoderCount = Robot.drivetrain.getRightEncoderPosition();
+          }
         }
       }
       else {
         Robot.drivetrain.set(speedLeft, speedRight);
-        currentEncoderCount = Robot.drivetrain.getRightEncoderPosition();
+        currentEncoderCount = Robot.drivetrain.getLeftEncoderPosition();
       }
     }
   }
