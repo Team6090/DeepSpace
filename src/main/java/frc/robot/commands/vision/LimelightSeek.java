@@ -79,7 +79,7 @@ public class LimelightSeek extends LimelightCommand {
       if (!CCWDone && !haveTarget) {
         /* CCW */
         Robot.drivetrain.arcadeDrive(0.0d, -speedZ);
-        if (currentAngle <= (lowerBoundAngle + 5.0f) && currentAngle >= (lowerBoundAngle - 5) && !haveTarget) {
+        if (currentAngle <= (lowerBoundAngle + 5.0f) && currentAngle >= (lowerBoundAngle - 5.0f) && !haveTarget) {
           /*Sets CCWDone true so the next paragraph can start*/
           CCWDone = true;
           /*Sets CWDone true so this can be run on a loop*/
@@ -89,7 +89,7 @@ public class LimelightSeek extends LimelightCommand {
       if (CCWDone && !CWDone && !haveTarget) {
         /* CW */
         Robot.drivetrain.arcadeDrive(0.0d, speedZ);
-        if (currentAngle <= (upperBoundAngle + 5.0f) && currentAngle >= (upperBoundAngle - 5) && !haveTarget) {
+        if (currentAngle <= (upperBoundAngle + 5.0f) && currentAngle >= (upperBoundAngle - 5.0f) && !haveTarget) {
           /* Sets CWDone to true so loop stops */
           CWDone = true;
           /* Triggers the first paragraph again */
