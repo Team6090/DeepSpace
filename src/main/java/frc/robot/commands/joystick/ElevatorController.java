@@ -10,6 +10,7 @@ package frc.robot.commands.joystick;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 /**
@@ -43,6 +44,10 @@ public class ElevatorController extends Command {
   private int presetPosition = 0;
   private double positionRef = 0.0d;
   private double basePosition = 0.0d;
+
+  /* String variables for printing out to SmartDashboard */
+  String loopMode;
+  String loopModeString;
 
   /**
    * Construct the ElevatorWithJoystick command. This command requires
@@ -87,7 +92,9 @@ public class ElevatorController extends Command {
       Robot.elevator.setSpeed(speedRef);
       manualOffset = 0.0d;
       basePosition = presetPosition;
+      loopMode = "Open Loop : ";
     } else {
+      loopMode = "Position Loop : ";
       if (Robot.oi.xBoxA()) {
         basePosition = bottomHatchRef;
       } else if (Robot.oi.xBoxX()) {
@@ -97,13 +104,17 @@ public class ElevatorController extends Command {
       }
       /* Calculate the manual offset */
       if (((manualOffset + presetPosition) < maxHeight)) {
-        manualOffset = manualOffset + (-increment * speedRef);
+        manualOffset = manualOffset + (increment * speedRef);
       }
       /* Calculate the position reference */
       positionRef = basePosition + manualOffset;
       /* Use MotionMagic to get to the position reference */
       Robot.elevator.set(ControlMode.MotionMagic, positionRef);
     }
+
+    /* Printouts to the SmartDashboard of what loop mode we're in */
+    loopModeString = Double.toString(positionRef);
+    SmartDashboard.putString("loopMode", loopModeString + loopMode);
 
     /* Print out some stuff - Uncomment to view. */
     //System.out.println("manualOffset = " + manualOffset + " presetPosition = " + presetPosition + " positionRef = " + positionRef + " speedRef = " + speedRef);
