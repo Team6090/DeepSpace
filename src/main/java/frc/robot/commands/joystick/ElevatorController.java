@@ -114,7 +114,7 @@ public class ElevatorController extends Command {
 
     /* Printouts to the SmartDashboard of what loop mode we're in */
     loopModeString = Double.toString(positionRef);
-    SmartDashboard.putString("loopMode", loopModeString + loopMode);
+    SmartDashboard.putString("loopMode", loopMode + loopModeString);
 
     /* Print out some stuff - Uncomment to view. */
     //System.out.println("manualOffset = " + manualOffset + " presetPosition = " + presetPosition + " positionRef = " + positionRef + " speedRef = " + speedRef);
