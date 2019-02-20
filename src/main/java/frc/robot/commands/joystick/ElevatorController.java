@@ -32,9 +32,9 @@ public class ElevatorController extends Command {
   /*
    * Position references for elevator setpoints
    */
-  private final int bottomHatchRef = 10;
-  private final int middleHatchRef = 2000;
-  private final int topHatchRef = 4000;
+  private final int bottomHatchRef = -300;
+  private final int middleHatchRef = -2000;
+  private final int topHatchRef = -4000;
 
   /*
    * Loop variables, used in setting the position reference
