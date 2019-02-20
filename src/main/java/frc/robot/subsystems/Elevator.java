@@ -49,13 +49,13 @@ public class Elevator extends Subsystem {
     elevatorMotor.selectProfileSlot(0, 0);
   
     /* Feed Forward gain - PID loop num, value, timout */
-    elevatorMotor.config_kF(0, .40, timeoutMs);
+    elevatorMotor.config_kF(0, 0.40d, timeoutMs);
     /* Proportional gain - PID loop num, value, timout */
-    elevatorMotor.config_kP(0, 0.3, timeoutMs);
+    elevatorMotor.config_kP(0, 0.3d, timeoutMs);
     /* Integral gain - PID loop num, value, timout */
-    elevatorMotor.config_kI(0, 0.0001, timeoutMs);
+    elevatorMotor.config_kI(0, 0.0001d, timeoutMs);
     /* Differential gain - PID loop num, value, timout */
-    elevatorMotor.config_kD(0, 0, timeoutMs);
+    elevatorMotor.config_kD(0, 0.0d, timeoutMs);
     /* This doesn't appear to do anything useful */
     elevatorMotor.configAllowableClosedloopError(0, 50, timeoutMs);
     /* Enable integral component when error gets below this threshold */
@@ -67,7 +67,7 @@ public class Elevator extends Subsystem {
     /* Peak current in Amps */
     elevatorMotor.configPeakCurrentLimit(68, timeoutMs);
     /* If error is below threshold, consider to be "in position" (0.25=25%) */
-    elevatorMotor.configNeutralDeadband(0.03, timeoutMs);
+    elevatorMotor.configNeutralDeadband(0.03d, timeoutMs);
     
     /*
 		 * Set accel and cruise velocity to use to make trapezoid profile Cruise speed =
@@ -100,9 +100,9 @@ public class Elevator extends Subsystem {
      * 
      * Rate = [1023-0] / [1000 msec] * 10 msec = 10
 		 */
-    elevatorMotor.configOpenloopRamp(0.5, timeoutMs);
+    elevatorMotor.configOpenloopRamp(0.5d, timeoutMs);
     /* Rate = [1023-0] / [500 msec] * 10 msec = 20 */
-		elevatorMotor.configClosedloopRamp(0.5, timeoutMs);
+		elevatorMotor.configClosedloopRamp(0.5d, timeoutMs);
   }
 
   /**
@@ -140,7 +140,7 @@ public class Elevator extends Subsystem {
    * Stop the elevator motor.
    */
   public void stop() {
-    setSpeed(0.0);
+    setSpeed(0.0d);
   }
 
   /**
