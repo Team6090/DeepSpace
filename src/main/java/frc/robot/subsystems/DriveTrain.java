@@ -28,13 +28,13 @@ import frc.robot.commands.joystick.DriveWithJoystick;
 public class DriveTrain extends Subsystem {
 
   /* Wheel measurements in inches */
-  public static final double WHEEL_DIAMETER = 7.87;
+  public static final double WHEEL_DIAMETER = 7.87d;
   /* Theoretical: (WHEEL_DIAMETER * Math.PI) (Approx 24.7 inches) - Actual: 22 and 3/8 inches */
-  public static final double WHEEL_CIRCUMFERENCE = 22 + (3 / 8);
+  public static final double WHEEL_CIRCUMFERENCE = 22.0d + (3.0d / 8.0d);
   /* Gearbox ratio */
-  public static final double GEAR_RATIO = 14.17;
+  public static final double GEAR_RATIO = 14.17d;
   /*Constant: motor revs per inch*/
-  public static final double ENCODER_CONSTANT = 0.603125;
+  public static final double ENCODER_CONSTANT = 0.603125d;
 
   /* Set up the motors. */
   private final CANSparkMax leftMotor = new CANSparkMax(RobotMap.LEFT_MOTOR, MotorType.kBrushless);
@@ -211,35 +211,35 @@ public class DriveTrain extends Subsystem {
 	 * @return motor correction to be ADDED to left motor (scaled to speed ref (-1.0 to 1.0 = full min-to-full max
 	 */
   public double syncAngle(double angleSP, double angleFB) {
-		double syncAngleOut = 0;			          	/* calc'ed output for method */
-		double angleErr = 0; 				            	/* calc'ed angle err (SP-FB) */
-		double angleErrAdj = 0; 			          	/* error adjusted to be +/- 180 */
-		double angleErrMod = 0; 			          	/* Angle Error modified by scale factor */
-		double absAngleErrMod = 0; 			        	/* Absolute Value of Angle Error modified by scale factor */
-		double absSyncAngleOut = 0; 			        /* Absolute value of reference to move robot */
+		double syncAngleOut = 0.0d;			          	/* calc'ed output for method */
+		double angleErr = 0.0d; 				            	/* calc'ed angle err (SP-FB) */
+		double angleErrAdj = 0.0d; 			          	/* error adjusted to be +/- 180 */
+		double angleErrMod = 0.0d; 			          	/* Angle Error modified by scale factor */
+		double absAngleErrMod = 0.0d; 			        	/* Absolute Value of Angle Error modified by scale factor */
+		double absSyncAngleOut = 0.0d; 			        /* Absolute value of reference to move robot */
 		//double correctDirection = 1.0; 		    	/* Direction to rotate for shortest distance to setpoint */
-		final double zAxisCorrectScale = .022;  	/* Scale gyro rotation drift to send ref to z-axis */
-		final double gyroMaxZaxisCorrect = 0.24;  /* Maximum amount of z-axis correction due to rotation drift */
-		final double minRotationThreash = 0.01;   /* Min Z-Axis rotation threashold to try to correct for */
-		final double minSpeedRef = 0.035; 		    /* Min speed reference to move robot */
+		final double zAxisCorrectScale = 0.022d;  	/* Scale gyro rotation drift to send ref to z-axis */
+		final double gyroMaxZaxisCorrect = 0.24d;  /* Maximum amount of z-axis correction due to rotation drift */
+		final double minRotationThreash = 0.01d;   /* Min Z-Axis rotation threashold to try to correct for */
+		final double minSpeedRef = 0.035d; 		    /* Min speed reference to move robot */
 	
 		angleErr = (angleSP - angleFB); 		      /* calc angle error modified value to get back on course */
 	
 		angleErrAdj = angleErr;
-		if ((angleSP > angleFB) && (angleFB < 180) && (angleSP > 180))
-			angleErrAdj = angleErr - 360;
-		if ((angleSP <= angleFB) && (angleFB >= 180) && (angleSP < 180))
-			angleErrAdj = angleErr + 360;
+		if ((angleSP > angleFB) && (angleFB < 180.0d) && (angleSP > 180.0d))
+			angleErrAdj = angleErr - 360.0d;
+		if ((angleSP <= angleFB) && (angleFB >= 180.0d) && (angleSP < 180.0d))
+			angleErrAdj = angleErr + 360.0d;
 	
 		angleErrMod = angleErrAdj * zAxisCorrectScale;      /* calc angle error modified value to get back on course */
 		absAngleErrMod = Math.abs(angleErrMod);             /* Find absolute value of angle error modified by scale factor */
 	
 		/* Max positive correction is limited to max positive correction reference value */
 		if (absAngleErrMod >= gyroMaxZaxisCorrect) { 						/* Limit max output */
-			if (angleErrMod > 0)													        /* Max positive reference */
+			if (angleErrMod > 0.0d)													        /* Max positive reference */
 				syncAngleOut = gyroMaxZaxisCorrect;	 								/* Limit angular reference to send to z-axis */
 			else 																	                /* Max negative reference */
-				syncAngleOut = (-1.0 * gyroMaxZaxisCorrect);				/* Limit angular reference to send to z-axis */
+				syncAngleOut = (-1.0d * gyroMaxZaxisCorrect);				/* Limit angular reference to send to z-axis */
 		
 		}
 		/*
@@ -253,8 +253,8 @@ public class DriveTrain extends Subsystem {
 			syncAngleOut = 0;                             /* Scale angular reference to send to z-axis */
 		absSyncAngleOut = Math.abs(syncAngleOut);       /* Absolute value of speed reference */
 		if (absSyncAngleOut < minSpeedRef) {            /* Speed reference is less than value to cause movement */
-			if (syncAngleOut < 0.0)                       /* Scale negative angular reference to send to z-axis */
-				syncAngleOut = (-1.0 * minSpeedRef);
+			if (syncAngleOut < 0.0d)                       /* Scale negative angular reference to send to z-axis */
+				syncAngleOut = (-1.0d * minSpeedRef);
 			else
 				syncAngleOut = minSpeedRef;                 /* Scale positive angular reference to send to z-axis */
 		}
