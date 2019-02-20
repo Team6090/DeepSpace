@@ -18,14 +18,14 @@ public class GaffTapeAlign extends LimelightCommand {
   boolean hasTarget = Robot.limelight.hasValidTargets();
   boolean endProgram, CW, correctionsDone = false;
   double speedLeft, speedRight, speedRef, speedMultiplier;
-  double xOffset, xOffsetLowerBound = -5, xOffsetUpperBound = 5;
+  double horizontalOffset, horizontalOffsetLowerBound = -5, horizontalOffsetUpperBound = 5;
   double currentEncoderCount, baseEncoderCountRight, baseEncoderCountLeft, thresholdEncoderCount;
 
   public GaffTapeAlign(double speedRef, double speedMultiplier, double xOffsetLowerBound, double xOffsetUpperBound) {
     super(Limelight.GAFF_PIPELINE);
     this.speedMultiplier = speedMultiplier;
-    this.xOffsetLowerBound = xOffsetLowerBound;
-    this.xOffsetUpperBound = xOffsetUpperBound;
+    this.horizontalOffsetLowerBound = xOffsetLowerBound;
+    this.horizontalOffsetUpperBound = xOffsetUpperBound;
     this.speedRef = speedRef;
     requires(Robot.drivetrain);
   }
@@ -41,18 +41,19 @@ public class GaffTapeAlign extends LimelightCommand {
     }
 
     baseEncoderCountLeft = Robot.drivetrain.getLeftEncoderPosition();
-  
-    SmartDashboard.putNumber("baseEncoderCountLeft", baseEncoderCountLeft);
-    SmartDashboard.putNumber("baseEncoderCountRight", baseEncoderCountRight);
+    baseEncoderCountRight = Robot.drivetrain.getRightEncoderPosition();
 
-    /*Some fine variable work*/
-    xOffset = Robot.limelight.getHorizontalOffset();
-    /*Motor speeds, right has to be inverted*/
+    /*Sets motor speeds based on the speedRef*/
     speedRight = -speedRef;
     speedLeft = speedRef;
+    /*Figures out if there's a target or not, calculates offset, calculates threshold encoder*/
     hasTarget = Robot.limelight.hasValidTargets();
+    horizontalOffset = Robot.limelight.getHorizontalOffset();
     thresholdEncoderCount = baseEncoderCountLeft + motorRevs;
+    /*Printing out init values to SmartDashboard*/
     SmartDashboard.putNumber("thresholdEncoderCount", thresholdEncoderCount);
+    SmartDashboard.putNumber("baseEncoderCountLeft", baseEncoderCountLeft);
+    SmartDashboard.putNumber("baseEncoderCountRight", baseEncoderCountRight);
   }
 
   /*Called repeatedly when this Command is scheduled to run*/
@@ -61,9 +62,9 @@ public class GaffTapeAlign extends LimelightCommand {
   
     /*This will diagnose what's needed to correct. Will only run if there is a > 2 degree offset*/
     if (hasTarget) {
-      xOffset = Robot.limelight.getHorizontalOffset();
-      if (xOffset < 0) {
-        if (xOffset > xOffsetLowerBound && xOffset < xOffsetUpperBound) {
+      horizontalOffset = Robot.limelight.getHorizontalOffset();
+      if (horizontalOffset < 0) {
+        if (horizontalOffset > horizontalOffsetLowerBound && horizontalOffset < horizontalOffsetUpperBound) {
           Robot.drivetrain.set(speedLeft, speedRight);
           currentEncoderCount = Robot.drivetrain.getLeftEncoderPosition();
         }
@@ -72,8 +73,8 @@ public class GaffTapeAlign extends LimelightCommand {
           currentEncoderCount = Robot.drivetrain.getLeftEncoderPosition();
         }
       }
-      else if (xOffset > 0) {
-        if (xOffset > xOffsetLowerBound && xOffset < xOffsetUpperBound) {
+      else if (horizontalOffset > 0) {
+        if (horizontalOffset > horizontalOffsetLowerBound && horizontalOffset < horizontalOffsetUpperBound) {
           Robot.drivetrain.set(speedLeft, speedRight);
           currentEncoderCount = Robot.drivetrain.getLeftEncoderPosition();
         }
