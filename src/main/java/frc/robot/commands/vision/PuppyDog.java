@@ -24,7 +24,7 @@ public class PuppyDog extends LimelightCommand {
   private double area, horizontalOffset, targetArea;
   private double speedY, speedZ;
   private double baseTime, thresholdTime, duration;
-  private double startingAngle, currentAngle, upperBoundAngle, lowerBoundAngle;
+  private float startingAngle, currentAngle, upperBoundAngle, lowerBoundAngle;
   private boolean CWDone = false, CCWDone = false;
 
   /**
@@ -55,21 +55,22 @@ public class PuppyDog extends LimelightCommand {
     /*
      * Converts starting yaw to always be 0-360 (for crossing over 0 or 360)
      */
-    if (Robot.drivetrain.getGyroYaw() < 0) {
-      startingAngle = Robot.drivetrain.getGyroYaw() + 360;
+    float gyroYaw = Robot.drivetrain.getGyroYaw();
+    if (gyroYaw < 0.0f) {
+      startingAngle = gyroYaw + 360.0f;
     } else {
-      startingAngle = Robot.drivetrain.getGyroYaw();
+      startingAngle = gyroYaw;
     }
 
     /*Sets the bounds for the search mode and calculates for special cases*/
-    upperBoundAngle = startingAngle + 60;
-    lowerBoundAngle = startingAngle - 60;
-    if (lowerBoundAngle < 0) {
-      lowerBoundAngle += 360;
+    upperBoundAngle = startingAngle + 60.0f;
+    lowerBoundAngle = startingAngle - 60.0f;
+    if (lowerBoundAngle < 0.0f) {
+      lowerBoundAngle += 360.0f;
     }
     /* If the angle is above 360, subtract 360 */
-    if (upperBoundAngle > 360) {
-      upperBoundAngle -= 360;
+    if (upperBoundAngle > 360.0f) {
+      upperBoundAngle -= 360.0f;
     }
     /*This will start off the command by finding whether a target is found or not*/
     haveTarget = Robot.limelight.hasValidTargets();
@@ -79,10 +80,11 @@ public class PuppyDog extends LimelightCommand {
   @Override
   protected void execute() {
     /*Convert the angle constantly*/
-    if (Robot.drivetrain.getGyroYaw() < 0) {
-      currentAngle = Robot.drivetrain.getGyroYaw() + 360;
+    float gyroYaw = Robot.drivetrain.getGyroYaw();
+    if (gyroYaw < 0.0f) {
+      currentAngle = gyroYaw + 360.0f;
     } else {
-      currentAngle = Robot.drivetrain.getGyroYaw();
+      currentAngle = gyroYaw;
     }
 
     /*Assign variables from read values from the data tables*/
@@ -101,7 +103,7 @@ public class PuppyDog extends LimelightCommand {
       if (!CCWDone) {
         /* CCW */
         Robot.drivetrain.arcadeDrive(0.0d, -speedZ);
-        if (currentAngle <= (lowerBoundAngle + 5) && currentAngle >= (lowerBoundAngle - 5) && !haveTarget) {
+        if (currentAngle <= (lowerBoundAngle + 5.0f) && currentAngle >= (lowerBoundAngle - 5) && !haveTarget) {
           /* Sets CCWDone so the next paragraph can start */
           CCWDone = true;
           CWDone = false;
@@ -110,7 +112,7 @@ public class PuppyDog extends LimelightCommand {
       if (CCWDone && !CWDone) {
         /* CW */
         Robot.drivetrain.arcadeDrive(0.0d, speedZ);
-        if (currentAngle <= (upperBoundAngle + 5) && currentAngle >= (upperBoundAngle - 5) && !haveTarget) {
+        if (currentAngle <= (upperBoundAngle + 5.0f) && currentAngle >= (upperBoundAngle - 5) && !haveTarget) {
           /* Sets CWDone to true so loop stops */
           CWDone = true;
           /* Triggers the first paragraph again */
@@ -126,19 +128,19 @@ public class PuppyDog extends LimelightCommand {
        * 
        * Trigger offset corrections if xoffset is outside of this range, otherwise will drive to and stop at target
        */
-      if (horizontalOffset > -5 && horizontalOffset < 5) {
+      if (horizontalOffset > -5.0d && horizontalOffset < 5.0d) {
         /* If not at target area yet, continue forwards */
         if (area < targetArea) {
-          Robot.drivetrain.arcadeDrive(speedY, 0.0);
+          Robot.drivetrain.arcadeDrive(speedY, 0.0d);
         } else if (area >= targetArea) { /* If at, or overshot target area, stop */
           Robot.drivetrain.arcadeDrive(0.0d, 0.0d);
         } 
       } else { /* Offset corrections */
         /* If offset is negative */
-        if (horizontalOffset < 0) {
+        if (horizontalOffset < 0.0d) {
           /* CW Corrections */
          Robot.drivetrain.arcadeDrive(0.0d, -speedZ);
-        } else if (horizontalOffset > 0) { /* If offset is positive */
+        } else if (horizontalOffset > 0.0d) { /* If offset is positive */
           /* CCW Corrections */
           Robot.drivetrain.arcadeDrive(0.0d, speedZ);
         }

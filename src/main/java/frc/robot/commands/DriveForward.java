@@ -17,7 +17,7 @@ import frc.robot.Robot;
  * @since 1.0
  */
 public class DriveForward extends Command {
-  double baseEncoderCount, thresholdEncoderCount, currentEncoderCount = 0;
+  double baseEncoderCount = 0.0d, thresholdEncoderCount = 0.0d, currentEncoderCount = 0.0d;
   double encoderCount;
   boolean haveBaseCount;
   long baseTime, thresholdTime, durationUntilTimeOut;

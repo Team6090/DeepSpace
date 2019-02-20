@@ -134,6 +134,6 @@ public class Intake extends Subsystem {
    * Stop the intake motor.
    */
   public void stop() {
-    setSpeed(0.0);
+    setSpeed(0.0d);
   }
 }

@@ -14,11 +14,11 @@ import frc.robot.Robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class GaffTapeAlign extends LimelightCommand {
-  double motorRevs = DriveTrain.distanceToMotorRevs2(36.0); 
+  double motorRevs = DriveTrain.distanceToMotorRevs2(36.0d); 
   boolean hasTarget = Robot.limelight.hasValidTargets();
   boolean endProgram, CW, correctionsDone = false;
   double speedLeft, speedRight, speedRef, speedMultiplier;
-  double horizontalOffset, horizontalOffsetLowerBound = -5, horizontalOffsetUpperBound = 5;
+  double horizontalOffset, horizontalOffsetLowerBound = -5.0d, horizontalOffsetUpperBound = 5.0d;
   double currentEncoderCount, baseEncoderCountRight, baseEncoderCountLeft, thresholdEncoderCount;
 
   public GaffTapeAlign(double speedRef, double speedMultiplier, double xOffsetLowerBound, double xOffsetUpperBound) {
@@ -63,7 +63,7 @@ public class GaffTapeAlign extends LimelightCommand {
     /*This will diagnose what's needed to correct. Will only run if there is a > 2 degree offset*/
     if (hasTarget) {
       horizontalOffset = Robot.limelight.getHorizontalOffset();
-      if (horizontalOffset < 0) {
+      if (horizontalOffset < 0.0d) {
         if (horizontalOffset > horizontalOffsetLowerBound && horizontalOffset < horizontalOffsetUpperBound) {
           Robot.drivetrain.set(speedLeft, speedRight);
           currentEncoderCount = Robot.drivetrain.getLeftEncoderPosition();
@@ -73,14 +73,14 @@ public class GaffTapeAlign extends LimelightCommand {
           currentEncoderCount = Robot.drivetrain.getLeftEncoderPosition();
         }
       }
-      else if (horizontalOffset > 0) {
+      else if (horizontalOffset > 0.0d) {
         if (horizontalOffset > horizontalOffsetLowerBound && horizontalOffset < horizontalOffsetUpperBound) {
           Robot.drivetrain.set(speedLeft, speedRight);
           currentEncoderCount = Robot.drivetrain.getLeftEncoderPosition();
         }
         else {
           Robot.drivetrain.set((speedLeft * speedMultiplier), speedRight);
-          if (Robot.drivetrain.getRightEncoderPosition() < 0) {
+          if (Robot.drivetrain.getRightEncoderPosition() < 0.0d) {
           currentEncoderCount = -Robot.drivetrain.getRightEncoderPosition();
           }
           else {
@@ -109,7 +109,6 @@ public class GaffTapeAlign extends LimelightCommand {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.drivetrain.set(0.0, 0.0);
     Robot.drivetrain.stop();
     System.out.println("Motor Revs:" + motorRevs + "Total Encoder Counts Moved (Left):" + (currentEncoderCount - baseEncoderCountLeft) + "Total Encoder Counts Moved (Right):" + (currentEncoderCount - baseEncoderCountRight));
   }
