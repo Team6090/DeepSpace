@@ -17,10 +17,10 @@ import frc.robot.Robot;
  */
 public class Rotate extends Command {
 
-  double inputAngle, startingAngle, totalAngleTurn, currentAngle;
+  float inputAngle, startingAngle, totalAngleTurn, currentAngle;
   
   double speedZ;
-  double speedY = 0;
+  double speedY = 0.0d;
 
   long duration, baseTime, thresholdTime;
 
@@ -34,7 +34,7 @@ public class Rotate extends Command {
    * @param speedZ The twisting direction of the joystick which will actually make the bot turn
    * @param speedY The forwards and backwards joystick inputs which will make the bot go vroom
    */
-  public Rotate(double inputAngle, long duration, double speedZ, double speedY) {
+  public Rotate(float inputAngle, long duration, double speedZ, double speedY) {
     this.speedY = speedY;
     this.speedZ = speedZ;
     this.inputAngle = inputAngle;
@@ -57,9 +57,9 @@ public class Rotate extends Command {
     /*
      * Convert the starting angle
      */
-    if (Robot.drivetrain.getGyroYaw() < 0) {
+    if (Robot.drivetrain.getGyroYaw() < 0.0f) {
       /* Negative turn to 180-360 */
-      startingAngle = Robot.drivetrain.getGyroYaw() + 360;
+      startingAngle = Robot.drivetrain.getGyroYaw() + 360.0f;
     } else {
       /* Positives stay 0-180 */
       startingAngle = Robot.drivetrain.getGyroYaw();
@@ -71,17 +71,17 @@ public class Rotate extends Command {
     /*
      * Declare the turning direction of special cases when the angle passes over 0 or 360
      */
-    if (totalAngleTurn < 0) { 
+    if (totalAngleTurn < 0.0f) { 
       /* If the angle is negative, convert it */
-      totalAngleTurn += 360;
+      totalAngleTurn += 360.0f;
       /* Trigger special case */
       specialCase = true;
       /* Trigger counterclockwise */
       clockwise = false;
     }
-    if (totalAngleTurn > 360) {
+    if (totalAngleTurn > 360.0f) {
       /* If the angle is above 360, subtract 360 */
-      totalAngleTurn -= 360;
+      totalAngleTurn -= 360.0f;
       /* Trigger special case */
       specialCase = true;
       /* Trigger clockwise */
@@ -116,8 +116,8 @@ public class Rotate extends Command {
      * Keep the angle read from the gyro constantly converted as long as currentAngle is 
      * referenced compared to always reading raw values from the getGyroYaw.
      */
-    if (Robot.drivetrain.getGyroYaw() < 0) {
-      currentAngle = Robot.drivetrain.getGyroYaw() + 360;
+    if (Robot.drivetrain.getGyroYaw() < 0.0f) {
+      currentAngle = Robot.drivetrain.getGyroYaw() + 360.0f;
     } else {
       currentAngle = Robot.drivetrain.getGyroYaw();
 
@@ -144,7 +144,7 @@ public class Rotate extends Command {
    */
   @Override
   protected void end() {
-    Robot.drivetrain.arcadeDrive(0, 0);
+    Robot.drivetrain.stop();
     System.out.println("Time elapsed: " + (System.currentTimeMillis() - baseTime) + ", and total angle turned: " + (currentAngle - startingAngle));
   }
 
