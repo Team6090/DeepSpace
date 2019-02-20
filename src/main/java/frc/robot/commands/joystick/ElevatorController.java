@@ -39,10 +39,10 @@ public class ElevatorController extends Command {
    * Loop variables, used in setting the position reference
    * on the motor.
    */
-  private double manualOffset = 0;
+  private double manualOffset = 0.0d;
   private int presetPosition = 0;
-  private double positionRef = 0;
-  private double basePosition = 0;
+  private double positionRef = 0.0d;
+  private double basePosition = 0.0d;
 
   /**
    * Construct the ElevatorWithJoystick command. This command requires
@@ -85,7 +85,7 @@ public class ElevatorController extends Command {
      */
     if (Robot.oi.xBoxY()) {
       Robot.elevator.setSpeed(speedRef);
-      manualOffset = 0;
+      manualOffset = 0.0d;
       basePosition = presetPosition;
     } else {
       if (Robot.oi.xBoxA()) {
