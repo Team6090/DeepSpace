@@ -19,7 +19,7 @@ import frc.robot.Robot;
  */
 public class LimelightSmoothTurn extends LimelightCommand {
 
-  private double speedRef, speedLeft, speedRight, leftSpeedFinal, rightSpeedFinal, speedMultiplier = 1.4;
+  private double speedRef, speedLeft, speedRight, leftSpeedFinal, rightSpeedFinal, speedMultiplier = 1.4d;
   private long duration, baseTime, thresholdTime;
   private double area, horizontalOffset, targetArea;
   private boolean endProgram = false, forwardMode = false;
@@ -58,11 +58,11 @@ public class LimelightSmoothTurn extends LimelightCommand {
     /*This will decide which motors are sped up to turn which way, determined by the boolean*/
     speedLeft = speedRef;
     speedRight = -speedRef;
-    if (horizontalOffset > 0) {
+    if (horizontalOffset > 0.0d) {
       CW = true;
       leftSpeedFinal = (speedLeft * speedMultiplier);
     }
-    else if (horizontalOffset < 0) {
+    else if (horizontalOffset < 0.0d) {
       CW = false;
       rightSpeedFinal = (speedRight * speedMultiplier);
 
@@ -88,7 +88,7 @@ public class LimelightSmoothTurn extends LimelightCommand {
       else if (!CW) {
       Robot.drivetrain.set(speedLeft, rightSpeedFinal);
       }
-      if (horizontalOffset < 2 && horizontalOffset > -2) {
+      if (horizontalOffset < 2.0d && horizontalOffset > -2.0d) {
        forwardMode = true;
       }
       else {

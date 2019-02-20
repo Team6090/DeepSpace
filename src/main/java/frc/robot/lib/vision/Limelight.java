@@ -201,8 +201,8 @@ public class Limelight {
      * True active pipeline index of the camera.
      * @return 0 - 9
      */
-    public double getPipe() {
-        return getDouble("getpipe");
+    public int getPipe() {
+        return (int) getDouble("getpipe");
     }
 
     /**

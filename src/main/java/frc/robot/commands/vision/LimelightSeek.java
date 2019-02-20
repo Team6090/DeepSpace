@@ -20,14 +20,14 @@ import frc.robot.Robot;
 public class LimelightSeek extends LimelightCommand {
 
   private boolean haveTarget;
-  private double currentAngle, lowerBoundAngle, upperBoundAngle;
+  private float currentAngle, lowerBoundAngle, upperBoundAngle;
   private boolean searchMode = false;
   private boolean CWDone = false;
   private boolean CCWDone = false;
   private boolean endProgram = false;
   private double speedZ;
 
-  public LimelightSeek(double lowerBoundAngle, double upperBoundAngle, double speedZ) {
+  public LimelightSeek(float lowerBoundAngle, float upperBoundAngle, double speedZ) {
     super(Limelight.REFLECTIVE_PIPELINE);
     this.speedZ = speedZ;
     this.upperBoundAngle = upperBoundAngle;
@@ -49,12 +49,12 @@ public class LimelightSeek extends LimelightCommand {
       searchMode = true;
     }
     /*Converts bounds to always be 0-360 (for crossing over 0 or 360)*/
-    if (lowerBoundAngle < 0) {
-      lowerBoundAngle += 360;
+    if (lowerBoundAngle < 0.0f) {
+      lowerBoundAngle += 360.0f;
     }
     /* If the angle is above 360, subtract 360 */
-    if (upperBoundAngle > 360) {
-      upperBoundAngle -= 360;
+    if (upperBoundAngle > 360.0f) {
+      upperBoundAngle -= 360.0f;
     }
   }
 
@@ -65,10 +65,11 @@ public class LimelightSeek extends LimelightCommand {
   protected void execute() {
 
     /* Convert the angle constantly */
-    if (Robot.drivetrain.getGyroYaw() < 0) {
-      currentAngle = Robot.drivetrain.getGyroYaw() + 360;
+    float gyroYaw = Robot.drivetrain.getGyroYaw();
+    if (gyroYaw < 0) {
+      currentAngle = gyroYaw + 360.0f;
     } else {
-      currentAngle = Robot.drivetrain.getGyroYaw();
+      currentAngle = gyroYaw;
     }
 
     /**
@@ -78,7 +79,7 @@ public class LimelightSeek extends LimelightCommand {
       if (!CCWDone && !haveTarget) {
         /* CCW */
         Robot.drivetrain.arcadeDrive(0.0d, -speedZ);
-        if (currentAngle <= (lowerBoundAngle + 5) && currentAngle >= (lowerBoundAngle - 5) && !haveTarget) {
+        if (currentAngle <= (lowerBoundAngle + 5.0f) && currentAngle >= (lowerBoundAngle - 5) && !haveTarget) {
           /*Sets CCWDone true so the next paragraph can start*/
           CCWDone = true;
           /*Sets CWDone true so this can be run on a loop*/
@@ -88,7 +89,7 @@ public class LimelightSeek extends LimelightCommand {
       if (CCWDone && !CWDone && !haveTarget) {
         /* CW */
         Robot.drivetrain.arcadeDrive(0.0d, speedZ);
-        if (currentAngle <= (upperBoundAngle + 5) && currentAngle >= (upperBoundAngle - 5) && !haveTarget) {
+        if (currentAngle <= (upperBoundAngle + 5.0f) && currentAngle >= (upperBoundAngle - 5) && !haveTarget) {
           /* Sets CWDone to true so loop stops */
           CWDone = true;
           /* Triggers the first paragraph again */
