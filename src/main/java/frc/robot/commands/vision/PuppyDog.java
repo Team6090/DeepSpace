@@ -103,7 +103,7 @@ public class PuppyDog extends LimelightCommand {
       if (!CCWDone) {
         /* CCW */
         Robot.drivetrain.arcadeDrive(0.0d, -speedZ);
-        if (currentAngle <= (lowerBoundAngle + 5.0f) && currentAngle >= (lowerBoundAngle - 5) && !haveTarget) {
+        if (currentAngle <= (lowerBoundAngle + 5.0f) && currentAngle >= (lowerBoundAngle - 5.0f) && !haveTarget) {
           /* Sets CCWDone so the next paragraph can start */
           CCWDone = true;
           CWDone = false;
@@ -112,7 +112,7 @@ public class PuppyDog extends LimelightCommand {
       if (CCWDone && !CWDone) {
         /* CW */
         Robot.drivetrain.arcadeDrive(0.0d, speedZ);
-        if (currentAngle <= (upperBoundAngle + 5.0f) && currentAngle >= (upperBoundAngle - 5) && !haveTarget) {
+        if (currentAngle <= (upperBoundAngle + 5.0f) && currentAngle >= (upperBoundAngle - 5.0f) && !haveTarget) {
           /* Sets CWDone to true so loop stops */
           CWDone = true;
           /* Triggers the first paragraph again */
