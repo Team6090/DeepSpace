@@ -123,6 +123,7 @@ public class Intake extends Subsystem {
   public void hatchRelease() {
     hatchRelease.set(true);
     try {
+      //TODO: Look at this Bancino, this might stop execution of the entire program
       Thread.sleep(200);
     } catch (InterruptedException e) {
       e.printStackTrace();

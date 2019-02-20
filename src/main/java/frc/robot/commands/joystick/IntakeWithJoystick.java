@@ -64,19 +64,19 @@ public class IntakeWithJoystick extends Command {
         currentPulse = 0;
       }
       if (scanOn) {
-        Robot.intake.setSpeed(leftTriggerValue * -1.0d);
+        Robot.intake.setSpeed(rightTriggerValue * -1.0d);
       } else {
         Robot.intake.stop();
       }
     } else if (rightTriggerValue > 0.0d) {
       /* Eject at the raw speed. */
-      Robot.intake.setSpeed(rightTriggerValue);
+      Robot.intake.setSpeed(leftTriggerValue);
     } else {
       Robot.intake.stop();
     }
 
     /* If the right bumper is pressed, fire the hatch release solenoid. */
-    if (Robot.oi.xBoxRightBumper()) Robot.intake.hatchRelease();
+    if (Robot.oi.xBoxRightBumper() || Robot.oi.xBoxLeftBumper()) Robot.intake.hatchRelease();
 
   }
 
