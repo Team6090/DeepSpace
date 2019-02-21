@@ -12,12 +12,12 @@ import frc.robot.Robot;
 /**
  * Drive the drivetrain forward for a set amount of encoder counts, or time,
  * whichever comes first.
- * @author Collin Heavner
+ * @author Collin Heavner, Christian Mattingly
  * @version 1.0
  * @since 1.0
  */
 public class DriveForward extends Command {
-  double baseEncoderCount = 0.0d, thresholdEncoderCount = 0.0d, currentEncoderCount = 0.0d;
+  double baseEncoderCount, thresholdEncoderCount, currentEncoderCount = 0;
   double encoderCount;
   boolean haveBaseCount;
   long baseTime, thresholdTime, durationUntilTimeOut;
