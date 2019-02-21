@@ -1,4 +1,4 @@
-/plugins {
+plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2019.3.2"
 }
@@ -8,7 +8,7 @@ targetCompatibility = JavaVersion.VERSION_11
 
 def ROBOT_MAIN_CLASS = "frc.robot.Main"
 
-// Define my targets (RoboRIO) and artifacts (deployable files)
+// Define my targets./ (RoboRIO) and artifacts (deployable files)
 // This is added by GradleRIO's backing project EmbeddedTools.
 deploy {
     targets {
