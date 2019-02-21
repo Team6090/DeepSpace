@@ -19,14 +19,15 @@ public class GaffTapeAlign extends LimelightCommand {
   boolean endProgram, CW, correctionsDone = false;
   double speedLeft, speedRight, speedRef, speedMultiplier;
   double horizontalOffset, horizontalOffsetLowerBound = -5.0d, horizontalOffsetUpperBound = 5.0d;
-  double currentEncoderCount, baseEncoderCountRight, baseEncoderCountLeft, thresholdEncoderCount;
+  double currentEncoderCount, baseEncoderCountRight, baseEncoderCountLeft, thresholdEncoderCount, previousEncoderCount, encoderCountDifference;
 
-  public GaffTapeAlign(double speedRef, double speedMultiplier, double xOffsetLowerBound, double xOffsetUpperBound) {
+  public GaffTapeAlign(double speedRef, double speedMultiplier, double xOffsetLowerBound, double xOffsetUpperBound, double encoderCountDifference) {
     super(Limelight.GAFF_PIPELINE);
     this.speedMultiplier = speedMultiplier;
     this.horizontalOffsetLowerBound = xOffsetLowerBound;
     this.horizontalOffsetUpperBound = xOffsetUpperBound;
     this.speedRef = speedRef;
+    this.encoderCountDifference = encoderCountDifference;
     requires(Robot.drivetrain);
   }
 
@@ -93,6 +94,13 @@ public class GaffTapeAlign extends LimelightCommand {
         currentEncoderCount = Robot.drivetrain.getLeftEncoderPosition();
       }
     }
+    /*Controls for the stopping when there was a collision*/
+    if (Robot.drivetrain.getLeft() > 0) {
+      if ((currentEncoderCount - previousEncoderCount) < encoderCountDifference) {
+        Robot.drivetrain.set(0.0d, 0.0d);
+      }
+    }
+    previousEncoderCount = currentEncoderCount;
   }
 
   // Make this return true when this Command no longer needs to run execute()
