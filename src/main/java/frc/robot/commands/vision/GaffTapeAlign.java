@@ -20,22 +20,27 @@ public class GaffTapeAlign extends LimelightCommand {
   double speedLeft, speedRight, speedRef, speedMultiplier;
   double horizontalOffset, horizontalOffsetLowerBound = -5.0d, horizontalOffsetUpperBound = 5.0d;
   double currentEncoderCount, baseEncoderCountRight, baseEncoderCountLeft, thresholdEncoderCount, previousEncoderCount, encoderCountDifference;
+  double baseTime, thresholdTime, duration;
 
-  public GaffTapeAlign(double speedRef, double speedMultiplier, double xOffsetLowerBound, double xOffsetUpperBound, double encoderCountDifference) {
+  public GaffTapeAlign(double speedRef, double speedMultiplier, double xOffsetLowerBound, double xOffsetUpperBound, double encoderCountDifference, double duration) {
     super(Limelight.GAFF_PIPELINE);
     this.speedMultiplier = speedMultiplier;
     this.horizontalOffsetLowerBound = xOffsetLowerBound;
     this.horizontalOffsetUpperBound = xOffsetUpperBound;
     this.speedRef = speedRef;
     this.encoderCountDifference = encoderCountDifference;
+    this.duration = duration;
     requires(Robot.drivetrain);
   }
 
-  // Called just before this Command runs the first time
+  /* Called just before this Command runs the first time */
   @Override
   protected void initialize() {
     super.initialize();
-    /*Extra precautions, if the pipeline wasn't set correctly. Exits the command*/
+    /* Initialize timer */
+    baseTime = System.currentTimeMillis();
+    thresholdTime = baseTime + duration;
+    /* Extra precautions, if the pipeline wasn't set correctly. Exits the command */
     if (Robot.limelight.getPipe() != 1) {
       endProgram = true;
       System.out.println("Invalid pipeline, command stopping.");
@@ -44,24 +49,24 @@ public class GaffTapeAlign extends LimelightCommand {
     baseEncoderCountLeft = Robot.drivetrain.getLeftEncoderPosition();
     baseEncoderCountRight = Robot.drivetrain.getRightEncoderPosition();
 
-    /*Sets motor speeds based on the speedRef*/
+    /* Sets motor speeds based on the speedRef */
     speedRight = -speedRef;
     speedLeft = speedRef;
-    /*Figures out if there's a target or not, calculates offset, calculates threshold encoder*/
+    /* Figures out if there's a target or not, calculates offset, calculates threshold encoder */
     hasTarget = Robot.limelight.hasValidTargets();
     horizontalOffset = Robot.limelight.getHorizontalOffset();
     thresholdEncoderCount = baseEncoderCountLeft + motorRevs;
-    /*Printing out init values to SmartDashboard*/
+    /* Printing out init values to SmartDashboard */
     SmartDashboard.putNumber("thresholdEncoderCount", thresholdEncoderCount);
     SmartDashboard.putNumber("baseEncoderCountLeft", baseEncoderCountLeft);
     SmartDashboard.putNumber("baseEncoderCountRight", baseEncoderCountRight);
   }
 
-  /*Called repeatedly when this Command is scheduled to run*/
+  /* Called repeatedly when this Command is scheduled to run */
   @Override
   protected void execute() {
   
-    /*This will diagnose what's needed to correct. Will only run if there is a > 2 degree offset*/
+    /* This will diagnose what's needed to correct. Will only run if there is a > 2 degree offset */
     if (hasTarget) {
       horizontalOffset = Robot.limelight.getHorizontalOffset();
       if (horizontalOffset < 0.0d) {
@@ -94,7 +99,7 @@ public class GaffTapeAlign extends LimelightCommand {
         currentEncoderCount = Robot.drivetrain.getLeftEncoderPosition();
       }
     }
-    /*Controls for the stopping when there was a collision*/
+    /* Controls for the stopping when there was a collision */
     if (Robot.drivetrain.getLeft() > 0) {
       if ((currentEncoderCount - previousEncoderCount) < encoderCountDifference) {
         Robot.drivetrain.set(0.0d, 0.0d);
@@ -103,7 +108,7 @@ public class GaffTapeAlign extends LimelightCommand {
     previousEncoderCount = currentEncoderCount;
   }
 
-  // Make this return true when this Command no longer needs to run execute()
+  /* Make this return true when this Command no longer needs to run execute() */
   @Override
   protected boolean isFinished() {
     
@@ -112,18 +117,16 @@ public class GaffTapeAlign extends LimelightCommand {
     //SmartDashboard.putNumber("motorRevscalc", (currentEncoderCount - baseEncoderCountLeft));
     //SmartDashboard.putNumber("currentEncoderCount", currentEncoderCount);
 
-    return (endProgram || (currentEncoderCount >= thresholdEncoderCount)) /*|| (currentEncoderCount - baseEncoderCountRight) >= motorRevs*/;
+    return (endProgram || System.currentTimeMillis() > thresholdTime || (currentEncoderCount >= thresholdEncoderCount));
   }
 
-  // Called once after isFinished returns true
+  /* Called once after isFinished returns true */
   @Override
   protected void end() {
     Robot.drivetrain.stop();
-    System.out.println("Motor Revs:" + motorRevs + "Total Encoder Counts Moved (Left):" + (currentEncoderCount - baseEncoderCountLeft) + "Total Encoder Counts Moved (Right):" + (currentEncoderCount - baseEncoderCountRight));
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
+  /* Called when another command which requires one or more of the same subsystems is scheduled to run */
   @Override
   protected void interrupted() {
   }
