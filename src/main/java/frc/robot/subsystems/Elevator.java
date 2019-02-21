@@ -102,7 +102,7 @@ public class Elevator extends Subsystem {
 		 */
     elevatorMotor.configOpenloopRamp(0.5d, timeoutMs);
     /* Rate = [1023-0] / [500 msec] * 10 msec = 20 */
-		elevatorMotor.configClosedloopRamp(0.5d, timeoutMs);
+    elevatorMotor.configClosedloopRamp(0.5d, timeoutMs);
   }
 
   /**
