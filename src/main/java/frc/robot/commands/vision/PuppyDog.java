@@ -20,12 +20,11 @@ import frc.robot.Robot;
  */
 public class PuppyDog extends LimelightCommand {
 
-  private boolean haveTarget;
   private double area, horizontalOffset, targetArea;
   private double speedY, speedZ;
   private double baseTime, thresholdTime, duration;
   private float startingAngle, currentAngle, upperBoundAngle, lowerBoundAngle;
-  private boolean CWDone = false, CCWDone = false;
+  private boolean haveTarget, CWDone = false, CCWDone = false;
 
   /**
    * Set up PuppyDog.
@@ -43,18 +42,16 @@ public class PuppyDog extends LimelightCommand {
     requires(Robot.drivetrain);
   }
 
-  /*Start the clock, convert the gyro angle if needed*/
+  /* Start the clock, convert the gyro angle if needed */
   @Override
   protected void initialize() {
     super.initialize();
 
-    /*Sets the timeout, starts the clock*/
+    /* Sets the timeout, starts the clock */
     baseTime = System.currentTimeMillis();
     thresholdTime = baseTime + duration;
 
-    /*
-     * Converts starting yaw to always be 0-360 (for crossing over 0 or 360)
-     */
+    /* Converts starting yaw to always be 0-360 (for crossing over 0 or 360) */
     float gyroYaw = Robot.drivetrain.getGyroYaw();
     if (gyroYaw < 0.0f) {
       startingAngle = gyroYaw + 360.0f;
@@ -62,7 +59,7 @@ public class PuppyDog extends LimelightCommand {
       startingAngle = gyroYaw;
     }
 
-    /*Sets the bounds for the search mode and calculates for special cases*/
+    /* Sets the bounds for the search mode and calculates for special cases */
     upperBoundAngle = startingAngle + 60.0f;
     lowerBoundAngle = startingAngle - 60.0f;
     if (lowerBoundAngle < 0.0f) {
@@ -72,14 +69,14 @@ public class PuppyDog extends LimelightCommand {
     if (upperBoundAngle > 360.0f) {
       upperBoundAngle -= 360.0f;
     }
-    /*This will start off the command by finding whether a target is found or not*/
+    /* This will start off the command by finding whether a target is found or not */
     haveTarget = Robot.limelight.hasValidTargets();
   }
 
-  /*Follow the vision target. Scan if neccessary*/
+  /* Follow the vision target. Scan if neccessary */
   @Override
   protected void execute() {
-    /*Convert the angle constantly*/
+    /* Convert the angle constantly */
     float gyroYaw = Robot.drivetrain.getGyroYaw();
     if (gyroYaw < 0.0f) {
       currentAngle = gyroYaw + 360.0f;
@@ -87,7 +84,7 @@ public class PuppyDog extends LimelightCommand {
       currentAngle = gyroYaw;
     }
 
-    /*Assign variables from read values from the data tables*/
+    /* Assign variables from read values from the data tables */
     area = Robot.limelight.getTargetArea();
     horizontalOffset = Robot.limelight.getHorizontalOffset();
     haveTarget = Robot.limelight.hasValidTargets();
