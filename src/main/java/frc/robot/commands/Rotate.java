@@ -18,19 +18,14 @@ import frc.robot.Robot;
 public class Rotate extends Command {
 
   float inputAngle, startingAngle, totalAngleTurn, currentAngle;
-  
-  double speedZ;
-  double speedY = 0.0d;
-
+  double speedZ, speedY = 0.0d;
   long duration, baseTime, thresholdTime;
-
-  boolean clockwise;
-  boolean specialCase = false;
+  boolean clockwise, specialCase = false;
 
   /**
    * Set up GyroRotate.
-   * @param angle The goal angle that the robot is going to turn to
-   * @param timeout The time in which the timer will stop the turn after
+   * @param inputAngle The angle that the robot will turn (NOT THE ANGLE TO TURN TO)
+   * @param duration The time in which the timer will stop the turn after
    * @param speedZ The twisting direction of the joystick which will actually make the bot turn
    * @param speedY The forwards and backwards joystick inputs which will make the bot go vroom
    */
@@ -54,9 +49,7 @@ public class Rotate extends Command {
     /* Determines time that robot has to timeout after */
     thresholdTime = baseTime + duration;
 
-    /*
-     * Convert the starting angle
-     */
+    /* Convert the starting angle */
     if (Robot.drivetrain.getGyroYaw() < 0.0f) {
       /* Negative turn to 180-360 */
       startingAngle = Robot.drivetrain.getGyroYaw() + 360.0f;
@@ -68,9 +61,7 @@ public class Rotate extends Command {
     /* The total angle needed to turn */
     totalAngleTurn = startingAngle + inputAngle;
 
-    /*
-     * Declare the turning direction of special cases when the angle passes over 0 or 360
-     */
+    /* Declare the turning direction of special cases when the angle passes over 0 or 360 */
     if (totalAngleTurn < 0.0f) { 
       /* If the angle is negative, convert it */
       totalAngleTurn += 360.0f;
@@ -87,9 +78,7 @@ public class Rotate extends Command {
       /* Trigger clockwise */
       clockwise = true;
     }
-    /*
-     * Only run if the special cases do not already declare a turning direction
-     */
+    /* Only run if the special cases do not already declare a turning direction */
     if (!specialCase) {
       /* If the input angle is bigger, turn clockwise */
       if (totalAngleTurn > startingAngle) {
@@ -131,26 +120,20 @@ public class Rotate extends Command {
     }
   }
 
-  /**
-   * When the yaw of the robot is within a range of the target angle, or the time is up, finish.
-   */
+  /* When the yaw of the robot is within a range of the target angle, or the time is up, finish */
   @Override
   protected boolean isFinished() {
     return (System.currentTimeMillis() >= thresholdTime || (currentAngle > (totalAngleTurn - 2) && currentAngle < (totalAngleTurn + 2)));
   }
 
-  /**
-   * Stop the motors and print out the ending values for time and angles.
-   */
+  /* Stop the motors and print out the ending values for time and angles */
   @Override
   protected void end() {
     Robot.drivetrain.stop();
     System.out.println("Time elapsed: " + (System.currentTimeMillis() - baseTime) + ", and total angle turned: " + (currentAngle - startingAngle));
   }
 
-  /**
-   * End this command.
-   */
+  /* End this command */
   @Override
   protected void interrupted() {
     end();
