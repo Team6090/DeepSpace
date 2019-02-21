@@ -9,23 +9,25 @@ package frc.robot.commands.vision;
 
 import frc.robot.lib.vision.Limelight;
 import frc.robot.lib.vision.LimelightCommand;
+import frc.robot.subsystems.DriveTrain;
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class GaffTapeAlign extends LimelightCommand {
-  double motorRevs = Robot.drivetrain.distanceToMotorRevs2(36.0); 
+  double motorRevs = DriveTrain.distanceToMotorRevs2(36.0d); 
   boolean hasTarget = Robot.limelight.hasValidTargets();
-  boolean endProgram, CW, correctionsDone = false;
+  boolean endProgram, CW;
   double speedLeft, speedRight, speedRef, speedMultiplier;
-  double xOffset, xOffsetLowerBound = -5, xOffsetUpperBound = 5;
-  double currentEncoderCount, baseEncoderCountRight, baseEncoderCountLeft, thresholdEncoderCount;
+  double horizontalOffset, horizontalOffsetLowerBound = -5.0d, horizontalOffsetUpperBound = 5.0d;
+  double currentEncoderCount, baseEncoderCountRight, baseEncoderCountLeft, thresholdEncoderCount, previousEncoderCount, encoderCountDifference;
 
-  public GaffTapeAlign(double speedRef, double speedMultiplier, double xOffsetLowerBound, double xOffsetUpperBound) {
+  public GaffTapeAlign(double speedRef, double speedMultiplier, double xOffsetLowerBound, double xOffsetUpperBound, double encoderCountDifference) {
     super(Limelight.GAFF_PIPELINE);
     this.speedMultiplier = speedMultiplier;
-    this.xOffsetLowerBound = xOffsetLowerBound;
-    this.xOffsetUpperBound = xOffsetUpperBound;
+    this.horizontalOffsetLowerBound = xOffsetLowerBound;
+    this.horizontalOffsetUpperBound = xOffsetUpperBound;
     this.speedRef = speedRef;
+    this.encoderCountDifference = encoderCountDifference;
     requires(Robot.drivetrain);
   }
 
@@ -40,18 +42,19 @@ public class GaffTapeAlign extends LimelightCommand {
     }
 
     baseEncoderCountLeft = Robot.drivetrain.getLeftEncoderPosition();
-  
-    SmartDashboard.putNumber("baseEncoderCountLeft", baseEncoderCountLeft);
-    SmartDashboard.putNumber("baseEncoderCountRight", baseEncoderCountRight);
+    baseEncoderCountRight = Robot.drivetrain.getRightEncoderPosition();
 
-    /*Some fine variable work*/
-    xOffset = Robot.limelight.getHorizontalOffset();
-    /*Motor speeds, right has to be inverted*/
+    /*Sets motor speeds based on the speedRef*/
     speedRight = -speedRef;
     speedLeft = speedRef;
+    /*Figures out if there's a target or not, calculates offset, calculates threshold encoder*/
     hasTarget = Robot.limelight.hasValidTargets();
+    horizontalOffset = Robot.limelight.getHorizontalOffset();
     thresholdEncoderCount = baseEncoderCountLeft + motorRevs;
+    /*Printing out init values to SmartDashboard*/
     SmartDashboard.putNumber("thresholdEncoderCount", thresholdEncoderCount);
+    SmartDashboard.putNumber("baseEncoderCountLeft", baseEncoderCountLeft);
+    SmartDashboard.putNumber("baseEncoderCountRight", baseEncoderCountRight);
   }
 
   /*Called repeatedly when this Command is scheduled to run*/
@@ -60,9 +63,9 @@ public class GaffTapeAlign extends LimelightCommand {
   
     /*This will diagnose what's needed to correct. Will only run if there is a > 2 degree offset*/
     if (hasTarget) {
-      xOffset = Robot.limelight.getHorizontalOffset();
-      if (xOffset < 0) {
-        if (xOffset > xOffsetLowerBound && xOffset < xOffsetUpperBound) {
+      horizontalOffset = Robot.limelight.getHorizontalOffset();
+      if (horizontalOffset < 0.0d) {
+        if (horizontalOffset > horizontalOffsetLowerBound && horizontalOffset < horizontalOffsetUpperBound) {
           Robot.drivetrain.set(speedLeft, speedRight);
           currentEncoderCount = Robot.drivetrain.getLeftEncoderPosition();
         }
@@ -71,14 +74,14 @@ public class GaffTapeAlign extends LimelightCommand {
           currentEncoderCount = Robot.drivetrain.getLeftEncoderPosition();
         }
       }
-      else if (xOffset > 0) {
-        if (xOffset > xOffsetLowerBound && xOffset < xOffsetUpperBound) {
+      else if (horizontalOffset > 0.0d) {
+        if (horizontalOffset > horizontalOffsetLowerBound && horizontalOffset < horizontalOffsetUpperBound) {
           Robot.drivetrain.set(speedLeft, speedRight);
           currentEncoderCount = Robot.drivetrain.getLeftEncoderPosition();
         }
         else {
           Robot.drivetrain.set((speedLeft * speedMultiplier), speedRight);
-          if (Robot.drivetrain.getRightEncoderPosition() < 0) {
+          if (Robot.drivetrain.getRightEncoderPosition() < 0.0d) {
           currentEncoderCount = -Robot.drivetrain.getRightEncoderPosition();
           }
           else {
@@ -91,15 +94,23 @@ public class GaffTapeAlign extends LimelightCommand {
         currentEncoderCount = Robot.drivetrain.getLeftEncoderPosition();
       }
     }
+    /*Controls for the stopping when there was a collision*/
+    if (Robot.drivetrain.getLeft() > 0) {
+      if ((currentEncoderCount - previousEncoderCount) < encoderCountDifference) {
+        Robot.drivetrain.set(0.0d, 0.0d);
+      }
+    }
+    previousEncoderCount = currentEncoderCount;
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     
-    SmartDashboard.putNumber("motorRevs", motorRevs);
-    SmartDashboard.putNumber("motorRevscalc", (currentEncoderCount - baseEncoderCountLeft));
-    SmartDashboard.putNumber("currentEncoderCount", currentEncoderCount);
+    /* Uncomment to print things out to SmartDashboard */
+    //SmartDashboard.putNumber("motorRevs", motorRevs);
+    //SmartDashboard.putNumber("motorRevscalc", (currentEncoderCount - baseEncoderCountLeft));
+    //SmartDashboard.putNumber("currentEncoderCount", currentEncoderCount);
 
     return (endProgram || (currentEncoderCount >= thresholdEncoderCount)) /*|| (currentEncoderCount - baseEncoderCountRight) >= motorRevs*/;
   }
@@ -107,7 +118,6 @@ public class GaffTapeAlign extends LimelightCommand {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.drivetrain.set(0.0, 0.0);
     Robot.drivetrain.stop();
     System.out.println("Motor Revs:" + motorRevs + "Total Encoder Counts Moved (Left):" + (currentEncoderCount - baseEncoderCountLeft) + "Total Encoder Counts Moved (Right):" + (currentEncoderCount - baseEncoderCountRight));
   }

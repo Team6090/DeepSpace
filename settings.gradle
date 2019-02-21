@@ -23,3 +23,5 @@ pluginManagement {
         }
     }
 }
+
+rootProject.name = "FRC6090-2019"

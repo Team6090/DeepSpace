@@ -12,7 +12,7 @@ import frc.robot.Robot;
 /**
  * Drive the drivetrain forward for a set amount of encoder counts, or time,
  * whichever comes first.
- * @author Collin Heavner
+ * @author Collin Heavner, Christian Mattingly
  * @version 1.0
  * @since 1.0
  */
