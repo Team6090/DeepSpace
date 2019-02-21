@@ -75,8 +75,8 @@ public class IntakeWithJoystick extends Command {
       Robot.intake.stop();
     }
 
-    /* If the right bumper is pressed, fire the hatch release solenoid. */
-    if (Robot.oi.xBoxRightBumper() || Robot.oi.xBoxLeftBumper()) Robot.intake.hatchRelease();
+    /* If either bumper is pressed, fire the hatch release solenoid. */
+    if (Robot.oi.xBoxLeftBumper() || Robot.oi.xBoxRightBumper()) Robot.intake.hatchRelease();
 
   }
 
