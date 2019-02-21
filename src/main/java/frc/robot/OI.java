@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commandgroups.TestGroup;
 import frc.robot.commands.CommandDestroyer;
 import frc.robot.commands.vision.GaffTapeAlign;
+import frc.robot.commands.vision.PuppyDog;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -51,6 +52,7 @@ public class OI {
     /* TODO: These are temporary, remove for comp. */
     joystickButton[3].whenPressed(new GaffTapeAlign(0.1, 1.25, -2, 2));
     joystickButton[4].whenPressed(new TestGroup());
+    joystickButton[5].whenPressed(new PuppyDog(0.3d, 0.3d, 20.0d, 100000d));
   }
 
   /**
