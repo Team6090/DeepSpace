@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class GaffTapeAlign extends LimelightCommand {
   double motorRevs = DriveTrain.distanceToMotorRevs2(36.0d); 
   boolean hasTarget = Robot.limelight.hasValidTargets();
-  boolean endProgram, CW, correctionsDone = false;
+  boolean endProgram, CW;
   double speedLeft, speedRight, speedRef, speedMultiplier;
   double horizontalOffset, horizontalOffsetLowerBound = -5.0d, horizontalOffsetUpperBound = 5.0d;
   double currentEncoderCount, baseEncoderCountRight, baseEncoderCountLeft, thresholdEncoderCount, previousEncoderCount, encoderCountDifference;
@@ -107,9 +107,10 @@ public class GaffTapeAlign extends LimelightCommand {
   @Override
   protected boolean isFinished() {
     
-    SmartDashboard.putNumber("motorRevs", motorRevs);
-    SmartDashboard.putNumber("motorRevscalc", (currentEncoderCount - baseEncoderCountLeft));
-    SmartDashboard.putNumber("currentEncoderCount", currentEncoderCount);
+    /* Uncomment to print things out to SmartDashboard */
+    //SmartDashboard.putNumber("motorRevs", motorRevs);
+    //SmartDashboard.putNumber("motorRevscalc", (currentEncoderCount - baseEncoderCountLeft));
+    //SmartDashboard.putNumber("currentEncoderCount", currentEncoderCount);
 
     return (endProgram || (currentEncoderCount >= thresholdEncoderCount)) /*|| (currentEncoderCount - baseEncoderCountRight) >= motorRevs*/;
   }
