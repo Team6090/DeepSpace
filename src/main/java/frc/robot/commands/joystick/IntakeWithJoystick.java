@@ -50,10 +50,10 @@ public class IntakeWithJoystick extends Command {
     double leftTriggerValue = Robot.oi.xBoxLeftTrigger();
     double rightTriggerValue = Robot.oi.xBoxRightTrigger();
     if (leftTriggerValue > 0.0d) {
-        Robot.intake.setSpeed(leftTriggerValue * -1.0d);
+      Robot.intake.setSpeed(leftTriggerValue);
     } else if (rightTriggerValue > 0.0d) {
       /* Eject at the raw speed. */
-      Robot.intake.setSpeed(rightTriggerValue);
+      Robot.intake.setSpeed(rightTriggerValue * -1.0d);
     } else {
       Robot.intake.stop();
     }
