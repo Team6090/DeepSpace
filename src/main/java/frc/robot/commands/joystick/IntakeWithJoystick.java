@@ -18,13 +18,6 @@ import frc.robot.Robot;
  */
 public class IntakeWithJoystick extends Command {
 
-  /* The width of the intake pulse in scans (multiply this by 20ms to get milliseconds) */
-  private final int intakeMotorPulseWidth = 10;
-
-  /* The loop controlling variables */
-  private int currentPulse = 0;
-  private boolean scanOn = false;
-
   /**
    * Construct the IntakeWithJoystick command. This command requires
    * the intake subystem.
