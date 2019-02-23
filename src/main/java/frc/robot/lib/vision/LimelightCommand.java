@@ -47,10 +47,13 @@ public class LimelightCommand extends Command {
         Robot.limelight.setStreamingMode(Limelight.StreamMode.PIP_MAIN);
         startPipeline = (int) Robot.limelight.getPipe();
         Robot.limelight.setPipeline(pipeline);
+    }
+
+    @Override
+    protected void execute() {
         /*
          * TOD0: SLEEP 500 MS
          */
-        
     }
 
     /**
