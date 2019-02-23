@@ -57,20 +57,10 @@ public class IntakeWithJoystick extends Command {
     double leftTriggerValue = Robot.oi.xBoxLeftTrigger();
     double rightTriggerValue = Robot.oi.xBoxRightTrigger();
     if (leftTriggerValue > 0.0d) {
-      /* Pulse the motor when intaking using the motor pulse width defined above. */
-      currentPulse++;
-      if (currentPulse == intakeMotorPulseWidth) {
-        scanOn = !scanOn;
-        currentPulse = 0;
-      }
-      if (scanOn) {
-        Robot.intake.setSpeed(rightTriggerValue * -1.0d);
-      } else {
-        Robot.intake.stop();
-      }
+        Robot.intake.setSpeed(leftTriggerValue * -1.0d);
     } else if (rightTriggerValue > 0.0d) {
       /* Eject at the raw speed. */
-      Robot.intake.setSpeed(leftTriggerValue);
+      Robot.intake.setSpeed(rightTriggerValue);
     } else {
       Robot.intake.stop();
     }
