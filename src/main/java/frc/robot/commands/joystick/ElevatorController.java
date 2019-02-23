@@ -27,7 +27,7 @@ public class ElevatorController extends Command {
   /* The maximum height the elevator can travel */
   private final int maxHeight = 9999999;
   /* The base increment for postion control */
-  private final int increment = 50;
+  private final int increment = 80;
 
   /*
    * Position references for elevator setpoints
