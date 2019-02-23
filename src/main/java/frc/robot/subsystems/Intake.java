@@ -122,11 +122,7 @@ public class Intake extends Subsystem {
    */
   public void hatchRelease() {
     hatchRelease.set(true);
-    try {
-      Thread.sleep(200);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    /* TOD0: SLEEP 200 MS */
     hatchRelease.set(false);
   }
 

@@ -48,14 +48,9 @@ public class LimelightCommand extends Command {
         startPipeline = (int) Robot.limelight.getPipe();
         Robot.limelight.setPipeline(pipeline);
         /*
-         * Sleep 500 ms to give the Limelight time to process after
-         * setting the settings.
+         * TOD0: SLEEP 500 MS
          */
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        
     }
 
     /**
