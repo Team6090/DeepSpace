@@ -64,7 +64,6 @@ public class IntakeWithJoystick extends Command {
     } else {
       Robot.intake.hatchRelease(false);
     }
-
   }
 
   /**
