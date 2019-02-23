@@ -120,10 +120,8 @@ public class Intake extends Subsystem {
   /**
    * Fire a one-way actuator.
    */
-  public void hatchRelease() {
-    hatchRelease.set(true);
-    /* TOD0: SLEEP 200 MS */
-    hatchRelease.set(false);
+  public void hatchRelease(boolean out) {
+    hatchRelease.set(out);
   }
 
   /**
