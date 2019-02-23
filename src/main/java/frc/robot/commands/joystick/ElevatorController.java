@@ -25,7 +25,7 @@ public class ElevatorController extends Command {
   private final double joystickDeadband = 0.2d;
 
   /* The maximum height the elevator can travel */
-  private final int maxHeight = 9999999;
+  private final int maxHeight = -15000;
   /* The base increment for postion control */
   private final int increment = 80;
 
@@ -103,7 +103,7 @@ public class ElevatorController extends Command {
         basePosition = topHatchRef;
       }
       /* Calculate the manual offset */
-      if (((manualOffset + presetPosition) < maxHeight)) {
+      if (((manualOffset + presetPosition) > maxHeight)) {
         manualOffset = manualOffset + (increment * speedRef);
       }
       /* Calculate the position reference */
