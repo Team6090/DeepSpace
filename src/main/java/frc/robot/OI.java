@@ -9,10 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commandgroups.TestGroup;
 import frc.robot.commands.CommandDestroyer;
-import frc.robot.commands.vision.GaffTapeAlign;
-import frc.robot.commands.vision.PuppyDog;
 
 /**
  * This class is the glue that binds the controls on the physical operator
