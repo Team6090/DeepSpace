@@ -42,6 +42,9 @@ public class DriveTrain extends Subsystem {
    */
   public static final double RAMP_RATE = 0.0d;
 
+  /* The differential drive deadband. */
+  public static final double DEADBAND = 0.02d;
+
   /* Set up the motors. */
   private final CANSparkMax leftMotor = new CANSparkMax(RobotMap.LEFT_MOTOR, MotorType.kBrushless);
   private final CANSparkMax leftSlaveMotor = new CANSparkMax(RobotMap.LEFT_SLAVE_MOTOR, MotorType.kBrushless);
@@ -59,14 +62,31 @@ public class DriveTrain extends Subsystem {
   private final AHRS navxGyro = new AHRS(SPI.Port.kMXP);
 
   /**
-   * On init, set a small deadband on the differential drive.
+   * Drivetrain init. Configure the ramp rates, zero the encoders,
+   * set a small deadband on the differential drive.
    */
   public DriveTrain() {
+    /*
+     * Set the open and closed loop ramp rates.
+     */
     leftMotor.setOpenLoopRampRate(RAMP_RATE);
     leftSlaveMotor.setOpenLoopRampRate(RAMP_RATE);
     rightMotor.setOpenLoopRampRate(RAMP_RATE);
     rightSlaveMotor.setOpenLoopRampRate(RAMP_RATE);
-    diffdrive.setDeadband(0.02d);
+
+    leftMotor.setClosedLoopRampRate(RAMP_RATE);
+    leftSlaveMotor.setClosedLoopRampRate(RAMP_RATE);
+    rightMotor.setClosedLoopRampRate(RAMP_RATE);
+    rightSlaveMotor.setClosedLoopRampRate(RAMP_RATE);
+
+    /* Zero the encoders */
+    leftMotor.setEncPosition(0.0d);
+    leftSlaveMotor.setEncPosition(0.0d);
+    rightMotor.setEncPosition(0.0d);
+    rightSlaveMotor.setEncPosition(0.0d);
+
+    /* Set the deadband. */
+    diffdrive.setDeadband(DEADBAND);
   }
 
   /**
