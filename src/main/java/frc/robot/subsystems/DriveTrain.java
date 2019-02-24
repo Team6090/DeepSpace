@@ -36,6 +36,12 @@ public class DriveTrain extends Subsystem {
   /*Constant: motor revs per inch*/
   public static final double ENCODER_CONSTANT = 0.603125d;
 
+  /* 
+   * The ramp rate to apply to all of the motors (in seconds)
+   * TODO: Tweak this
+   */
+  public static final double RAMP_RATE = 0.0d;
+
   /* Set up the motors. */
   private final CANSparkMax leftMotor = new CANSparkMax(RobotMap.LEFT_MOTOR, MotorType.kBrushless);
   private final CANSparkMax leftSlaveMotor = new CANSparkMax(RobotMap.LEFT_SLAVE_MOTOR, MotorType.kBrushless);
@@ -56,6 +62,10 @@ public class DriveTrain extends Subsystem {
    * On init, set a small deadband on the differential drive.
    */
   public DriveTrain() {
+    leftMotor.setOpenLoopRampRate(RAMP_RATE);
+    leftSlaveMotor.setOpenLoopRampRate(RAMP_RATE);
+    rightMotor.setOpenLoopRampRate(RAMP_RATE);
+    rightSlaveMotor.setOpenLoopRampRate(RAMP_RATE);
     diffdrive.setDeadband(0.02d);
   }
 
