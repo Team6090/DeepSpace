@@ -36,12 +36,8 @@ public class DriveTrain extends Subsystem {
   /*Constant: motor revs per inch*/
   public static final double ENCODER_CONSTANT = 0.603125d;
 
-  /* 
-   * The ramp rate to apply to all of the motors (in seconds)
-   * TODO: Tweak this
-   */
+  /* The ramp rate (in seconds) to apply to all of the motors */
   public static final double RAMP_RATE = 0.5d;
-
   /* The differential drive deadband. */
   public static final double DEADBAND = 0.03d;
 
