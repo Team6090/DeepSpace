@@ -35,4 +35,4 @@ them:
 ---
 
 To deploy the code to a RoboRIO, ensure that it is powered on, and connected to either the FRC-issued radio (via ethernet)
-or a PC (via ethernet or USB).
+or a PC (via ethernet or USB). If connecting via USB, make sure the [FRC Update Suite](https://wpilib.screenstepslive.com/s/currentCS/m/cpp/l/1027499-installing-the-frc-update-suite-all-languages) is installed, because it contains the USB driver for the RoboRIO. Deploying via Ethernet connected to a PC will also require the Update Suite. Linux users do not need the Update Suite to deploy via ethernet or USB, but rather, can use Jordan Bancino's [rio-network.sh]() to set up the DHCP server to properly connect. This script works over both USB and ethernet.
