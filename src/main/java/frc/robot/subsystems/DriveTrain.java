@@ -40,10 +40,10 @@ public class DriveTrain extends Subsystem {
    * The ramp rate to apply to all of the motors (in seconds)
    * TODO: Tweak this
    */
-  public static final double RAMP_RATE = 0.0d;
+  public static final double RAMP_RATE = 0.5d;
 
   /* The differential drive deadband. */
-  public static final double DEADBAND = 0.02d;
+  public static final double DEADBAND = 0.03d;
 
   /* Set up the motors. */
   private final CANSparkMax leftMotor = new CANSparkMax(RobotMap.LEFT_MOTOR, MotorType.kBrushless);
