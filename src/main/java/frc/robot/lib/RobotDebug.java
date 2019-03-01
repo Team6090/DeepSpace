@@ -68,7 +68,7 @@ public class RobotDebug {
             SmartDashboard.putBoolean("Elevator_IsInverted", elevatorMotor.getInverted());
     
             /* Intake motor speed and arm status */
-            SmartDashboard.putNumber("Intake_Speed", Robot.intake.getSpeed());
+            SmartDashboard.putNumber("Intake_MotorSpeed", Robot.intake.getSpeed());
             SmartDashboard.putBoolean("Intake_ArmIsUp", Robot.intake.armIsUp());
         }
     }
