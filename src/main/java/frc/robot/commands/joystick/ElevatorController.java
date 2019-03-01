@@ -25,7 +25,7 @@ public class ElevatorController extends Command {
   private final double joystickDeadband = 0.2d;
 
   /* The maximum height the elevator can travel */
-  private final int maxHeight = -15000;
+  private final int maxHeight = -65000;
   /* The base increment for postion control */
   private final int increment = 80;
 
@@ -103,9 +103,9 @@ public class ElevatorController extends Command {
         basePosition = topHatchRef;
       }
       /* Calculate the manual offset */
-      if (((manualOffset + presetPosition) > maxHeight)) {
+      //if (((manualOffset + presetPosition) > maxHeight)) {
         manualOffset = manualOffset + (increment * speedRef);
-      }
+      //}
       /* Calculate the position reference */
       positionRef = basePosition + manualOffset;
       /* Use MotionMagic to get to the position reference */
@@ -115,6 +115,10 @@ public class ElevatorController extends Command {
     /* Printouts to the SmartDashboard of what loop mode we're in */
     loopModeString = Double.toString(positionRef);
     SmartDashboard.putString("loopMode", loopMode + loopModeString);
+
+    SmartDashboard.putNumber("Elevator_BasePosition", basePosition);
+    SmartDashboard.putNumber("Elevator_ManualOffset", manualOffset);
+    SmartDashboard.putNumber("Elevator_PositonRef", positionRef);
 
     /* Print out some stuff - Uncomment to view. */
     //System.out.println("manualOffset = " + manualOffset + " presetPosition = " + presetPosition + " positionRef = " + positionRef + " speedRef = " + speedRef);

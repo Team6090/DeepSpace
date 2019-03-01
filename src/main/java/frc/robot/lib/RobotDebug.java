@@ -70,6 +70,9 @@ public class RobotDebug {
             /* Intake motor speed and arm status */
             SmartDashboard.putNumber("Intake_MotorSpeed", Robot.intake.getSpeed());
             SmartDashboard.putBoolean("Intake_ArmIsUp", Robot.intake.armIsUp());
+
+            /* Joystick */
+            SmartDashboard.putNumber("Elevator_Joystick", Robot.oi.xBoxLeftJoystickVertical());
         }
     }
 }
