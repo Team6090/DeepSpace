@@ -106,6 +106,15 @@ public class Elevator extends Subsystem {
   }
 
   /**
+   * Get the motor reference. This is useful for setting and retrieving information
+   * directly from the motor, instead of via this class.
+   * @return A WPI_TalonSRX object that represents the elevator motor.
+   */
+  public WPI_TalonSRX getMotor() {
+    return elevatorMotor;
+  }
+
+  /**
    * Get the encoder position.
    * @return The encoder position of the elevator motor.
    */
