@@ -24,6 +24,9 @@ public class RobotDebug {
     /* Whether or not to output debug information to the network tables. */
     private boolean showOutput;
 
+    /* The elevator motor reference, used to output more statistics than offered by the Elevator subsystem. */
+    private WPI_TalonSRX elevatorMotor = Robot.elevator.getMotor();
+
     /**
      * Construct the debugger class. This is for controlling whether or not we
      * actually output anything.
@@ -57,7 +60,6 @@ public class RobotDebug {
             SmartDashboard.putNumber("Elevator_Speed", Robot.elevator.getSpeed());
             SmartDashboard.putNumber("Elevator_Encoder", Robot.elevator.getPosition());
             /* Output every possible relevant statistic on the elevator motor. */
-            WPI_TalonSRX elevatorMotor = Robot.elevator.getMotor();
             SmartDashboard.putNumber("Elevator_BusVoltage", elevatorMotor.getBusVoltage());
             SmartDashboard.putNumber("Elevator_OutputPercent", elevatorMotor.getMotorOutputPercent());
             SmartDashboard.putNumber("Elevator_OutputVoltage", elevatorMotor.getMotorOutputVoltage());
