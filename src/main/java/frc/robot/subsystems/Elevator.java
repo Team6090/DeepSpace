@@ -49,11 +49,11 @@ public class Elevator extends Subsystem {
     elevatorMotor.selectProfileSlot(0, 0);
   
     /* Feed Forward gain - PID loop num, value, timout */
-    elevatorMotor.config_kF(0, 0.40d, timeoutMs);
+    elevatorMotor.config_kF(0, 0.0d, timeoutMs);
     /* Proportional gain - PID loop num, value, timout */
-    elevatorMotor.config_kP(0, 0.3d, timeoutMs);
+    elevatorMotor.config_kP(0, 0.1d, timeoutMs);
     /* Integral gain - PID loop num, value, timout */
-    elevatorMotor.config_kI(0, 0.0001d, timeoutMs);
+    elevatorMotor.config_kI(0, 0.0d, timeoutMs);
     /* Differential gain - PID loop num, value, timout */
     elevatorMotor.config_kD(0, 0.0d, timeoutMs);
     /* This doesn't appear to do anything useful */
@@ -103,6 +103,15 @@ public class Elevator extends Subsystem {
     elevatorMotor.configOpenloopRamp(0.5d, timeoutMs);
     /* Rate = [1023-0] / [500 msec] * 10 msec = 20 */
     elevatorMotor.configClosedloopRamp(0.5d, timeoutMs);
+  }
+
+  /**
+   * Get the motor reference. This is useful for setting and retrieving information
+   * directly from the motor, instead of via this class.
+   * @return A WPI_TalonSRX object that represents the elevator motor.
+   */
+  public WPI_TalonSRX getMotor() {
+    return elevatorMotor;
   }
 
   /**

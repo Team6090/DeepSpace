@@ -27,7 +27,8 @@ public class Robot extends TimedRobot {
   /* Subsystems */
   public static DriveTrain drivetrain = new DriveTrain();
   public static Elevator elevator = new Elevator();
-  public static Intake intake = new Intake();
+  /* Construct intake with the compressor either enabled or disabled. */
+  public static Intake intake = new Intake(true);
 
   /* Limelight related functionality */
   public static Limelight limelight = new Limelight();

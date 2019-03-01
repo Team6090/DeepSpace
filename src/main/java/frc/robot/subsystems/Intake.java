@@ -27,7 +27,7 @@ import frc.robot.commands.joystick.IntakeWithJoystick;
 public class Intake extends Subsystem {
 
   /* The compressor */
-  private final Compressor airCompressor = new Compressor(RobotMap.PNEUMATIC_CONTROL_MODULE);
+  private final Compressor airCompressor;
 
   /* Pivot solenoids */
   private final Solenoid pivotDown = new Solenoid(RobotMap.PNEUMATIC_CONTROL_MODULE, RobotMap.INTAKE_ARM_PIVOT_DOWN);
@@ -43,10 +43,16 @@ public class Intake extends Subsystem {
 
   /**
    * Set up the compressor, and put the intake arm up.
+   * @param useCompressor Whether or not to enable the compressor's closed loop control.
    */
-  public Intake() {
-    airCompressor.setClosedLoopControl(true);
-    armUp();
+  public Intake(boolean useCompressor) {
+    if (useCompressor) {
+      airCompressor = new Compressor(RobotMap.PNEUMATIC_CONTROL_MODULE);
+      airCompressor.setClosedLoopControl(true);
+      armUp();
+    } else {
+      airCompressor = null;
+    }
   }
 
   /**

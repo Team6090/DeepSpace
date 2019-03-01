@@ -21,7 +21,7 @@ import frc.robot.Robot;
  */
 public class CommandDestroyer extends Command {
   /**
-   * Require ALL THE SUBSYSTEMS so that when this gets run,
+   * Require all Subsystems so that when this is run,
    * anything else using these subsystems will be stopped.
    */
   public CommandDestroyer() {
@@ -55,15 +55,15 @@ public class CommandDestroyer extends Command {
   }
 
   /**
-   * Confirm the homicide
+   * Confirm that the command has completed.
    */
   @Override
   protected void end() {
-    System.out.println("All Commands Brutally Murdered. DriveWithJoysick spawned from the ruins.");
+    System.out.println("All Commands and Subsystems reset. Joystick control resumed.");
   }
 
   /**
-   * This should actually never happen. No thing can stop us now...
+   * This should theoretically never happen.
    */
   @Override
   protected void interrupted() {
