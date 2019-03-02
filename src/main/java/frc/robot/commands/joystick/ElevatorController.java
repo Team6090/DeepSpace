@@ -24,17 +24,18 @@ public class ElevatorController extends Command {
   /* A small deadband on the elevator joystick */
   private final double joystickDeadband = 0.2d;
 
-  /* The maximum height the elevator can travel */
-  private final int maxHeight = -65000;
+  /* The maximum and minimum height the elevator can travel */
+  private final int maxHeight = 65000;
+  private final int minHeight = 0;
   /* The base increment for postion control */
   private final int increment = 80;
 
   /*
    * Position references for elevator setpoints
    */
-  private final int bottomHatchRef = -300;
-  private final int middleHatchRef = -2000;
-  private final int topHatchRef = -4000;
+  private final int bottomHatchRef = 300;
+  private final int middleHatchRef = 2000;
+  private final int topHatchRef = 4000;
 
   /*
    * Loop variables, used in setting the position reference
@@ -78,18 +79,18 @@ public class ElevatorController extends Command {
     /* The speed reference is pulled directly from the joystick. */
     double speedRef = Robot.oi.xBoxLeftJoystickVertical();
     /* The XBox controller has a small amount of drift, so do nothing if it's not within the deadband. */
-    if ((!(speedRef > joystickDeadband) && !(speedRef < -joystickDeadband))) {
+    if (((speedRef < joystickDeadband) && (speedRef > -joystickDeadband))) {
       speedRef = 0.0d;
     }
     /* Get the feedback. */
     presetPosition = Robot.elevator.getPosition();
-
+    System.out.println("reference=" + positionRef + "   feedback  " + presetPosition);
     /*
      * If the Y-button is pressed, control the elevator by speed reference.
      * By default, control the elevator by position reference.
      */
     if (Robot.oi.xBoxY()) {
-      Robot.elevator.setSpeed(speedRef);
+      Robot.elevator.setSpeed(-speedRef);
       manualOffset = 0.0d;
       basePosition = presetPosition;
       loopMode = "Open Loop : ";
@@ -104,7 +105,13 @@ public class ElevatorController extends Command {
       }
       /* Calculate the manual offset */
       //if (((manualOffset + presetPosition) > maxHeight)) {
-        manualOffset = manualOffset + (increment * speedRef);
+        manualOffset = manualOffset + (-increment * speedRef);
+        if (manualOffset < minHeight) {
+          manualOffset = minHeight;
+        }
+        if (manualOffset > maxHeight) {
+          manualOffset = maxHeight;
+        }
       //}
       /* Calculate the position reference */
       positionRef = basePosition + manualOffset;

@@ -51,7 +51,7 @@ public class Elevator extends Subsystem {
     /* Feed Forward gain - PID loop num, value, timout */
     elevatorMotor.config_kF(0, 0.0d, timeoutMs);
     /* Proportional gain - PID loop num, value, timout */
-    elevatorMotor.config_kP(0, 0.1d, timeoutMs);
+    elevatorMotor.config_kP(0, 0.2d, timeoutMs);
     /* Integral gain - PID loop num, value, timout */
     elevatorMotor.config_kI(0, 0.0d, timeoutMs);
     /* Differential gain - PID loop num, value, timout */
@@ -80,7 +80,7 @@ public class Elevator extends Subsystem {
     /* Make sure talons blink green when position increasing */
     elevatorMotor.setSensorPhase(true);
     /* Invert the speed reference */
-		elevatorMotor.setInverted(true);
+		elevatorMotor.setInverted(false);
 
 		/* Set relevant frame periods to be at least as fast as periodic rate */
 		elevatorMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, timeoutMs);
