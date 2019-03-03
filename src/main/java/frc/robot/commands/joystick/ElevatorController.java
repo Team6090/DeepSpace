@@ -10,7 +10,6 @@ package frc.robot.commands.joystick;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 /**
@@ -121,14 +120,11 @@ public class ElevatorController extends Command {
 
     /* Printouts to the SmartDashboard of what loop mode we're in */
     loopModeString = Double.toString(positionRef);
-    SmartDashboard.putString("loopMode", loopMode + loopModeString);
+    Robot.debug.put("loopMode", loopMode + loopModeString);
 
-    SmartDashboard.putNumber("Elevator_BasePosition", basePosition);
-    SmartDashboard.putNumber("Elevator_ManualOffset", manualOffset);
-    SmartDashboard.putNumber("Elevator_PositonRef", positionRef);
-
-    /* Print out some stuff - Uncomment to view. */
-    //System.out.println("manualOffset = " + manualOffset + " presetPosition = " + presetPosition + " positionRef = " + positionRef + " speedRef = " + speedRef);
+    Robot.debug.put("Elevator_BasePosition", basePosition);
+    Robot.debug.put("Elevator_ManualOffset", manualOffset);
+    Robot.debug.put("Elevator_PositonRef", positionRef);
   }
 
   /**
