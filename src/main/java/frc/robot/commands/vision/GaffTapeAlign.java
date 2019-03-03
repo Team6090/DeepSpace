@@ -57,9 +57,9 @@ public class GaffTapeAlign extends LimelightCommand {
     horizontalOffset = Robot.limelight.getHorizontalOffset();
     thresholdEncoderCount = baseEncoderCountLeft + motorRevs;
     /* Printing out init values to SmartDashboard */
-    SmartDashboard.putNumber("thresholdEncoderCount", thresholdEncoderCount);
-    SmartDashboard.putNumber("baseEncoderCountLeft", baseEncoderCountLeft);
-    SmartDashboard.putNumber("baseEncoderCountRight", baseEncoderCountRight);
+    Robot.debug.put("thresholdEncoderCount", thresholdEncoderCount);
+    Robot.debug.put("baseEncoderCountLeft", baseEncoderCountLeft);
+    Robot.debug.put("baseEncoderCountRight", baseEncoderCountRight);
   }
 
   /* Called repeatedly when this Command is scheduled to run */
@@ -113,9 +113,9 @@ public class GaffTapeAlign extends LimelightCommand {
   protected boolean isFinished() {
     
     /* Uncomment to print things out to SmartDashboard */
-    //SmartDashboard.putNumber("motorRevs", motorRevs);
-    //SmartDashboard.putNumber("motorRevscalc", (currentEncoderCount - baseEncoderCountLeft));
-    //SmartDashboard.putNumber("currentEncoderCount", currentEncoderCount);
+    //Robot.debug.put("motorRevs", motorRevs);
+    //Robot.debug.put("motorRevscalc", (currentEncoderCount - baseEncoderCountLeft));
+    //Robot.debug.put("currentEncoderCount", currentEncoderCount);
 
     return (endProgram || System.currentTimeMillis() > thresholdTime || (currentEncoderCount >= thresholdEncoderCount));
   }
