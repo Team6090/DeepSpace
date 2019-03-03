@@ -79,7 +79,7 @@ public class ElevatorController extends Command {
     /* The speed reference is pulled directly from the joystick. */
     double speedRef = Robot.oi.xBoxLeftJoystickVertical();
     /* The XBox controller has a small amount of drift, so do nothing if it's not within the deadband. */
-    if (((speedRef < joystickDeadband) && (speedRef > -joystickDeadband))) {
+    if ((speedRef < joystickDeadband) && (speedRef > -joystickDeadband)) {
       speedRef = 0.0d;
     }
     /* Get the feedback. */
