@@ -75,4 +75,31 @@ public class RobotDebug {
             SmartDashboard.putNumber("Elevator_Joystick", Robot.oi.xBoxLeftJoystickVertical());
         }
     }
+
+    /**
+     * Put a String in the network tables.
+     * @param key The name of the key to put into the SmartDashboard.
+     * @param value The value to assign to the given key.
+     */
+    public void put(String key, String value) {
+        SmartDashboard.putString(key, value);
+    }
+
+    /**
+     * Put a boolean in the network tables.
+     * @param key The name of the key to put into the SmartDashboard.
+     * @param value The value to assign to the given key.
+     */
+    public void put(String key, boolean value) {
+        SmartDashboard.putBoolean(key, value);
+    }
+
+    /**
+     * Put a double in the network tables.
+     * @param key The name of the key to put into the SmartDashboard.
+     * @param value The value to assign to the given key.
+     */
+    public void put(String key, double value) {
+        SmartDashboard.putNumber(key, value);
+    }
 }

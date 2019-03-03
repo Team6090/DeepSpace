@@ -43,7 +43,7 @@ public class Robot extends TimedRobot {
    * Setting to false will disable all output, thus allowing for quickly
    * toggling this functionality. 
    */
-  private RobotDebug robotDebug = new RobotDebug(true);
+  public static RobotDebug debug = new RobotDebug(true);
 
   /**
    * This function is run when the robot is first started up and should be
@@ -71,7 +71,7 @@ public class Robot extends TimedRobot {
     /*
      * Update the SmartDashboard data, when enabled. 
      */
-    robotDebug.update();
+    debug.update();
 
     /*
      * Update the Limelight's settings based on external factors.

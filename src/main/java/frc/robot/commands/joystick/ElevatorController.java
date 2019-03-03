@@ -10,7 +10,6 @@ package frc.robot.commands.joystick;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 /**
@@ -79,7 +78,7 @@ public class ElevatorController extends Command {
     /* The speed reference is pulled directly from the joystick. */
     double speedRef = Robot.oi.xBoxLeftJoystickVertical();
     /* The XBox controller has a small amount of drift, so do nothing if it's not within the deadband. */
-    if (((speedRef < joystickDeadband) && (speedRef > -joystickDeadband))) {
+    if ((speedRef < joystickDeadband) && (speedRef > -joystickDeadband)) {
       speedRef = 0.0d;
     }
     /* Get the feedback. */
@@ -104,7 +103,6 @@ public class ElevatorController extends Command {
         basePosition = topHatchRef;
       }
       /* Calculate the manual offset */
-      //if (((manualOffset + presetPosition) > maxHeight)) {
         manualOffset = manualOffset + (-increment * speedRef);
         if (manualOffset < minHeight) {
           manualOffset = minHeight;
@@ -112,7 +110,6 @@ public class ElevatorController extends Command {
         if (manualOffset > maxHeight) {
           manualOffset = maxHeight;
         }
-      //}
       /* Calculate the position reference */
       positionRef = basePosition + manualOffset;
       /* Use MotionMagic to get to the position reference */
@@ -121,14 +118,11 @@ public class ElevatorController extends Command {
 
     /* Printouts to the SmartDashboard of what loop mode we're in */
     loopModeString = Double.toString(positionRef);
-    SmartDashboard.putString("loopMode", loopMode + loopModeString);
+    Robot.debug.put("loopMode", loopMode + loopModeString);
 
-    SmartDashboard.putNumber("Elevator_BasePosition", basePosition);
-    SmartDashboard.putNumber("Elevator_ManualOffset", manualOffset);
-    SmartDashboard.putNumber("Elevator_PositonRef", positionRef);
-
-    /* Print out some stuff - Uncomment to view. */
-    //System.out.println("manualOffset = " + manualOffset + " presetPosition = " + presetPosition + " positionRef = " + positionRef + " speedRef = " + speedRef);
+    Robot.debug.put("Elevator_BasePosition", basePosition);
+    Robot.debug.put("Elevator_ManualOffset", manualOffset);
+    Robot.debug.put("Elevator_PositonRef", positionRef);
   }
 
   /**
