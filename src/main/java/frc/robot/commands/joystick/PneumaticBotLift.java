@@ -13,6 +13,7 @@ import frc.robot.Robot;
 public class PneumaticBotLift extends Command {
 
   public PneumaticBotLift() {
+    requires(Robot.intake);
   }
 
   // Called just before this Command runs the first time
