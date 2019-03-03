@@ -39,5 +39,6 @@ public class RobotMap {
 
    public static final int INTAKE_ARM_PIVOT_DOWN = 4;
    public static final int INTAKE_ARM_PIVOT_UP = 5;
+   public static final int HAB_2_LIFT = 6;
    public static final int HATCH_RELEASE = 7;
 }
