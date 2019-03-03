@@ -75,8 +75,13 @@ public class ElevatorController extends Command {
    */
   @Override
   protected void execute() {
-    /* The speed reference is pulled directly from the joystick. */
-    double speedRef = Robot.oi.xBoxLeftJoystickVertical();
+    /* 
+     * The speed reference is pulled directly from the joystick.
+     * This is multiplied by -1 because on the joystick, up is down, and
+     * down is up. So by multiplying by -1, it flips this so that up on the
+     * joystick is up on the elevator.
+     */
+    double speedRef = -1.0 * Robot.oi.xBoxLeftJoystickVertical();
     /* The XBox controller has a small amount of drift, so do nothing if it's not within the deadband. */
     if ((speedRef < joystickDeadband) && (speedRef > -joystickDeadband)) {
       speedRef = 0.0d;
@@ -89,7 +94,7 @@ public class ElevatorController extends Command {
      * By default, control the elevator by position reference.
      */
     if (Robot.oi.xBoxY()) {
-      Robot.elevator.setSpeed(-speedRef);
+      Robot.elevator.setSpeed(speedRef);
       manualOffset = 0.0d;
       basePosition = presetPosition;
       loopMode = "Open Loop : ";
@@ -103,7 +108,7 @@ public class ElevatorController extends Command {
         basePosition = topHatchRef;
       }
       /* Calculate the manual offset */
-        manualOffset = manualOffset + (-increment * speedRef);
+        manualOffset = manualOffset + (increment * speedRef);
         if (manualOffset < minHeight) {
           manualOffset = minHeight;
         }
