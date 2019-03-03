@@ -103,7 +103,6 @@ public class ElevatorController extends Command {
         basePosition = topHatchRef;
       }
       /* Calculate the manual offset */
-      //if (((manualOffset + presetPosition) > maxHeight)) {
         manualOffset = manualOffset + (-increment * speedRef);
         if (manualOffset < minHeight) {
           manualOffset = minHeight;
@@ -111,7 +110,6 @@ public class ElevatorController extends Command {
         if (manualOffset > maxHeight) {
           manualOffset = maxHeight;
         }
-      //}
       /* Calculate the position reference */
       positionRef = basePosition + manualOffset;
       /* Use MotionMagic to get to the position reference */
