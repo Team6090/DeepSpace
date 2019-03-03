@@ -11,7 +11,6 @@ import frc.robot.lib.vision.Limelight;
 import frc.robot.lib.vision.LimelightCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.Robot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class GaffTapeAlign extends LimelightCommand {
   double motorRevs = DriveTrain.distanceToMotorRevs2(36.0d); 
