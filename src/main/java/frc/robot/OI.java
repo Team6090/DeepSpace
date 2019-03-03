@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.CommandDestroyer;
+import frc.robot.commands.joystick.PneumaticBotLift;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -45,7 +46,7 @@ public class OI {
       joystickButton[i] = new JoystickButton(joystick, i);
     }
     /* Assign button actions here */
-    joystickButton[6].whenHeld(new PneumaticBotLift());
+    joystickButton[6].whileHeld(new PneumaticBotLift());
     joystickButton[11].whenPressed(new CommandDestroyer());
   }
 
