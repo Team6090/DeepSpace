@@ -46,7 +46,6 @@ public class OI {
       joystickButton[i] = new JoystickButton(joystick, i);
     }
     /* Assign button actions here */
-    joystickButton[6].whileHeld(new PneumaticBotLift());
     joystickButton[11].whenPressed(new CommandDestroyer());
   }
 
