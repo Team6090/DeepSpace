@@ -26,28 +26,27 @@ public class ElevatorController extends Command {
   /* The maximum and minimum height the elevator can travel */
   private final int maxHeight = 65000;
   private final int minHeight = 0;
-  /* The base increment for postion control */
-  private final int increment = 80;
+  /*
+   * The base increment for postion control. This controls the speed of the elevator
+   * in the position loop.
+   */
+  private final int increment = 110;
 
   /*
    * Position references for elevator setpoints
    */
-  private final int bottomHatchRef = 300;
-  private final int middleHatchRef = 2000;
-  private final int topHatchRef = 4000;
+  private final int bottomHatchRef = 7600;
+  private final int middleHatchRef = 16000;
+  private final int topHatchRef = 25000;
 
   /*
    * Loop variables, used in setting the position reference
    * on the motor.
    */
   private double manualOffset = 0.0d;
-  private int presetPosition = 0;
+  private int currentPosition = 0;
   private double positionRef = 0.0d;
   private double basePosition = 0.0d;
-
-  /* String variables for printing out to SmartDashboard */
-  String loopMode;
-  String loopModeString;
 
   /**
    * Construct the ElevatorWithJoystick command. This command requires
@@ -82,48 +81,71 @@ public class ElevatorController extends Command {
      * joystick is up on the elevator.
      */
     double speedRef = -1.0 * Robot.oi.xBoxLeftJoystickVertical();
+
     /* The XBox controller has a small amount of drift, so do nothing if it's not within the deadband. */
     if ((speedRef < joystickDeadband) && (speedRef > -joystickDeadband)) {
       speedRef = 0.0d;
     }
-    /* Get the feedback. */
-    presetPosition = Robot.elevator.getPosition();
-    System.out.println("reference=" + positionRef + "   feedback  " + presetPosition);
+
+    /* Get the current position of the elevator */
+    currentPosition = Robot.elevator.getPosition();
+
     /*
-     * If the Y-button is pressed, control the elevator by speed reference.
-     * By default, control the elevator by position reference.
+     * If the Y-button is pressed, control the elevator by speed reference.<br>
+     * This passes the raw joystick axis value directly into the motor, which
+     * makes sense because:
+     * <ul>
+     *  <li>The motor scale goes from -1.0 to 1.0</li>
+     *  <li>The joystick scale goes from -1.0 to 1.0</li>
+     * </ul>
+     * <br><br>
+     * By default, the elevator is controlled by a position reference.
      */
     if (Robot.oi.xBoxY()) {
+      /* Set the elevator motor speed to the reference from the joystick */
       Robot.elevator.setSpeed(speedRef);
+      /* Set the position offset to zero, because we are not using the position loop */
       manualOffset = 0.0d;
-      basePosition = presetPosition;
-      loopMode = "Open Loop : ";
+      /*
+       * Set the base position to the current position.
+       * This is done because when we switch back to the position
+       * loop, we want to ensure the elevator stays where it is when
+       * it left the speed control loop.
+       */
+      basePosition = currentPosition;
     } else {
-      loopMode = "Position Loop : ";
+      /*
+       * These are our setpoints. When the respective
+       */
       if (Robot.oi.xBoxA()) {
+        /* When the A button is pressed, set the base position to the bottom hatch reference */
         basePosition = bottomHatchRef;
       } else if (Robot.oi.xBoxX()) {
+        /* When then X button is pressed, set the base position to the middle hatch reference. */
         basePosition = middleHatchRef;
       } else if (Robot.oi.xBoxB()) {
+        /* When the B button is pressed, set the base position to the top hatch reference */
         basePosition = topHatchRef;
       }
-      /* Calculate the manual offset */
-        manualOffset = manualOffset + (increment * speedRef);
-        if (manualOffset < minHeight) {
-          manualOffset = minHeight;
-        }
-        if (manualOffset > maxHeight) {
-          manualOffset = maxHeight;
-        }
-      /* Calculate the position reference */
+      /*
+       * Calculate the manual offset using the increment and the speed reference
+       * from the joystick.
+       */
+      manualOffset = manualOffset + (increment * speedRef);
+      if (manualOffset < minHeight) {
+        manualOffset = minHeight;
+      }
+      if (manualOffset > maxHeight) {
+        manualOffset = maxHeight;
+      }
+      /*
+       * Calculate the position reference using our current base reference and
+       * the new manual offset.
+       */
       positionRef = basePosition + manualOffset;
       /* Use MotionMagic to get to the position reference */
       Robot.elevator.set(ControlMode.MotionMagic, positionRef);
     }
-
-    /* Printouts to the SmartDashboard of what loop mode we're in */
-    loopModeString = Double.toString(positionRef);
-    Robot.debug.put("loopMode", loopMode + loopModeString);
 
     Robot.debug.put("Elevator_BasePosition", basePosition);
     Robot.debug.put("Elevator_ManualOffset", manualOffset);

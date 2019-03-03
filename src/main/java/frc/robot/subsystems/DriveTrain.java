@@ -36,8 +36,8 @@ public class DriveTrain extends Subsystem {
   /*Constant: motor revs per inch*/
   public static final double ENCODER_CONSTANT = 0.603125d;
 
-  /* The ramp rate (in seconds) to apply to all of the motors */
-  public static final double RAMP_RATE = 0.7d;
+  /* The ramp rate (in seconds) to apply to all of the motors by default. */
+  public static final double BASE_RAMP_RATE = 0.7d;
   /* The differential drive deadband. */
   public static final double DEADBAND = 0.03d;
 
@@ -57,24 +57,15 @@ public class DriveTrain extends Subsystem {
   /* Create the AHRS NavX Gyro */
   private final AHRS navxGyro = new AHRS(SPI.Port.kMXP);
 
+  private double currentRampRate = BASE_RAMP_RATE;
+
   /**
    * Drivetrain init. Configure the ramp rates, zero the encoders,
    * set a small deadband on the differential drive.
    */
   public DriveTrain() {
-    /*
-     * Set the open and closed loop ramp rates.
-     */
-    leftMotor.setOpenLoopRampRate(RAMP_RATE);
-    leftSlaveMotor.setOpenLoopRampRate(RAMP_RATE);
-    rightMotor.setOpenLoopRampRate(RAMP_RATE);
-    rightSlaveMotor.setOpenLoopRampRate(RAMP_RATE);
-
-    leftMotor.setClosedLoopRampRate(RAMP_RATE);
-    leftSlaveMotor.setClosedLoopRampRate(RAMP_RATE);
-    rightMotor.setClosedLoopRampRate(RAMP_RATE);
-    rightSlaveMotor.setClosedLoopRampRate(RAMP_RATE);
-
+    /* Set an initial ramp rate. */
+    setRampRate(BASE_RAMP_RATE);
     /* Zero the encoders */
     leftMotor.setEncPosition(0.0d);
     leftSlaveMotor.setEncPosition(0.0d);
@@ -227,6 +218,37 @@ public class DriveTrain extends Subsystem {
    */
   public final void zeroGyroYaw() {
     navxGyro.zeroYaw();
+  }
+
+  /**
+   * Set the motors to use the given ramp rate in both closed and
+   * open loop.
+   * @param rate The rate (in seconds) to set the motors to use.
+   */
+  public final void setRampRate(double rate) {
+    /*
+     * Set the open and closed loop ramp rates.
+     */
+    leftMotor.setOpenLoopRampRate(rate);
+    leftSlaveMotor.setOpenLoopRampRate(rate);
+    rightMotor.setOpenLoopRampRate(rate);
+    rightSlaveMotor.setOpenLoopRampRate(rate);
+
+    leftMotor.setClosedLoopRampRate(rate);
+    leftSlaveMotor.setClosedLoopRampRate(rate);
+    rightMotor.setClosedLoopRampRate(rate);
+    rightSlaveMotor.setClosedLoopRampRate(rate);
+
+    currentRampRate = rate;
+  }
+
+  /**
+   * Get the currently set ramp rate.
+   * @return The ramp rate (in seconds) currently set for both
+   * closed and open loop.
+   */
+  public final double getRampRate() {
+    return currentRampRate;
   }
 
   /**
