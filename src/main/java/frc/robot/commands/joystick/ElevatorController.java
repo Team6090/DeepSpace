@@ -24,7 +24,7 @@ public class ElevatorController extends Command {
   private final double joystickDeadband = 0.2d;
 
   /* The maximum and minimum height the elevator can travel */
-  private final int maxHeight = 65000;
+  private final int maxHeight = 25290;
   private final int minHeight = 0;
   /*
    * The base increment for postion control. This controls the speed of the elevator
@@ -35,9 +35,9 @@ public class ElevatorController extends Command {
   /*
    * Position references for elevator setpoints
    */
-  private final int bottomHatchRef = 7600;
-  private final int middleHatchRef = 16000;
-  private final int topHatchRef = 25000;
+  private final int bottomHatchRef = 8000;
+  private final int middleHatchRef = 16390;
+  private final int topHatchRef = 25070;
 
   /*
    * Loop variables, used in setting the position reference
@@ -127,21 +127,15 @@ public class ElevatorController extends Command {
         /* When the B button is pressed, set the base position to the top hatch reference */
         basePosition = topHatchRef;
       }
-      /*
-       * Calculate the manual offset using the increment and the speed reference
-       * from the joystick.
-       */
-      manualOffset = manualOffset + (increment * speedRef);
-      if (manualOffset < minHeight) {
-        manualOffset = minHeight;
-      }
-      if (manualOffset > maxHeight) {
-        manualOffset = maxHeight;
-      }
-      /*
-       * Calculate the position reference using our current base reference and
-       * the new manual offset.
-       */
+      /* Calculate the manual offset */
+        manualOffset = manualOffset + (increment * speedRef);
+        if ((manualOffset + basePosition) < minHeight) {
+          manualOffset = (minHeight - basePosition);
+        }
+        if ((manualOffset + basePosition) > maxHeight) {
+          manualOffset = (maxHeight - basePosition);
+        }
+      /* Calculate the position reference */
       positionRef = basePosition + manualOffset;
       /* Use MotionMagic to get to the position reference */
       Robot.elevator.set(ControlMode.MotionMagic, positionRef);
@@ -150,6 +144,7 @@ public class ElevatorController extends Command {
     Robot.debug.put("Elevator_BasePosition", basePosition);
     Robot.debug.put("Elevator_ManualOffset", manualOffset);
     Robot.debug.put("Elevator_PositonRef", positionRef);
+    Robot.debug.put("Elevator_Error", positionRef - currentPosition);
   }
 
   /**
