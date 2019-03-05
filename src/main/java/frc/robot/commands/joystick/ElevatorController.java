@@ -30,7 +30,7 @@ public class ElevatorController extends Command {
    * The base increment for postion control. This controls the speed of the elevator
    * in the position loop.
    */
-  private final int increment = 110;
+  private final int increment = 170;
 
   /*
    * Position references for elevator setpoints
