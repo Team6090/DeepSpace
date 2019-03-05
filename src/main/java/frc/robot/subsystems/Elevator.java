@@ -49,11 +49,11 @@ public class Elevator extends Subsystem {
     elevatorMotor.selectProfileSlot(0, 0);
   
     /* Feed Forward gain - PID loop num, value, timout */
-    elevatorMotor.config_kF(0, 0.0d, timeoutMs);
+    elevatorMotor.config_kF(0, 0.25d, timeoutMs);
     /* Proportional gain - PID loop num, value, timout */
-    elevatorMotor.config_kP(0, 0.2d, timeoutMs);
+    elevatorMotor.config_kP(0, 0.325d, timeoutMs);
     /* Integral gain - PID loop num, value, timout */
-    elevatorMotor.config_kI(0, 0.0d, timeoutMs);
+    elevatorMotor.config_kI(0, 0.3d, timeoutMs);
     /* Differential gain - PID loop num, value, timout */
     elevatorMotor.config_kD(0, 0.0d, timeoutMs);
     /* This doesn't appear to do anything useful */
@@ -67,7 +67,7 @@ public class Elevator extends Subsystem {
     /* Peak current in Amps */
     elevatorMotor.configPeakCurrentLimit(68, timeoutMs);
     /* If error is below threshold, consider to be "in position" (0.25=25%) */
-    elevatorMotor.configNeutralDeadband(0.03d, timeoutMs);
+    elevatorMotor.configNeutralDeadband(0.0075d, timeoutMs);
     
     /*
 		 * Set accel and cruise velocity to use to make trapezoid profile Cruise speed =

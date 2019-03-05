@@ -9,6 +9,7 @@ package frc.robot.commands.joystick;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
@@ -24,7 +25,7 @@ public class ElevatorController extends Command {
   private final double joystickDeadband = 0.2d;
 
   /* The maximum and minimum height the elevator can travel */
-  private final int maxHeight = 65000;
+  private final int maxHeight = 25290;
   private final int minHeight = 0;
   /* The base increment for postion control */
   private final int increment = 80;
@@ -32,9 +33,9 @@ public class ElevatorController extends Command {
   /*
    * Position references for elevator setpoints
    */
-  private final int bottomHatchRef = 300;
-  private final int middleHatchRef = 2000;
-  private final int topHatchRef = 4000;
+  private final int bottomHatchRef = 8000;
+  private final int middleHatchRef = 16390;
+  private final int topHatchRef = 25070;
 
   /*
    * Loop variables, used in setting the position reference
@@ -109,11 +110,11 @@ public class ElevatorController extends Command {
       }
       /* Calculate the manual offset */
         manualOffset = manualOffset + (increment * speedRef);
-        if (manualOffset < minHeight) {
-          manualOffset = minHeight;
+        if ((manualOffset + basePosition) < minHeight) {
+          manualOffset = (minHeight - basePosition);
         }
-        if (manualOffset > maxHeight) {
-          manualOffset = maxHeight;
+        if ((manualOffset + basePosition) > maxHeight) {
+          manualOffset = (maxHeight - basePosition);
         }
       /* Calculate the position reference */
       positionRef = basePosition + manualOffset;
@@ -128,6 +129,7 @@ public class ElevatorController extends Command {
     Robot.debug.put("Elevator_BasePosition", basePosition);
     Robot.debug.put("Elevator_ManualOffset", manualOffset);
     Robot.debug.put("Elevator_PositonRef", positionRef);
+    Robot.debug.put("Elevator_Error", positionRef - presetPosition);
   }
 
   /**
