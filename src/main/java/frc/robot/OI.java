@@ -10,10 +10,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.CommandDestroyer;
+import frc.robot.commands.vision.LimelightSmoothTurn;
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
+ * 
  * @author Jordan Bancino
  * @version 1.0
  * @since 1.0
@@ -30,14 +32,13 @@ public class OI {
   /* Throttle configurations */
   public static final double THROTTLE_LOWER_BOUND = 0.3d;
 
-
   /* Joysticks */
   private Joystick joystick = new Joystick(JOYSTICK_PORT);
   private Joystick xBoxJoystick = new Joystick(XBOX_PORT);
 
   /* Joystick Buttons */
   private JoystickButton[] joystickButton = new JoystickButton[JOYSTICK_BUTTON_COUNT + 1];
-  
+
   public OI() {
     /* Instantiate all the buttons for easy use, and less code. */
     joystickButton[0] = null; /* There is no button on 0. */
@@ -45,6 +46,7 @@ public class OI {
       joystickButton[i] = new JoystickButton(joystick, i);
     }
     /* Assign button actions here */
+    joystickButton[4].whileHeld(new LimelightSmoothTurn(10000l, 0.2d, 10.00d, 1.4d));
     joystickButton[7] = null; /* The ElevatorController uses this button. */
     joystickButton[11].whenPressed(new CommandDestroyer());
   }

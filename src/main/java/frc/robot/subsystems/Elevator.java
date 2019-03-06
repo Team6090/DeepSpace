@@ -86,7 +86,7 @@ public class Elevator extends Subsystem {
 		elevatorMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, timeoutMs);
     elevatorMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, timeoutMs);
     /* Cruize velociy in encoder/100msec */
-    elevatorMotor.configMotionCruiseVelocity(3800, timeoutMs);
+    elevatorMotor.configMotionCruiseVelocity(4800, timeoutMs);
     /*  Accel */
     elevatorMotor.configMotionAcceleration(5500, timeoutMs);
     /* Zero the position encoder */

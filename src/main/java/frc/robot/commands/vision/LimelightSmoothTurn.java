@@ -31,11 +31,12 @@ public class LimelightSmoothTurn extends LimelightCommand {
    * @param duration: Timeout time
    * @param speedRef: The default speed of the thing
    */
-  public LimelightSmoothTurn(long duration, double speedRef, double targetArea) {
+  public LimelightSmoothTurn(long duration, double speedRef, double targetArea, double speedMultiplier) {
     super(Limelight.REFLECTIVE_PIPELINE);
     this.speedRef = speedRef;
     this.duration = duration;
     this.targetArea = targetArea;
+    this.speedMultiplier = speedMultiplier;
     requires(Robot.drivetrain);
   }
 
