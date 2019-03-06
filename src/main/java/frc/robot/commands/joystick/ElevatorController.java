@@ -35,9 +35,8 @@ public class ElevatorController extends Command {
   /*
    * Position references for elevator setpoints
    */
-  private final int bottomHatchRef = 8000;
-  private final int middleHatchRef = 16390;
-  private final int topHatchRef = 25070;
+  private final int bottomHatchRef = 8000, middleHatchRef = 16390, topHatchRef = 25070;
+  private final int bottomBallRef = 0, middleBallRef = 0, topBallRef = 0;
 
   /*
    * Loop variables, used in setting the position reference
@@ -121,16 +120,34 @@ public class ElevatorController extends Command {
       /*
        * These are our setpoints. When the respective button is pressed, the setpoint is
        * assigned to the base position.
+       * 
+       * The intake arm determines which reference to set.
+       * So:
+       * Intake arm down -> Use ball reference.
+       * Intake arm up   -> Use hatch reference.
        */
       if (Robot.oi.xBoxA()) {
-        /* When the A button is pressed, set the base position to the bottom hatch reference */
-        basePosition = bottomHatchRef;
+        /* When the A button is pressed, set the base position to the bottom reference. */
+        if (Robot.intake.armIsUp()) {
+          basePosition = bottomHatchRef;
+        } else {
+          basePosition = bottomBallRef;
+        }
       } else if (Robot.oi.xBoxX()) {
-        /* When then X button is pressed, set the base position to the middle hatch reference. */
-        basePosition = middleHatchRef;
+        /* When then X button is pressed, set the base position to the middle reference. */
+        if (Robot.intake.armIsUp()) {
+          basePosition = middleHatchRef;
+        } else {
+          basePosition = middleBallRef;
+        }
       } else if (Robot.oi.xBoxB()) {
-        /* When the B button is pressed, set the base position to the top hatch reference */
-        basePosition = topHatchRef;
+        /* When the B button is pressed, set the base position to the top reference. */
+        if (Robot.intake.armIsUp()) {
+          basePosition = topHatchRef;
+        } else {
+          basePosition = topBallRef;
+        }
+
       }
 
       /*
@@ -143,7 +160,7 @@ public class ElevatorController extends Command {
       if ((manualOffset + basePosition) > maxHeight) {
         manualOffset = (maxHeight - basePosition);
       }
-      
+
       /* TODO: Document this! */
       positionRef = basePosition + manualOffset;
 
