@@ -44,7 +44,6 @@ public class ElevatorController extends Command {
    * on the motor.
    */
   private double manualOffset = 0.0d;
-  private int currentPosition = 0;
   private double positionRef = 0.0d;
   private double basePosition = 0.0d;
 
@@ -87,8 +86,13 @@ public class ElevatorController extends Command {
       speedRef = 0.0d;
     }
 
+    /* If joystick button 7 is pressed, reset the elevator's encoder to zero. */
+    if (Robot.oi.getJoystickButton(7)) {
+      Robot.elevator.zeroPosition();
+    }
+
     /* Get the current position of the elevator */
-    currentPosition = Robot.elevator.getPosition();
+    double currentPosition = Robot.elevator.getPosition();
 
     /*
      * If the Y-button is pressed, control the elevator by speed reference.<br>
@@ -115,7 +119,8 @@ public class ElevatorController extends Command {
       basePosition = currentPosition;
     } else {
       /*
-       * These are our setpoints. When the respective
+       * These are our setpoints. When the respective button is pressed, the setpoint is
+       * assigned to the base position.
        */
       if (Robot.oi.xBoxA()) {
         /* When the A button is pressed, set the base position to the bottom hatch reference */
@@ -127,17 +132,22 @@ public class ElevatorController extends Command {
         /* When the B button is pressed, set the base position to the top hatch reference */
         basePosition = topHatchRef;
       }
-      /* Calculate the manual offset */
-        manualOffset = manualOffset + (increment * speedRef);
-        if ((manualOffset + basePosition) < minHeight) {
-          manualOffset = (minHeight - basePosition);
-        }
-        if ((manualOffset + basePosition) > maxHeight) {
-          manualOffset = (maxHeight - basePosition);
-        }
-      /* Calculate the position reference */
+
+      /*
+       * TODO: Document this block! 
+       */
+      manualOffset = manualOffset + (increment * speedRef);
+      if ((manualOffset + basePosition) < minHeight) {
+        manualOffset = (minHeight - basePosition);
+      }
+      if ((manualOffset + basePosition) > maxHeight) {
+        manualOffset = (maxHeight - basePosition);
+      }
+      
+      /* TODO: Document this! */
       positionRef = basePosition + manualOffset;
-      /* Use MotionMagic to get to the position reference */
+
+      /* Use MotionMagic to set the position reference */
       Robot.elevator.set(ControlMode.MotionMagic, positionRef);
     }
 

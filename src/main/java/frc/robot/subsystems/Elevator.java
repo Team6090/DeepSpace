@@ -115,6 +115,13 @@ public class Elevator extends Subsystem {
   }
 
   /**
+   * Reset the position of the elevator encoder to 0.
+   */
+  public void zeroPosition() {
+    elevatorMotor.setSelectedSensorPosition(0);
+  }
+
+  /**
    * Get the encoder position.
    * @return The encoder position of the elevator motor.
    */
