@@ -59,18 +59,12 @@ public class LimelightSmoothTurn extends LimelightCommand {
     baseTime = System.currentTimeMillis();
     thresholdTime = baseTime + duration;
 
-
-
     /*This will decide which motors are sped up to turn which way, determined by the boolean*/
-    speedLeft = speedRef;
-    speedRight = -speedRef;
     if (horizontalOffset > 0.0d) {
       CW = true;
-      //leftSpeedFinal = (speedLeft * speedMultiplier);
     }
     else if (horizontalOffset < 0.0d) {
       CW = false;
-      //rightSpeedFinal = (speedRight * speedMultiplier);
     }
   }
   /**
@@ -97,7 +91,6 @@ public class LimelightSmoothTurn extends LimelightCommand {
     if (variableSpeedRef > speedRef) {
       variableSpeedRef = speedRef;
     }
-
 
     if (horizontalOffset > 0.0d) {
       CW = true;
