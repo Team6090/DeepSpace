@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.CommandDestroyer;
+import frc.robot.commands.joystick.LiftStateShift;
 import frc.robot.commands.vision.LimelightSmoothTurn;
 
 /**
@@ -47,6 +48,7 @@ public class OI {
     }
     /* Assign button actions here */
     joystickButton[4].whileHeld(new LimelightSmoothTurn(10000l, 0.5d, 12.00d));
+    joystickButton[6].whenPressed(new LiftStateShift());
     joystickButton[7] = null; /* The ElevatorController uses this button. */
     joystickButton[11].whenPressed(new CommandDestroyer());
   }
