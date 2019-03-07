@@ -11,17 +11,17 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 /**
- * BotLift: Lift the robot up on the press of a button.
+ * Toggle the bot lifting mechanism.
  * @author Jordan Bancino
  * @version 1.0
  * @since 1.0
  */
-public class BotLiftController extends Command {
+public class LiftStateShift extends Command {
 
   /**
    * This command requires the base subsystem.
    */
-  public BotLiftController() {
+  public LiftStateShift() {
     requires(Robot.base);
   }
 

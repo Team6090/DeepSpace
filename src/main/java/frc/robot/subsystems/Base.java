@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.joystick.BotLiftController;
 
 /**
  * The robot base. Currently, this handles the following:
@@ -60,10 +59,9 @@ public class Base extends Subsystem {
   }
 
   /**
-   * Enable the bot lift controller.
+   * This subsystem covers many functions, so no default command
+   * is added.
    */
   @Override
-  protected void initDefaultCommand() {
-    setDefaultCommand(new BotLiftController());
-  }
+  protected void initDefaultCommand() {}
 }
