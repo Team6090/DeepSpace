@@ -6,4 +6,5 @@ jobs:
     steps:
       - checkout
       - run: chmod +x gradlew
+      - run: ./gradlew downloadAll --info
       - run: ./gradlew build --info
