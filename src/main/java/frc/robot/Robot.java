@@ -30,7 +30,6 @@ public class Robot extends TimedRobot {
   public static DriveTrain drivetrain = new DriveTrain();
   public static Elevator elevator = new Elevator();
   public static Intake intake = new Intake();
-  //TODO: set back to true
 
   /* Limelight related functionality */
   public static Limelight limelight = new Limelight();
