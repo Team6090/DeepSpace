@@ -5,6 +5,7 @@ jobs:
       - image: circleci/openjdk:11
     working_directory: ~/FRC6090-2019
     steps:
+      - run: sudo apt update && sudo apt install gradle -y
       - checkout
       - run: chmod +x gradlew
       - run: ./gradlew downloadAll --info
