@@ -16,21 +16,24 @@ import frc.robot.Robot;
  * @version 1.0
  * @since 1.0
  */
-public class BotLift extends Command {
+public class BotLiftController extends Command {
 
   /**
    * This command requires the base subsystem.
    */
-  public BotLift() {
+  public BotLiftController() {
     requires(Robot.base);
   }
 
   /**
-   * On command start, lift the bot up.
+   * Constantly check the state of the button and set the lift to
+   * that state.
    */
   @Override
-  protected void initialize() {
-    Robot.base.liftBot(true);
+  protected void execute() {
+    if (Robot.oi.getJoystickButton(6)) {
+      Robot.base.liftBot(!Robot.base.isLifted());
+    }
   }
 
   /**

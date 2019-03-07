@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import frc.robot.commands.joystick.BotLiftController;
 
 /**
  * The robot base. Currently, this handles the following:
@@ -51,11 +52,18 @@ public class Base extends Subsystem {
   }
 
   /**
-   * Since the base subsystem handles multiple things,
-   * there should be no default commands. This method
-   * declaration is simply to implement a required
-   * method.
+   * Get the current position of the robot.
+   * @return true if it is up, false if it is down.
+   */
+  public boolean isLifted() {
+    return botLift.get();
+  }
+
+  /**
+   * Enable the bot lift controller.
    */
   @Override
-  protected void initDefaultCommand() {}
+  protected void initDefaultCommand() {
+    setDefaultCommand(new BotLiftController());
+  }
 }
