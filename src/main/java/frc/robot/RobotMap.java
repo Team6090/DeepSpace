@@ -42,5 +42,6 @@ public class RobotMap {
    public static final int HAB_2_LIFT = 6;
    public static final int HATCH_RELEASE = 7;
 
-   public static final int LIFT_MECHANISM = 2;
+   public static final int LIFT_MECHANISM_ENABLE = 2;
+   public static final int LIFT_MECHANISM_DISABLE = 3;
 }

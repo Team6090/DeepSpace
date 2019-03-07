@@ -29,7 +29,8 @@ public class Base extends Subsystem {
   private final Compressor airCompressor = new Compressor(RobotMap.PNEUMATIC_CONTROL_MODULE);
 
   /* The solenoid that will lift the bot. */
-  private final Solenoid botLift = new Solenoid(RobotMap.PNEUMATIC_CONTROL_MODULE, RobotMap.LIFT_MECHANISM);
+  private final Solenoid botLift = new Solenoid(RobotMap.PNEUMATIC_CONTROL_MODULE, RobotMap.LIFT_MECHANISM_ENABLE);
+  private final Solenoid botLower = new Solenoid(RobotMap.PNEUMATIC_CONTROL_MODULE, RobotMap.LIFT_MECHANISM_DISABLE);
 
   public Base() {
     /*
@@ -48,6 +49,7 @@ public class Base extends Subsystem {
    */
   public void liftBot(boolean liftBot) {
     botLift.set(liftBot);
+    botLower.set(!liftBot);
   }
 
   /**
