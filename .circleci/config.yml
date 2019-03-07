@@ -1,8 +1,8 @@
 version: 2.1
-
-workflows:
-  "Gradle Build":
-    jobs:
-      build:
-        steps:
-          - run: ./gradlew build
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:11
+    steps:
+      - checkout
+      - run: ./gradlew build
