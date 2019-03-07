@@ -5,4 +5,5 @@ jobs:
       - image: circleci/openjdk:11
     steps:
       - checkout
+      - run: chmod +x gradlew
       - run: ./gradlew build
