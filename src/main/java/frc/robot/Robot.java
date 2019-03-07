@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.lib.RobotDebug;
 import frc.robot.lib.vision.Limelight;
+import frc.robot.subsystems.Base;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
@@ -25,10 +26,10 @@ import frc.robot.subsystems.Intake;
 public class Robot extends TimedRobot {
 
   /* Subsystems */
+  public static Base base = new Base();
   public static DriveTrain drivetrain = new DriveTrain();
   public static Elevator elevator = new Elevator();
-  /* Construct intake with the compressor either enabled or disabled. */
-  public static Intake intake = new Intake(false);
+  public static Intake intake = new Intake();
   //TODO: set back to true
 
   /* Limelight related functionality */

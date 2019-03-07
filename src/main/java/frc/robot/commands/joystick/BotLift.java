@@ -10,36 +10,50 @@ package frc.robot.commands.joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class PneumaticBotLift extends Command {
+/**
+ * BotLift: Lift the robot up on the press of a button.
+ * @author Jordan Bancino
+ * @version 1.0
+ * @since 1.0
+ */
+public class BotLift extends Command {
 
-  public PneumaticBotLift() {
-    requires(Robot.intake);
+  /**
+   * This command requires the base subsystem.
+   */
+  public BotLift() {
+    requires(Robot.base);
   }
 
-  // Called just before this Command runs the first time
+  /**
+   * On command start, lift the bot up.
+   */
   @Override
   protected void initialize() {
+    Robot.base.liftBot(true);
   }
 
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-  }
-
-  // Make this return true when this Command no longer needs to run execute()
+  /**
+   * This command will not stop until it is interrupted.
+   */
   @Override
   protected boolean isFinished() {
     return false;
   }
 
-  // Called once after isFinished returns true
+  /**
+   * Return the bot to the ground when this command ends.
+   */
   @Override
   protected void end() {
+    Robot.base.liftBot(false);
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
+  /**
+   * On interrupt, end the command.
+   */
   @Override
   protected void interrupted() {
+    end();
   }
 }
