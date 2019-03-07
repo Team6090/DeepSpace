@@ -48,7 +48,7 @@ public class OI {
     }
     /* Assign button actions here */
     joystickButton[4].whileHeld(new LimelightSmoothTurn(10000l, 0.2d, 10.00d, 1.4d));
-    joystickButton[6] = null; /* The BotLiftController uses this button. */
+    joystickButton[6].whenPressed(new BotLiftController());
     joystickButton[7] = null; /* The ElevatorController uses this button. */
     joystickButton[11].whenPressed(new CommandDestroyer());
   }

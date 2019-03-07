@@ -25,36 +25,21 @@ public class BotLiftController extends Command {
     requires(Robot.base);
   }
 
-  /**
-   * Constantly check the state of the button and set the lift to
-   * that state.
-   */
+
   @Override
-  protected void execute() {
-    if (Robot.oi.getJoystickButton(6)) {
-      Robot.base.liftBot(!Robot.base.isLifted());
-    }
+  protected void initialize() {
+    Robot.base.liftBot(!Robot.base.isLifted());
   }
 
-  /**
-   * This command will not stop until it is interrupted.
-   */
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
-  /**
-   * Return the bot to the ground when this command ends.
-   */
   @Override
   protected void end() {
-    Robot.base.liftBot(false);
   }
 
-  /**
-   * On interrupt, end the command.
-   */
   @Override
   protected void interrupted() {
     end();
