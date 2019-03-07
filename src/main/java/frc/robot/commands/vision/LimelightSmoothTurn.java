@@ -19,11 +19,15 @@ import frc.robot.Robot;
  */
 public class LimelightSmoothTurn extends LimelightCommand {
 
-  private double speedRef, speedLeft, speedRight, leftSpeedFinal, rightSpeedFinal, speedMultiplier = 1.4d;
+  private double speedRef, speedLeft, speedRight, leftSpeedFinal, rightSpeedFinal;
   private long duration, baseTime, thresholdTime;
-  private double area, horizontalOffset, targetArea;
+  private double currentArea, horizontalOffset, maxTargetArea;
   private boolean endProgram = false, forwardMode = false;
   private boolean CW;
+  private double DEGREES_OF_ERROR = 1;
+  private double variableSpeedRef, variableTurnRef;
+  private double TURNING_SPEED_MULTIPLIER = 0.015d; //1.5%
+  private double MAX_TURN_SPEED_REF = 0.3d;
 
   /**
    * Set up GyroSmoothTurn.
@@ -31,12 +35,11 @@ public class LimelightSmoothTurn extends LimelightCommand {
    * @param duration: Timeout time
    * @param speedRef: The default speed of the thing
    */
-  public LimelightSmoothTurn(long duration, double speedRef, double targetArea, double speedMultiplier) {
+  public LimelightSmoothTurn(long duration, double speedRef, double maxTargetArea) {
     super(Limelight.REFLECTIVE_PIPELINE);
     this.speedRef = speedRef;
     this.duration = duration;
-    this.targetArea = targetArea;
-    this.speedMultiplier = speedMultiplier;
+    this.maxTargetArea = maxTargetArea;
     requires(Robot.drivetrain);
   }
 
@@ -56,17 +59,18 @@ public class LimelightSmoothTurn extends LimelightCommand {
     baseTime = System.currentTimeMillis();
     thresholdTime = baseTime + duration;
 
+
+
     /*This will decide which motors are sped up to turn which way, determined by the boolean*/
     speedLeft = speedRef;
     speedRight = -speedRef;
     if (horizontalOffset > 0.0d) {
       CW = true;
-      leftSpeedFinal = (speedLeft * speedMultiplier);
+      //leftSpeedFinal = (speedLeft * speedMultiplier);
     }
     else if (horizontalOffset < 0.0d) {
       CW = false;
-      rightSpeedFinal = (speedRight * speedMultiplier);
-
+      //rightSpeedFinal = (speedRight * speedMultiplier);
     }
   }
   /**
@@ -77,9 +81,40 @@ public class LimelightSmoothTurn extends LimelightCommand {
    */
   @Override
   protected void execute() {
-
-    area = Robot.limelight.getTargetArea();
+    /*
+    final double STEER_K = 0.03;                    // how hard to turn toward the target
+    final double DRIVE_K = 0.26;                    // how hard to drive fwd toward the target
+    final double DESIRED_TARGET_AREA = 13.0;        // Area of the target when the robot reaches the wall
+    final double MAX_DRIVE = 0.7;                   // Simple speed limit so we don't drive too fast
+    */
+    currentArea = Robot.limelight.getTargetArea();
     horizontalOffset = Robot.limelight.getHorizontalOffset();
+
+    variableSpeedRef = (maxTargetArea - currentArea) * speedRef;
+    speedLeft = variableSpeedRef;
+    speedRight = -variableSpeedRef;
+
+    if (variableSpeedRef > speedRef) {
+      variableSpeedRef = speedRef;
+    }
+
+
+    if (horizontalOffset > 0.0d) {
+      CW = true;
+      variableTurnRef = horizontalOffset * TURNING_SPEED_MULTIPLIER;
+      if (variableTurnRef > MAX_TURN_SPEED_REF) {
+        variableTurnRef = MAX_TURN_SPEED_REF;
+      }
+      leftSpeedFinal = (speedLeft + variableTurnRef);
+    }
+    else if (horizontalOffset < 0.0d) {
+      CW = false;
+      variableTurnRef = horizontalOffset * TURNING_SPEED_MULTIPLIER;
+      if (variableTurnRef < (-1 * MAX_TURN_SPEED_REF)) {
+        variableTurnRef = (-1 * MAX_TURN_SPEED_REF);
+      }
+      rightSpeedFinal = (speedRight + variableTurnRef);
+    }
 
     /*This will make the motors turn the detemined amount and speeds set in the init class*/
     if (!forwardMode)
@@ -89,7 +124,7 @@ public class LimelightSmoothTurn extends LimelightCommand {
       else if (!CW) {
       Robot.drivetrain.set(speedLeft, rightSpeedFinal);
       }
-      if (horizontalOffset < 2.0d && horizontalOffset > -2.0d) {
+      if (horizontalOffset < DEGREES_OF_ERROR && horizontalOffset > -DEGREES_OF_ERROR) {
        forwardMode = true;
       }
       else {
@@ -97,7 +132,7 @@ public class LimelightSmoothTurn extends LimelightCommand {
       }
     if (forwardMode) {
       Robot.drivetrain.set(speedLeft, speedRight);
-      if (area > targetArea) {
+      if (currentArea > maxTargetArea) {
         endProgram = true;
       }
     }
