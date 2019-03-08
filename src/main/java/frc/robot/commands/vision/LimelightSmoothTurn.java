@@ -28,6 +28,7 @@ public class LimelightSmoothTurn extends LimelightCommand {
   private double variableSpeedRef, variableTurnRef;
   private double TURNING_SPEED_MULTIPLIER = 0.015d; //1.5%
   private double MAX_TURN_SPEED_REF = 0.2d;
+  private double AREA_REDUCTION_FACTOR = 0.25d;
 
   /**
    * Set up GyroSmoothTurn.
@@ -84,7 +85,7 @@ public class LimelightSmoothTurn extends LimelightCommand {
     currentArea = Robot.limelight.getTargetArea();
     horizontalOffset = Robot.limelight.getHorizontalOffset();
 
-    variableSpeedRef = (maxTargetArea - currentArea) * speedRef;
+    variableSpeedRef = ((maxTargetArea - currentArea) * AREA_REDUCTION_FACTOR) * speedRef;
     speedLeft = variableSpeedRef;
     speedRight = -variableSpeedRef;
 
