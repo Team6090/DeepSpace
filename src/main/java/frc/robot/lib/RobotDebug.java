@@ -82,7 +82,9 @@ public class RobotDebug {
      * @param value The value to assign to the given key.
      */
     public void put(String key, String value) {
-        SmartDashboard.putString(key, value);
+        if (showOutput) {
+            SmartDashboard.putString(key, value);
+        }
     }
 
     /**
@@ -91,7 +93,9 @@ public class RobotDebug {
      * @param value The value to assign to the given key.
      */
     public void put(String key, boolean value) {
-        SmartDashboard.putBoolean(key, value);
+        if (showOutput) {
+            SmartDashboard.putBoolean(key, value);
+        }
     }
 
     /**
@@ -100,6 +104,8 @@ public class RobotDebug {
      * @param value The value to assign to the given key.
      */
     public void put(String key, double value) {
-        SmartDashboard.putNumber(key, value);
+        if (showOutput) {
+            SmartDashboard.putNumber(key, value);
+        }
     }
 }
