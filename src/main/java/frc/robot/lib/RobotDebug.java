@@ -25,7 +25,7 @@ public class RobotDebug {
     private boolean showOutput;
 
     /* The elevator motor reference, used to output more statistics than offered by the Elevator subsystem. */
-    private WPI_TalonSRX elevatorMotor = Robot.elevator.getMotor();
+    private final WPI_TalonSRX elevatorMotor = Robot.elevator.getMotor();
 
     /**
      * Construct the debugger class. This is for controlling whether or not we

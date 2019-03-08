@@ -14,21 +14,29 @@ import edu.wpi.first.networktables.NetworkTable;
  */
 public class Limelight {
 
+    /*
+     * Pipeline mappings. These values map a pipeline to its use.
+     */
     public static final int REFLECTIVE_PIPELINE = 0;
     public static final int GAFF_PIPELINE = 1;
 
     /* The name of the Limelight network table. */
-    private String limelightTableName = "limelight";
+    private final String limelightTableName = "limelight";
     /* An instance of the Limelight table. */
-    private NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable(limelightTableName);
+    private final NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable(limelightTableName);
 
     /* Store the states of the toggles so that the buttons can switch between states. */
     private boolean toggleStreamMode = false, toggleLedMode = false, toggleCamMode = false;
+
+    /* Pipeline iterator. */
     private int pipelineCount = 2, currentPipeline = 0;
+
     /* Only update the settings after this many scans */
     private final int scanUpdate = 8;
+
     /* Store the current scan to see whether or not the settings should be updated. */
     private int currentScan = 0;
+    
     /**
      * Set the Limelight settings based on external factors and states.
      */

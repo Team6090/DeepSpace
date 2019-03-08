@@ -30,7 +30,11 @@ public class OI {
   public static final int SLIDER_AXIS = 3;
   public static final int JOYSTICK_BUTTON_COUNT = 12;
 
-  /* Throttle configurations */
+  /*
+   * Throttle configurations.
+   * 
+   * The throttle lower bound is the minimum speed that the motors will travel.
+   */
   public static final double THROTTLE_LOWER_BOUND = 0.3d;
 
   /* Joysticks */
