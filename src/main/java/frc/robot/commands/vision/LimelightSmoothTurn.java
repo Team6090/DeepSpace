@@ -27,7 +27,7 @@ public class LimelightSmoothTurn extends LimelightCommand {
   private double DEGREES_OF_ERROR = 1;
   private double variableSpeedRef, variableTurnRef;
   private double TURNING_SPEED_MULTIPLIER = 0.015d; //1.5%
-  private double MAX_TURN_SPEED_REF = 0.3d;
+  private double MAX_TURN_SPEED_REF = 0.2d;
 
   /**
    * Set up GyroSmoothTurn.
