@@ -36,7 +36,7 @@ public class ElevatorController extends Command {
    * Position references for elevator setpoints
    */
   private final int bottomBallRef = 7500, middleBallRef = 16390, topBallRef = 25070;
-  private final int bottomHatchRef = 0, middleHatchRef = 8727, topHatchRef = 17500;
+  private final int bottomHatchRef = 0, middleHatchRef = 8300, topHatchRef = 17500;
 
   /*
    * Loop variables, used in setting the position reference
