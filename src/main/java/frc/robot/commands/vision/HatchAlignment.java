@@ -133,17 +133,22 @@ public class HatchAlignment extends LimelightCommand {
      * This is the paragraph that will finally put together all the hard work that came before it, this is 
      * going to put all of the values on the motors and turn the motors correctly, CW or CCW
      */
+    /* forwardMode is simply a toggle. If this block below runs, it means we're turning */
     if (!forwardMode)
+      /* For CW movement, speedRight is the base value and leftSpeedFinal is adjsuted to be faster */
       if (CW) {
        Robot.drivetrain.set(leftSpeedFinal, speedRight);
+      /* For CCW movement, speedLeft is the base value and rightSpeedFinal is adjusted to be faster */
       } else if (!CW) {
       Robot.drivetrain.set(speedLeft, rightSpeedFinal);
       }
+      /* This is our forwardMode trigger, if we're within a set variance of tx, turning will cease */
       if (horizontalOffset < DEGREES_OF_ERROR && horizontalOffset > -DEGREES_OF_ERROR) {
        forwardMode = true;
       } else {
         forwardMode = false;
       }
+    /* This simply says that when the turning is done, forwardMode is true, both motors will go the base value */
     if (forwardMode) {
       Robot.drivetrain.set(speedLeft, speedRight);
       if (currentArea >= maxTargetArea) {
@@ -153,7 +158,7 @@ public class HatchAlignment extends LimelightCommand {
   }
 
   /**
-   * Either stop upon timeout or upon endProgram
+   * Either stop upon timeout or upon endProgram, which is set true in many different ways
    */
   @Override
   protected boolean isFinished() {
@@ -167,7 +172,6 @@ public class HatchAlignment extends LimelightCommand {
   protected void end() {
     super.end();
     Robot.drivetrain.stop();
-    System.out.println("Time elapsed: " + (System.currentTimeMillis() - baseTime));
   }
 
   /**
