@@ -8,6 +8,7 @@
 package frc.robot.commandgroups;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.commands.vision.HatchAlignment;
 
 public class VisionTracker extends CommandGroup {
   /**
@@ -30,5 +31,6 @@ public class VisionTracker extends CommandGroup {
     // e.g. if Command1 requires chassis, and Command2 requires arm,
     // a CommandGroup containing them would require both the chassis and the
     // arm.
+    addSequential(new HatchAlignment(10000l, 0.5d, 8.00d));
   }
 }

@@ -9,9 +9,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commandgroups.VisionTracker;
 import frc.robot.commands.CommandDestroyer;
 import frc.robot.commands.joystick.LiftStateShift;
-import frc.robot.commands.vision.HatchAlignment;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -51,7 +51,7 @@ public class OI {
       joystickButton[i] = new JoystickButton(joystick, i);
     }
     /* Assign button actions here */
-    joystickButton[4].whileHeld(new HatchAlignment(10000l, 0.5d, 8.00d));
+    joystickButton[4].whileHeld(new VisionTracker());
     joystickButton[6].whenPressed(new LiftStateShift());
     joystickButton[7] = null; /* The ElevatorController uses this button. */
     joystickButton[11].whenPressed(new CommandDestroyer());
