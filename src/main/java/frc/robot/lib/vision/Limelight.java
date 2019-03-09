@@ -62,18 +62,12 @@ public class Limelight {
             case LEFT: /* Toggles the LED lights */
                 if (toggleLedMode) {
                     setLedMode(LedState.FORCE_ON);
-                } else {
-                    setLedMode(LedState.FORCE_OFF);
-                }
-                toggleLedMode = !toggleLedMode;
-                break;
-            case RIGHT: /* Toggles the Limelight vision mode. */
-                if (toggleCamMode) {
                     setCameraMode(CameraMode.VISION);
                 } else {
+                    setLedMode(LedState.FORCE_OFF);
                     setCameraMode(CameraMode.DRIVER);
                 }
-                toggleCamMode = !toggleCamMode;
+                toggleLedMode = !toggleLedMode;
                 break;
             default:
                 break;
