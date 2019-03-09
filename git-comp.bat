@@ -15,7 +15,9 @@ set COMP_PASS=1
 git remote add alt %COMP_REPO%
 
 :: Fetch the current branch
-for /f "delims=" %%i in ('git branch') do set CURRENT_BRANCH=%%i
+git branch | findstr * > tmp
+for /f "delims=" %%i in (tmp) do set CURRENT_BRANCH=%%i
+del tmp
 set CURRENT_BRANCH=%CURRENT_BRANCH:~2%
 
 ::
