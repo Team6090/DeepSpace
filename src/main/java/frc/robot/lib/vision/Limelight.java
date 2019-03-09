@@ -59,7 +59,7 @@ public class Limelight {
                 }
                 toggleStreamMode = !toggleStreamMode;
                 break;
-            case LEFT: /* Toggles the LED lights */
+            case LEFT: /* Toggles the LED lights & camera mode */
                 if (toggleCameraAndLed) {
                     setLedMode(LedState.FORCE_ON);
                     setCameraMode(CameraMode.VISION);
