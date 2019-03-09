@@ -1,6 +1,35 @@
 # FRC6090-2019
 The official repository of Team 6090's 2019 Deep Space code.
 
+## Versions Table
+
+### Key
+- P# - A "P" placed in from of a number/device refers to a device on the practice bot.
+- C# - A "C" placed in from of a number/device refers to a device on the competition bot.
+
+### Data
+| Vendor Libraries | Latest Known Version  | Updated Laptops | Laptops to Update |
+|------------------|-----------------------|-----------------|-------------------|
+| WPILib           | 2019.4.1              | 0, 0, 0         | 0, 0, 0           |
+| NavX             | 3.1.366               | 0, 0, 0         | 0, 0, 0           |
+| CTRE Phoenix     | 5.14.0                | 0, 0, 0         | 0, 0, 0           |
+| RevRobotics      | 1.1.9                 | 0, 0, 0         | 0, 0, 0           |
+
+| Software | Latest Known Version | Updated Laptops | Laptops to Update |
+|----------|----------------------|-----------------|-------------------|
+| OpenJDK  | 11.0.2               | 0, 0, 0         | 0, 0, 0           |
+| Gradle   | 5.1                  | 0, 0, 0         | 0, 0, 0           |
+
+| Firmware  | Latest known Version | Updated Devices (CAN ID, etc.) | Devices to Update    |
+|-----------|----------------------|--------------------------------|----------------------|
+| Spark Max | 1.1.31               | 0, 0, 0, 0                     | 0, 0, 0, 0           |
+| RoboRIO   | 6.0.0                | Competition/Practice           | Competition/Practice |
+
+| Images  | Latest Known Version | Updated Devices      | Devices to Update    |
+|---------|----------------------|----------------------|----------------------|
+| RoboRIO | 2019.14              | Competition/Practice | Competition/Practice |
+
+
 ## Contributors
 ### Students
 - Jordan Bancino
