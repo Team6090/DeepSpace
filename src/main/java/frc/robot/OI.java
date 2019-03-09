@@ -9,7 +9,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commandgroups.VisionTracker;
 import frc.robot.commands.CommandDestroyer;
 import frc.robot.commands.joystick.LiftStateShift;
 
@@ -51,7 +50,6 @@ public class OI {
       joystickButton[i] = new JoystickButton(joystick, i);
     }
     /* Assign button actions here */
-    joystickButton[4].whileHeld(new VisionTracker(Robot.intake.armIsUp()));
     joystickButton[6].whenPressed(new LiftStateShift());
     joystickButton[7] = null; /* The ElevatorController uses this button. */
     joystickButton[11].whenPressed(new CommandDestroyer());
