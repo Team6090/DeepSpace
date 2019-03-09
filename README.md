@@ -10,26 +10,26 @@ The official repository of Team 6090's 2019 Deep Space code.
 ### Data
 | Vendor Libraries | Latest Known Version  | Updated Laptops | Laptops to Update |
 |------------------|-----------------------|-----------------|-------------------|
-| WPILib           | 2019.4.1              | 1, 2, 3         | 0, 0, 0           |
-| NavX             | 3.1.366               | 1, 2, 3         | 0, 0, 0           |
-| CTRE Phoenix     | 5.14.1                | 1, 2, 3         | 0, 0, 0           |
-| RevRobotics      | 1.1.9                 | 1, 2, 3         | 0, 0, 0           |
+| WPILib           | 2019.4.1              | 1, 2, 3         |                   |
+| NavX             | 3.1.366               | 1, 2, 3         |                   |
+| CTRE Phoenix     | 5.14.1                | 1, 2, 3         |                   |
+| RevRobotics      | 1.1.9                 | 1, 2, 3         |                   |
 
 | Software         | Latest Known Version | Updated Laptops | Laptops to Update |
 |------------------|----------------------|-----------------|-------------------|
-| OpenJDK          | 11.0.2               | 1, 2, 3         | 0, 0, 0           |
-| Gradle           | 5.1                  | 1, 2, 3         | 0, 0, 0           |
-| FRC Update Suite | 2019.14              | 1, 2, 3         | 0, 0, 0           |
+| OpenJDK          | 11.0.2               | 1, 2, 3         |                   |
+| Gradle           | 5.1                  | 1, 2, 3         |                   |
+| FRC Update Suite | 2019.14              | 1, 2, 3         |                   |
 
 | Firmware  | Latest known Version | Updated Devices (CAN ID, etc.) | Devices to Update    |
 |-----------|----------------------|--------------------------------|----------------------|
-| Spark Max | 1.1.31               | 0, 0, 0, 0                     | 0, 0, 0, 0           |
-| RoboRIO   | 6.0.0                | Competition/Practice           | Competition/Practice |
+| Spark Max | 1.1.31               | Practice                       | Competition          |
+| RoboRIO   | 6.0.0                | Practice                       | Competition          |
 
 | Images    | Latest Known Version | Updated Devices      | Devices to Update    |
 |-----------|----------------------|----------------------|----------------------|
-| RoboRIO   | 2019.14              | Competition/Practice | Competition/Practice |
-| LimeLight | 2019.5               | Competition/Practice | Competition/Practice |
+| RoboRIO   | 2019.14              | Practice             | Competition          |
+| LimeLight | 2019.5               | Practice             | Competition          |
 
 
 ## Contributors
