@@ -5,8 +5,7 @@
 :: This script allows the use of an alternate repository.
 ::
 
-:: The competition repository. Our server automatically resolves
-:: comp.server.
+:: The competition repository.
 set COMP_REPO=git@192.168.0.100:~/FRC6090-2019
 :: The password to the remote. The server is configured to have a password
 :: of "1" because it is simple and easy to type.
@@ -16,7 +15,9 @@ set COMP_PASS=1
 git remote add alt %COMP_REPO%
 
 :: Fetch the current branch
-for /f "delims=" %%i in ('git branch') do set CURRENT_BRANCH=%%i
+git branch | findstr * > tmp
+for /f "delims=" %%i in (tmp) do set CURRENT_BRANCH=%%i
+del tmp
 set CURRENT_BRANCH=%CURRENT_BRANCH:~2%
 
 ::
