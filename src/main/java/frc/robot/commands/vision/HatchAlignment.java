@@ -94,6 +94,7 @@ public class HatchAlignment extends LimelightCommand {
       variableSpeedRef = MAX_VARIABLE_SPEED_REF;
     }
 
+    /* These few if statements handle the math behind the gradual turning speed */
     if (horizontalOffset > 0.0d) {
       CW = true;
       variableTurnRef = horizontalOffset * TURNING_SPEED_MULTIPLIER;
@@ -101,8 +102,7 @@ public class HatchAlignment extends LimelightCommand {
         variableTurnRef = MAX_TURN_SPEED_REF;
       }
       leftSpeedFinal = (speedLeft + variableTurnRef);
-    }
-    else if (horizontalOffset < 0.0d) {
+    } else if (horizontalOffset < 0.0d) {
       CW = false;
       variableTurnRef = horizontalOffset * TURNING_SPEED_MULTIPLIER;
       if (variableTurnRef < (-1 * MAX_TURN_SPEED_REF)) {
@@ -115,19 +115,17 @@ public class HatchAlignment extends LimelightCommand {
     if (!forwardMode)
       if (CW) {
        Robot.drivetrain.set(leftSpeedFinal, speedRight);
-      }
-      else if (!CW) {
+      } else if (!CW) {
       Robot.drivetrain.set(speedLeft, rightSpeedFinal);
       }
       if (horizontalOffset < DEGREES_OF_ERROR && horizontalOffset > -DEGREES_OF_ERROR) {
        forwardMode = true;
-      }
-      else {
+      } else {
         forwardMode = false;
       }
     if (forwardMode) {
       Robot.drivetrain.set(speedLeft, speedRight);
-      if (currentArea > maxTargetArea) {
+      if (currentArea >= maxTargetArea) {
         endProgram = true;
       }
     }
