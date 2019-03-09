@@ -25,7 +25,7 @@ public class Limelight {
     private final NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable(limelightTableName);
 
     /* Store the states of the toggles so that the buttons can switch between states. */
-    private boolean toggleStreamMode = false, toggleLedMode = false, toggleCamMode = false;
+    private boolean toggleStreamMode = false, toggleCameraAndLed = false;
 
     /* Only update the settings after this many scans */
     private final int scanUpdate = 8;
@@ -60,14 +60,14 @@ public class Limelight {
                 toggleStreamMode = !toggleStreamMode;
                 break;
             case LEFT: /* Toggles the LED lights */
-                if (toggleLedMode) {
+                if (toggleCameraAndLed) {
                     setLedMode(LedState.FORCE_ON);
                     setCameraMode(CameraMode.VISION);
                 } else {
                     setLedMode(LedState.FORCE_OFF);
                     setCameraMode(CameraMode.DRIVER);
                 }
-                toggleLedMode = !toggleLedMode;
+                toggleCameraAndLed = !toggleCameraAndLed;
                 break;
             default:
                 break;
