@@ -29,7 +29,7 @@ public class HatchAlignment extends LimelightCommand {
   private double TURNING_SPEED_MULTIPLIER = 0.015d;
   private double MAX_TURN_SPEED_REF = 0.2d;
   private double MAX_VARIABLE_SPEED_REF = 0.25d;
-  private double AREA_REDUCTION_FACTOR = 0.05d;
+  private double AREA_REDUCTION_FACTOR = 0.08d;
 
   /**
    * Set up GyroSmoothTurn.
