@@ -26,9 +26,10 @@ The official repository of Team 6090's 2019 Deep Space code.
 | Spark Max | 1.1.31               | 0, 0, 0, 0                     | 0, 0, 0, 0           |
 | RoboRIO   | 6.0.0                | Competition/Practice           | Competition/Practice |
 
-| Images  | Latest Known Version | Updated Devices      | Devices to Update    |
-|---------|----------------------|----------------------|----------------------|
-| RoboRIO | 2019.14              | Competition/Practice | Competition/Practice |
+| Images    | Latest Known Version | Updated Devices      | Devices to Update    |
+|-----------|----------------------|----------------------|----------------------|
+| RoboRIO   | 2019.14              | Competition/Practice | Competition/Practice |
+| LimeLight | 2019.5               | Competition/Practice | Competition/Practice |
 
 
 ## Contributors
