@@ -7,7 +7,7 @@
 
 :: The competition repository. Our server automatically resolves
 :: comp.server.
-set COMP_REPO=git@comp.server:~/FRC6090-2019
+set COMP_REPO=git@192.168.0.100:~/FRC6090-2019
 :: The password to the remote. The server is configured to have a password
 :: of "1" because it is simple and easy to type.
 set COMP_PASS=1
