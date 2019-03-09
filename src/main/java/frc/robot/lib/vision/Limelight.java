@@ -28,9 +28,6 @@ public class Limelight {
     /* Store the states of the toggles so that the buttons can switch between states. */
     private boolean toggleStreamMode = false, toggleLedMode = false, toggleCamMode = false;
 
-    /* Pipeline iterator. */
-    private int pipelineCount = 2, currentPipeline = 0;
-
     /* Only update the settings after this many scans */
     private final int scanUpdate = 8;
 
@@ -78,14 +75,6 @@ public class Limelight {
                     setCameraMode(CameraMode.DRIVER);
                 }
                 toggleCamMode = !toggleCamMode;
-                break;
-            case DOWN: /* Cycles through the Limelight pipelines */
-                if (currentPipeline + 1 < pipelineCount) {
-                    currentPipeline++;
-                } else {
-                    currentPipeline = 0;
-                }
-                setPipeline(currentPipeline);
                 break;
             default:
                 break;
