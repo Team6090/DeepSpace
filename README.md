@@ -11,9 +11,9 @@ The official repository of Team 6090's 2019 Deep Space code.
 | Vendor Libraries | Latest Known Version  | Updated Laptops | Laptops to Update |
 |------------------|-----------------------|-----------------|-------------------|
 | WPILib           | 2019.4.1              | 1, 2, 3         | 0, 0, 0           |
-| NavX             | 3.1.366               | 0, 0, 0         | 0, 0, 0           |
-| CTRE Phoenix     | 5.14.0                | 0, 0, 0         | 0, 0, 0           |
-| RevRobotics      | 1.1.9                 | 0, 2, 0         | 0, 0, 0           |
+| NavX             | 3.1.366               | 1, 2, 3         | 0, 0, 0           |
+| CTRE Phoenix     | 5.14.1                | 1, 2, 3         | 0, 0, 0           |
+| RevRobotics      | 1.1.9                 | 1, 2, 3         | 0, 0, 0           |
 
 | Software         | Latest Known Version | Updated Laptops | Laptops to Update |
 |------------------|----------------------|-----------------|-------------------|
