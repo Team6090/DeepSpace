@@ -5,8 +5,7 @@
 :: This script allows the use of an alternate repository.
 ::
 
-:: The competition repository. Our server automatically resolves
-:: comp.server.
+:: The competition repository.
 set COMP_REPO=git@192.168.0.100:~/FRC6090-2019
 :: The password to the remote. The server is configured to have a password
 :: of "1" because it is simple and easy to type.
