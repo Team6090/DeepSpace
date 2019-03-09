@@ -52,7 +52,7 @@ public class HatchAlignment extends LimelightCommand {
    */
   @Override
   protected void initialize() {
-    /* Limelight start, offset collected, endProgram made false so no restarting code required */
+    /* Limelight start, endProgram is set to false just in case */
     super.initialize();
     horizontalOffset = Robot.limelight.getHorizontalOffset();
     endProgram = false;
@@ -61,7 +61,11 @@ public class HatchAlignment extends LimelightCommand {
     baseTime = System.currentTimeMillis();
     thresholdTime = baseTime + duration;
 
-    /*This will decide which motors are sped up to turn which way, determined by the boolean*/
+    /**
+     * Determines CW or CCW turning, or, in other words, will overall determine which side of the motors
+     * are sped up and which side remains unchanged. This works by using tx from the limelight, which is the 
+     * horizontalOffset
+     */
     if (horizontalOffset > 0.0d) {
       CW = true;
     }
@@ -70,48 +74,65 @@ public class HatchAlignment extends LimelightCommand {
     }
   }
   /**
-   * This is saying that if the targetAngle was originally negative, which means it will now be a large
-   * postive, it will not invert the motors, meaning the robot will turn counterclockwise to get to that
-   * angle, the most efficient way. The else statement is saying that if the targetAngle was originally
-   * positive, then it will turn clockwise, the most efficient way, to get to that angle.
+   * Execute is pretty packed, but what's happening in execute is all the calculation that ease the robots
+   * speed, whether that's turning or driving forward. These things are all going to slow down with every 
+   * little change in the robots ta or tx, so it needs to be able to iterate itself to constantly calculate
+   * the variableSpeedRef and the variableTurnRef.
    */
   @Override
   protected void execute() {
-    /*
-    final double STEER_K = 0.03;                    // how hard to turn toward the target
-    final double DRIVE_K = 0.26;                    // how hard to drive fwd toward the target
-    final double DESIRED_TARGET_AREA = 13.0;        // Area of the target when the robot reaches the wall
-    final double MAX_DRIVE = 0.7;                   // Simple speed limit so we don't drive too fast
-    */
+    /* Grabs a few necessary values from the limelight for calculations */
     currentArea = Robot.limelight.getTargetArea();
     horizontalOffset = Robot.limelight.getHorizontalOffset();
 
+    /**
+     * These are the area calculations that will ultimately affect the motor speed, which means it will slow
+     * itself down as the limelights ta (currentArea) nears the maxTargetArea. speedRight is inverted
+     * simply because of how it's arranged on the robot, it needs to run reversed.
+     */
     variableSpeedRef = ((maxTargetArea - currentArea) * AREA_REDUCTION_FACTOR) * speedRef;
     speedLeft = variableSpeedRef;
     speedRight = -variableSpeedRef;
 
+    /**
+     * This keeps variableSpeedRef from getting too high, and will regulate to always be under a constant,
+     * MAX_VARIABLE_SPEED_REF, set at the top of HatchAlignment
+     */
     if (variableSpeedRef > MAX_VARIABLE_SPEED_REF) {
       variableSpeedRef = MAX_VARIABLE_SPEED_REF;
     }
 
-    /* These few if statements handle the math behind the gradual turning speed */
+    /** 
+     * These few if statements handle the math behind the turning. These if statements ultimately end up
+     * calculating variableTurnRef, which is then ADDED onto the speedRef for the motor that, determined in
+     * the init, will be turning spinning faster for the other, which will make the robot actually turn.
+     */
+    /* Figures out whether the robot will turn CW and then multiplies by a constant */
     if (horizontalOffset > 0.0d) {
       CW = true;
       variableTurnRef = horizontalOffset * TURNING_SPEED_MULTIPLIER;
+      /* Keeps variableTurnRef in check by keeping it under a set constant */
       if (variableTurnRef > MAX_TURN_SPEED_REF) {
         variableTurnRef = MAX_TURN_SPEED_REF;
       }
+      /* Calculates leftSpeedFinal using the default speed and the calculated variableTurnRef */
       leftSpeedFinal = (speedLeft + variableTurnRef);
+      /* Figures our whether the robot will turn CCW and then multiplies by a constant */
     } else if (horizontalOffset < 0.0d) {
       CW = false;
       variableTurnRef = horizontalOffset * TURNING_SPEED_MULTIPLIER;
+      /* Keeps variableTurnRef in check, keeps it below a set constant */
       if (variableTurnRef < (-1 * MAX_TURN_SPEED_REF)) {
         variableTurnRef = (-1 * MAX_TURN_SPEED_REF);
       }
+      /* Calculates rightSpeedFinal using the default speed and the calculated variableTurnRef */
       rightSpeedFinal = (speedRight + variableTurnRef);
     }
 
-    /* This will make the motors turn the detemined amount and speeds set in the init class */
+    /**
+     * This is the paragraph that will finally put together all the hard work that came before it, this is 
+     * going to put all of the values on the motors and turn the motors correctly, CW or CCW
+     */
     if (!forwardMode)
       if (CW) {
        Robot.drivetrain.set(leftSpeedFinal, speedRight);
