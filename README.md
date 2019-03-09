@@ -10,16 +10,16 @@ The official repository of Team 6090's 2019 Deep Space code.
 ### Data
 | Vendor Libraries | Latest Known Version  | Updated Laptops | Laptops to Update |
 |------------------|-----------------------|-----------------|-------------------|
-| WPILib           | 2019.4.1              | 0, 0, 0         | 0, 0, 0           |
+| WPILib           | 2019.4.1              | 1, 2, 3         | 0, 0, 0           |
 | NavX             | 3.1.366               | 0, 0, 0         | 0, 0, 0           |
 | CTRE Phoenix     | 5.14.0                | 0, 0, 0         | 0, 0, 0           |
-| RevRobotics      | 1.1.9                 | 0, 0, 0         | 0, 0, 0           |
+| RevRobotics      | 1.1.9                 | 0, 2, 0         | 0, 0, 0           |
 
 | Software         | Latest Known Version | Updated Laptops | Laptops to Update |
 |------------------|----------------------|-----------------|-------------------|
-| OpenJDK          | 11.0.2               | 0, 0, 0         | 0, 0, 0           |
-| Gradle           | 5.1                  | 0, 0, 0         | 0, 0, 0           |
-| FRC Update Suite | 2019.14              | 0, 0, 0         | 0, 0, 0           |
+| OpenJDK          | 11.0.2               | 1, 2, 3         | 0, 0, 0           |
+| Gradle           | 5.1                  | 1, 2, 3         | 0, 0, 0           |
+| FRC Update Suite | 2019.14              | 1, 2, 3         | 0, 0, 0           |
 
 | Firmware  | Latest known Version | Updated Devices (CAN ID, etc.) | Devices to Update    |
 |-----------|----------------------|--------------------------------|----------------------|
