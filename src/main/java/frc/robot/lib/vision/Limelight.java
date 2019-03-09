@@ -18,7 +18,6 @@ public class Limelight {
      * Pipeline mappings. These values map a pipeline to its use.
      */
     public static final int REFLECTIVE_PIPELINE = 0;
-    public static final int GAFF_PIPELINE = 1;
 
     /* The name of the Limelight network table. */
     private final String limelightTableName = "limelight";
@@ -27,9 +26,6 @@ public class Limelight {
 
     /* Store the states of the toggles so that the buttons can switch between states. */
     private boolean toggleStreamMode = false, toggleLedMode = false, toggleCamMode = false;
-
-    /* Pipeline iterator. */
-    private int pipelineCount = 2, currentPipeline = 0;
 
     /* Only update the settings after this many scans */
     private final int scanUpdate = 8;
@@ -78,14 +74,6 @@ public class Limelight {
                     setCameraMode(CameraMode.DRIVER);
                 }
                 toggleCamMode = !toggleCamMode;
-                break;
-            case DOWN: /* Cycles through the Limelight pipelines */
-                if (currentPipeline + 1 < pipelineCount) {
-                    currentPipeline++;
-                } else {
-                    currentPipeline = 0;
-                }
-                setPipeline(currentPipeline);
                 break;
             default:
                 break;
