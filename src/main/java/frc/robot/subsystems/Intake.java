@@ -29,7 +29,8 @@ public class Intake extends Subsystem {
   private final Solenoid pivotDown = new Solenoid(RobotMap.PNEUMATIC_CONTROL_MODULE, RobotMap.INTAKE_ARM_PIVOT_DOWN);
   private final Solenoid pivotUp = new Solenoid(RobotMap.PNEUMATIC_CONTROL_MODULE, RobotMap.INTAKE_ARM_PIVOT_UP);
 
-  private final Solenoid hatchRelease = new Solenoid(RobotMap.PNEUMATIC_CONTROL_MODULE, RobotMap.HATCH_RELEASE);
+  private final Solenoid hatchReleaseEnable = new Solenoid(RobotMap.PNEUMATIC_CONTROL_MODULE, RobotMap.HATCH_RELEASE_ENABLE);
+  private final Solenoid hatchReleaseDisable = new Solenoid(RobotMap.PNEUMATIC_CONTROL_MODULE, RobotMap.HATCH_RELEASE_DISABLE);
 
   /* Intake Motor */
   private final WPI_TalonSRX intakeMotor = new WPI_TalonSRX(RobotMap.INTAKE_MOTOR);
@@ -116,7 +117,8 @@ public class Intake extends Subsystem {
    * Fire a one-way actuator.
    */
   public void hatchRelease(boolean out) {
-    hatchRelease.set(out);
+    hatchReleaseEnable.set(out);
+    hatchReleaseDisable.set(!out);
   }
 
   /**
