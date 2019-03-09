@@ -8,29 +8,22 @@
 package frc.robot.commandgroups;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.commands.vision.GaffTapeAlign;
 import frc.robot.commands.vision.HatchAlignment;
 
 public class VisionTracker extends CommandGroup {
-  /**
-   * Add your docs here.
-   */
-  public VisionTracker() {
-    // Add Commands here:
-    // e.g. addSequential(new Command1());
-    // addSequential(new Command2());
-    // these will run in order.
 
-    // To run multiple commands at the same time,
-    // use addParallel()
-    // e.g. addParallel(new Command1());
-    // addSequential(new Command2());
-    // Command1 and Command2 will run in parallel.
+  //private boolean armUp = Robot.intake.armIsUp();
 
-    // A command group will require all of the subsystems that each member
-    // would require.
-    // e.g. if Command1 requires chassis, and Command2 requires arm,
-    // a CommandGroup containing them would require both the chassis and the
-    // arm.
-    addSequential(new HatchAlignment(10000l, 0.5d, 8.00d));
+  //if (armUp) {
+  //  addSequential(new HatchAlignment(10000l, 0.5d, 8.00d));
+  //}
+
+  public VisionTracker(boolean armUp) {
+    if (armUp) {
+      addSequential(new HatchAlignment(10000l, 0.5d, 8.00d));
+    } else {
+    addSequential(new GaffTapeAlign(.4, 1.3, -3, 3, 1, 5000));
+    }
   }
 }

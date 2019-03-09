@@ -45,7 +45,7 @@ public class LimelightCommand extends Command {
         super.initialize();
         Robot.limelight.setLedMode(Limelight.LedState.FORCE_ON);
         Robot.limelight.setStreamingMode(Limelight.StreamMode.PIP_MAIN);
-        startPipeline = (int) Robot.limelight.getPipe();
+        startPipeline = Robot.limelight.getPipe();
         Robot.limelight.setPipeline(pipeline);
     }
 

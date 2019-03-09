@@ -51,7 +51,7 @@ public class OI {
       joystickButton[i] = new JoystickButton(joystick, i);
     }
     /* Assign button actions here */
-    joystickButton[4].whileHeld(new VisionTracker());
+    joystickButton[4].whileHeld(new VisionTracker(Robot.intake.armIsUp()));
     joystickButton[6].whenPressed(new LiftStateShift());
     joystickButton[7] = null; /* The ElevatorController uses this button. */
     joystickButton[11].whenPressed(new CommandDestroyer());
