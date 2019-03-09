@@ -18,6 +18,7 @@ public class Limelight {
      * Pipeline mappings. These values map a pipeline to its use.
      */
     public static final int REFLECTIVE_PIPELINE = 0;
+    public static final int GAFF_PIPELINE = 1;
 
     /* The name of the Limelight network table. */
     private final String limelightTableName = "limelight";
