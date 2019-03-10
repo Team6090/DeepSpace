@@ -11,11 +11,9 @@ import edu.wpi.first.wpilibj.command.Command ;
 import frc.robot.Robot;
 
 public class VisionTracker extends Command {
-
   private final Command hatchAlignment = new HatchAlignment(5000l, 0.5d, 8.00d);
   private final Command gaffTapeAlign = new GaffTapeAlign(0.5d, 1.3d, -1.0d, 1.0d, 2.0d, 5000l);
   private Command currentCommand;
-
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {

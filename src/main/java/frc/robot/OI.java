@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.CommandDestroyer;
 import frc.robot.commands.joystick.LiftStateShift;
+import frc.robot.commands.vision.VisionTracker;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -50,6 +51,7 @@ public class OI {
       joystickButton[i] = new JoystickButton(joystick, i);
     }
     /* Assign button actions here */
+    joystickButton[4].whileHeld(new VisionTracker());
     joystickButton[6].whenPressed(new LiftStateShift());
     joystickButton[7] = null; /* The ElevatorController uses this button. */
     joystickButton[11].whenPressed(new CommandDestroyer());
