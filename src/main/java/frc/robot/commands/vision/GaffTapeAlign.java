@@ -17,6 +17,7 @@ public class GaffTapeAlign extends LimelightCommand {
   boolean hasTarget = Robot.limelight.hasValidTargets(), endProgram;
   double speedLeft, speedRight, speedRef, speedMultiplier = 1.3d;
   double horizontalOffset, horizontalOffsetLowerBound, horizontalOffsetUpperBound, xOffsetBounds;
+  boolean withinBounds = false;
   double currentEncoderCount, baseEncoderCountRight, baseEncoderCountLeft, thresholdEncoderCount, previousEncoderCount, encoderCountDifference;
   double baseTime, thresholdTime, duration;
 
@@ -70,47 +71,42 @@ public class GaffTapeAlign extends LimelightCommand {
   /* Called repeatedly when this Command is scheduled to run */
   @Override
   protected void execute() {
-  
-    /* This will diagnose what's needed to correct. Will only run if there is a > 2 degree offset */
+
+    /* Kills the program if the target is lost */
     if (hasTarget) {
-      horizontalOffset = Robot.limelight.getHorizontalOffset();
+      endProgram = false;
+    } else {
+      endProgram = true;
+    }
+
+    /* Gathers the essential information, offset and encoder counts, and whether we have a target or not */
+    horizontalOffset = Robot.limelight.getHorizontalOffset();
+    currentEncoderCount = Robot.drivetrain.getAverageEncoderPosition();
+    hasTarget = Robot.limelight.hasValidTargets();
+
+    /* Figures out whether or not we're within bounds, which will determine whether or not we turn */
+    if (horizontalOffset > horizontalOffsetLowerBound && horizontalOffset < horizontalOffsetUpperBound) {
+      withinBounds = true;
+    } else {
+      withinBounds = true;
+    }
+  
+    /* If we have a target and we are offset... */
+    if (hasTarget && !withinBounds) {
+      /* If xOffset is negative... */
       if (horizontalOffset < 0.0d) {
-        if (horizontalOffset > horizontalOffsetLowerBound && horizontalOffset < horizontalOffsetUpperBound) {
-          Robot.drivetrain.set(speedLeft, speedRight);
-          currentEncoderCount = Robot.drivetrain.getLeftEncoderPosition();
-        }
-        else {
-          Robot.drivetrain.set(speedLeft, (speedRight * speedMultiplier));
-          currentEncoderCount = Robot.drivetrain.getLeftEncoderPosition();
-        }
+        /* Speed up the left motors to turn CW */
+        Robot.drivetrain.set((speedLeft * speedMultiplier), speedRight);
+      } else {
+        /* Otherwise speed up the right to turn CCW */
+        Robot.drivetrain.set(speedLeft, (speedRight * speedMultiplier));
       }
-      else if (horizontalOffset > 0.0d) {
-        if (horizontalOffset > horizontalOffsetLowerBound && horizontalOffset < horizontalOffsetUpperBound) {
-          Robot.drivetrain.set(speedLeft, speedRight);
-          currentEncoderCount = Robot.drivetrain.getLeftEncoderPosition();
-        }
-        else {
-          Robot.drivetrain.set((speedLeft * speedMultiplier), speedRight);
-          if (Robot.drivetrain.getRightEncoderPosition() < 0.0d) {
-          currentEncoderCount = (-1 * Robot.drivetrain.getRightEncoderPosition());
-          }
-          else {
-            currentEncoderCount = Robot.drivetrain.getRightEncoderPosition();
-          }
-        }
-      }
-      else {
-        Robot.drivetrain.set(speedLeft, speedRight);
-        currentEncoderCount = Robot.drivetrain.getLeftEncoderPosition();
-      }
+      /* If we have a target and it is within acceptable bounds of 0 degrees... */
+    } else if (hasTarget && withinBounds) {
+      /* Drive both motors equally to go forwards */
+      Robot.drivetrain.set(speedLeft, speedRight);
+      /* And if theres no target... */
     }
-    /* Controls for the stopping when there was a collision
-    if (Robot.drivetrain.getLeft() > 0) {
-      if ((currentEncoderCount - previousEncoderCount) < encoderCountDifference) {
-        Robot.drivetrain.set(0.0d, 0.0d);
-      }
-    }
-    previousEncoderCount = currentEncoderCount; */
   }
 
   /* Make this return true when this Command no longer needs to run execute() */
@@ -122,7 +118,7 @@ public class GaffTapeAlign extends LimelightCommand {
     //Robot.debug.put("motorRevscalc", (currentEncoderCount - baseEncoderCountLeft));
     //Robot.debug.put("currentEncoderCount", currentEncoderCount);
 
-    return (endProgram || System.currentTimeMillis() > thresholdTime || (currentEncoderCount >= thresholdEncoderCount));
+    return (endProgram || System.currentTimeMillis() > thresholdTime);
   }
 
   /* Called once after isFinished returns true */

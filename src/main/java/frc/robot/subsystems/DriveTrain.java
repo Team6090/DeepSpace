@@ -175,6 +175,15 @@ public class DriveTrain extends Subsystem {
   }
 
   /**
+   * The average of both motor positions returned as a positive
+   * @return the positive average of both encoders.
+   */
+  public double getAverageEncoderPosition() {
+    /* Add left and right positions together, flip the right because it's negative */
+    return ((getLeftEncoderPosition() + (-1.0 * getRightEncoderPosition())) / 2);
+  }
+
+  /**
    * Stop all motors.
    */
   public void stop() {
