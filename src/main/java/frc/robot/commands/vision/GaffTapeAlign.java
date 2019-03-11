@@ -14,20 +14,16 @@ import frc.robot.Robot;
 
 public class GaffTapeAlign extends LimelightCommand {
   double motorRevs = DriveTrain.distanceToMotorRevs2(36.0d); 
-  boolean hasTarget = Robot.limelight.hasValidTargets();
-  boolean endProgram, CW;
-  double speedLeft, speedRight, speedRef, speedMultiplier;
-  double horizontalOffset, horizontalOffsetLowerBound = -5.0d, horizontalOffsetUpperBound = 5.0d;
+  boolean hasTarget = Robot.limelight.hasValidTargets(), endProgram;
+  double speedLeft, speedRight, speedRef, speedMultiplier = 1.3d;
+  double horizontalOffset, horizontalOffsetLowerBound, horizontalOffsetUpperBound, xOffsetBounds;
   double currentEncoderCount, baseEncoderCountRight, baseEncoderCountLeft, thresholdEncoderCount, previousEncoderCount, encoderCountDifference;
   double baseTime, thresholdTime, duration;
 
-  public GaffTapeAlign(double speedRef, double speedMultiplier, double xOffsetLowerBound, double xOffsetUpperBound, double encoderCountDifference, double duration) {
+  public GaffTapeAlign(double speedRef, double xOffsetBounds, double duration) {
     super(Limelight.GAFF_PIPELINE);
-    this.speedMultiplier = speedMultiplier;
-    this.horizontalOffsetLowerBound = xOffsetLowerBound;
-    this.horizontalOffsetUpperBound = xOffsetUpperBound;
+    this.xOffsetBounds = xOffsetBounds;
     this.speedRef = speedRef;
-    this.encoderCountDifference = encoderCountDifference;
     this.duration = duration;
     requires(Robot.drivetrain);
   }
@@ -35,30 +31,40 @@ public class GaffTapeAlign extends LimelightCommand {
   /* Called just before this Command runs the first time */
   @Override
   protected void initialize() {
+    /* Initialize the limelight */
     super.initialize();
+
     /* Initialize timer */
     baseTime = System.currentTimeMillis();
     thresholdTime = baseTime + duration;
+
     /* Extra precautions, if the pipeline wasn't set correctly. Exits the command */
     if (Robot.limelight.getPipe() != 1) {
       endProgram = true;
       System.out.println("Invalid pipeline, command stopping.");
     }
 
+    /* Sets the first reference for encoder counts */
     baseEncoderCountLeft = Robot.drivetrain.getLeftEncoderPosition();
     baseEncoderCountRight = Robot.drivetrain.getRightEncoderPosition();
 
     /* Sets motor speeds based on the speedRef */
     speedRight = -speedRef;
     speedLeft = speedRef;
+
+    /* Sets bounds based on the xOffsetBounds */
+    horizontalOffsetLowerBound = (-1 * xOffsetBounds);
+    horizontalOffsetUpperBound = xOffsetBounds;
+
     /* Figures out if there's a target or not, calculates offset, calculates threshold encoder */
     hasTarget = Robot.limelight.hasValidTargets();
     horizontalOffset = Robot.limelight.getHorizontalOffset();
     thresholdEncoderCount = baseEncoderCountLeft + motorRevs;
-    /* Printing out init values to SmartDashboard */
+
+    /* Printing out init values to SmartDashboard
     Robot.debug.put("thresholdEncoderCount", thresholdEncoderCount);
     Robot.debug.put("baseEncoderCountLeft", baseEncoderCountLeft);
-    Robot.debug.put("baseEncoderCountRight", baseEncoderCountRight);
+    Robot.debug.put("baseEncoderCountRight", baseEncoderCountRight); */
   }
 
   /* Called repeatedly when this Command is scheduled to run */
