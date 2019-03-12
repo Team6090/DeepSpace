@@ -20,18 +20,17 @@ import frc.robot.Robot;
 public class LimelightSeek extends LimelightCommand {
 
   private boolean haveTarget;
-  private float currentAngle, lowerBoundAngle, upperBoundAngle;
+  private float currentAngle, lowerBoundAngle, upperBoundAngle, boundAngleRef;
   private boolean searchMode = false;
   private boolean CWDone = false;
   private boolean CCWDone = false;
   private boolean endProgram = false;
   private double speedZ;
 
-  public LimelightSeek(float lowerBoundAngle, float upperBoundAngle, double speedZ) {
+  public LimelightSeek(float lowerBoundAngle, float boundAngleRef, double speedZ) {
     super(Limelight.REFLECTIVE_PIPELINE);
     this.speedZ = speedZ;
-    this.upperBoundAngle = upperBoundAngle;
-    this.lowerBoundAngle = lowerBoundAngle;
+    this.boundAngleRef = boundAngleRef;
     requires(Robot.drivetrain);
   }
 
@@ -42,7 +41,12 @@ public class LimelightSeek extends LimelightCommand {
   protected void initialize() {
     super.initialize();
 
+    /* Finds whether or not we have a valid target when program starts */
     haveTarget = Robot.limelight.hasValidTargets();
+
+    /* Set bounds based upon the boundAngleRef set in the constructor */
+    upperBoundAngle = boundAngleRef;
+    lowerBoundAngle = (-1.0f * boundAngleRef);
 
     /*Activates searchMode*/
     if (!haveTarget) {
@@ -73,9 +77,11 @@ public class LimelightSeek extends LimelightCommand {
     }
 
     /**
-     * This is the good stuff, this is the moment you've all been waiting for
+     * This is the good stuff, this is the moment you've all been waiting for. This thing here is only
+     * going to work if there's no target and we are in searchMode.
      */
     if (!haveTarget || searchMode) {
+      /* If CCW has not been done and there is still no target... */
       if (!CCWDone && !haveTarget) {
         /* CCW */
         Robot.drivetrain.arcadeDrive(0.0d, -speedZ);
@@ -86,6 +92,7 @@ public class LimelightSeek extends LimelightCommand {
           CWDone = false;
         }
       }
+      /* If CCW has already been done, CW has not, and there is still no target... */
       if (CCWDone && !CWDone && !haveTarget) {
         /* CW */
         Robot.drivetrain.arcadeDrive(0.0d, speedZ);
@@ -99,6 +106,7 @@ public class LimelightSeek extends LimelightCommand {
         }
       }
     }
+      /* Self explanatory, if we end up ever having a target, we're going to end the program */
       endProgram = haveTarget;
   }
 
