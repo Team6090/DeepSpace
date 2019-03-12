@@ -17,11 +17,15 @@ public class VisionTracker extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    /* If the intake arm is up... */
     if (Robot.intake.armIsUp()) {
+      /* We run hatchAlignment */
       currentCommand = hatchAlignment;
     } else {
+      /* Otherwise, if it's down, the button runs gaffTapeAlign */
       currentCommand = gaffTapeAlign;
     }
+    /* Then the command, once decided what will run, will run */
     currentCommand.start();
   }
 
@@ -33,6 +37,10 @@ public class VisionTracker extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    /* 
+     * Since the commands are set to be whileheld, this function and the interrupt thing will handle the 
+     * program being killed by the button being let off
+     */
     currentCommand.cancel();
   }
 
