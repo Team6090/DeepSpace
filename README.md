@@ -19,16 +19,19 @@ devices are updated, and which ones need to be updated.
 | FRC Update Suite | 2019.14              | 1, 2, 3         |                   |
 | VS Code          | 1.32.1               | Unknown         | Unknown           |
 | Git              | 2.17.1+              | Unknown         | Unknown           |
+| Phoenix Tuner    | 1.2.0.0              | Unknown         | Unknown           |
+| Spark Max Client | 1.0.0                | Unknown         | Unknown           |
+| Etcher           | 1.4.8                | Unknown         | Unknown           |
 
-| Firmware  | Latest known Version | Updated Devices       | Devices to Update    |
-|-----------|----------------------|-----------------------|----------------------|
-| Spark Max | 1.1.33               | Practice, Competition |                      |
-| RoboRIO   | 6.0.0                | Practice, Competition |                      |
+| Firmware  | Latest known Version | Updated Devices       | Devices to Update     |
+|-----------|----------------------|-----------------------|-----------------------|
+| Spark Max | 1.1.33               | Practice, Competition |                       |
+| RoboRIO   | 6.0.0                | Practice, Competition |                       |
 
-| Images    | Latest Known Version | Updated Devices       | Devices to Update    |
-|-----------|----------------------|-----------------------|----------------------|
-| RoboRIO   | 2019.14              | Practice, Competition |                      |
-| LimeLight | 2019.5               | Practice, Competition |                      |
+| Images    | Latest Known Version | Updated Devices       | Devices to Update     |
+|-----------|----------------------|-----------------------|-----------------------|
+| RoboRIO   | 2019.14              | Practice, Competition |                       |
+| LimeLight | 2019.6               |                       | Practice, Competition |
 
 
 ## Contributors
