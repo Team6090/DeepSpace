@@ -25,11 +25,9 @@ set CURRENT_BRANCH=%CURRENT_BRANCH:~2%
 if "%1" == "push" (
     echo PASSWORD: %COMP_PASS%
     git push alt %CURRENT_BRANCH%
-    ssh %HOST% sync
 ) else if "%1" == "pull" (
     echo PASSWORD: %COMP_PASS%
     git pull alt %CURRENT_BRANCH%
-    ssh %HOST% sync
 ) else (
     git %*
 )
