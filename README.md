@@ -5,12 +5,12 @@ The official repository of Team 6090's 2019 Deep Space code.
 These tables store the latest versions of the software we use, and which of our
 devices are updated, and which ones need to be updated.
 
-| Vendor Libraries | Latest Known Version  | Updated Laptops | Laptops to Update |
-|------------------|-----------------------|-----------------|-------------------|
-| WPILib           | 2019.4.1              | 1, 2, 3         |                   |
-| NavX             | 3.1.366               | 1, 2, 3         |                   |
-| CTRE Phoenix     | 5.14.1                | 1, 2, 3         |                   |
-| RevRobotics      | 1.1.9                 | 1, 2, 3         |                   |
+| Vendor Libraries | Latest Known Version | Updated Laptops | Laptops to Update |
+|------------------|----------------------|-----------------|-------------------|
+| WPILib           | 2019.4.1             | 1, 2, 3         |                   |
+| NavX             | 3.1.366              | 1, 2, 3         |                   |
+| CTRE Phoenix     | 5.14.1               | 1, 2, 3         |                   |
+| RevRobotics      | 1.1.9                | 1, 2, 3         |                   |
 
 | Software         | Latest Known Version | Updated Laptops | Laptops to Update |
 |------------------|----------------------|-----------------|-------------------|
@@ -20,10 +20,10 @@ devices are updated, and which ones need to be updated.
 | VS Code          | 1.32.1               | Unknown         | Unknown           |
 | Git              | 2.17.1+              | Unknown         | Unknown           |
 
-| Firmware  | Latest known Version | Updated Devices (CAN ID, etc.) | Devices to Update    |
-|-----------|----------------------|--------------------------------|----------------------|
-| Spark Max | 1.1.33               | Practice, Competition          |                      |
-| RoboRIO   | 6.0.0                | Practice, Competition          |                      |
+| Firmware  | Latest known Version | Updated Devices       | Devices to Update    |
+|-----------|----------------------|-----------------------|----------------------|
+| Spark Max | 1.1.33               | Practice, Competition |                      |
+| RoboRIO   | 6.0.0                | Practice, Competition |                      |
 
 | Images    | Latest Known Version | Updated Devices       | Devices to Update    |
 |-----------|----------------------|-----------------------|----------------------|
