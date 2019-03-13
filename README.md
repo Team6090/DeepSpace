@@ -23,7 +23,7 @@ The official repository of Team 6090's 2019 Deep Space code.
 
 | Firmware  | Latest known Version | Updated Devices (CAN ID, etc.) | Devices to Update    |
 |-----------|----------------------|--------------------------------|----------------------|
-| Spark Max | 1.1.31               | Practice, Competition          |                      |
+| Spark Max | 1.1.33               | Practice, Competition          |                      |
 | RoboRIO   | 6.0.0                | Practice, Competition          |                      |
 
 | Images    | Latest Known Version | Updated Devices       | Devices to Update    |
