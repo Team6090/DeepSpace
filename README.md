@@ -18,6 +18,7 @@ devices are updated, and which ones need to be updated.
 | Gradle           | 5.1                  | 1, 2, 3         |                   |
 | FRC Update Suite | 2019.14              | 1, 2, 3         |                   |
 | VS Code          | 1.32.1               | Unknown         | Unknown           |
+| Git              | 2.17.1+              | Unknown         | Unknown           |
 
 | Firmware  | Latest known Version | Updated Devices (CAN ID, etc.) | Devices to Update    |
 |-----------|----------------------|--------------------------------|----------------------|
