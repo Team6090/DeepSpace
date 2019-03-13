@@ -6,10 +6,9 @@
 #
 
 # The competition repository.
-COMP_REPO=git@192.168.0.100:\~/FRC6090-2019
-# The password to the remote. The server is configured to have a password
-# of "1" because it is simple and easy to type.
-COMP_PASS=1
+USERNAME=git
+HOST=192.168.0.100
+COMP_REPO=$USERNAME@$HOST:\~/repo
 
 # Add the alt remote
 git remote add alt $COMP_REPO
@@ -21,11 +20,11 @@ CURRENT_BRANCH=$(git branch | grep "*" | cut -c 3-)
 # Add the alt options
 #
 if [ "$1" == "push" ]; then
-    echo "PASSWORD: $COMP_PASS"
     git push alt $CURRENT_BRANCH
+    ssh $HOST sync
 elif [ "$1" == "pull" ]; then
-    echo "PASSWORD: $COMP_PASS"
     git pull alt $CURRENT_BRANCH
+    ssh $HOST sync
 else
     git $*
 fi
