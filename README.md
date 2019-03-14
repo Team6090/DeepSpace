@@ -16,19 +16,22 @@ devices are updated, and which ones need to be updated.
 |------------------|----------------------|-----------------|-------------------|
 | OpenJDK          | 11.0.2               | 1, 2, 3         |                   |
 | Gradle           | 5.1                  | 1, 2, 3         |                   |
-| FRC Update Suite | 2019.14              | 1, 2, 3         |                   |
-| VS Code          | 1.32.1               | Unknown         | Unknown           |
-| Git              | 2.17.1+              | Unknown         | Unknown           |
+| FRC Update Suite | 2019.2.0             | 1, 2, 3         |                   |
+| VS Code          | 1.32.1               |                 | 1, 2, 3           |
+| Git              | 2.17.1+              | 1, 2, 3         |                   |
+| Phoenix Tuner    | 1.4.0                | 1, 2, 3         |                   |
+| Spark Max Client | 1.0.0                | 2, 3            | 1                 |
+| Etcher           | 1.4.8                | 2, 3            | 1                 |
 
-| Firmware  | Latest known Version | Updated Devices       | Devices to Update    |
-|-----------|----------------------|-----------------------|----------------------|
-| Spark Max | 1.1.33               | Practice, Competition |                      |
-| RoboRIO   | 6.0.0                | Practice, Competition |                      |
+| Firmware  | Latest known Version | Updated Devices       | Devices to Update     |
+|-----------|----------------------|-----------------------|-----------------------|
+| Spark Max | 1.1.33               | Practice, Competition |                       |
+| RoboRIO   | 6.0.0                | Practice, Competition |                       |
 
-| Images    | Latest Known Version | Updated Devices       | Devices to Update    |
-|-----------|----------------------|-----------------------|----------------------|
-| RoboRIO   | 2019.14              | Practice, Competition |                      |
-| LimeLight | 2019.5               | Practice, Competition |                      |
+| Images    | Latest Known Version | Updated Devices       | Devices to Update     |
+|-----------|----------------------|-----------------------|-----------------------|
+| RoboRIO   | 2019.14              | Practice, Competition |                       |
+| LimeLight | 2019.6               |                       | Practice, Competition |
 
 
 ## Contributors
