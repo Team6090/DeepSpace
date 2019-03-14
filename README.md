@@ -19,9 +19,9 @@ devices are updated, and which ones need to be updated.
 | FRC Update Suite | 2019.2.0             | 1, 2, 3         |                   |
 | VS Code          | 1.32.1               |                 | 1, 2, 3           |
 | Git              | 2.17.1+              | 1, 2, 3         |                   |
-| Phoenix Tuner    | 1.4.0                | 2, 3            | 1                 |
-| Spark Max Client | 1.0.0                | 1, 2, 3         |                   |
-| Etcher           | 1.4.8                | 1, 2, 3         |                   |
+| Phoenix Tuner    | 1.4.0                | 1, 2, 3         |                   |
+| Spark Max Client | 1.0.0                | 2, 3            | 1                 |
+| Etcher           | 1.4.8                | 2, 3            | 1                 |
 
 | Firmware  | Latest known Version | Updated Devices       | Devices to Update     |
 |-----------|----------------------|-----------------------|-----------------------|
