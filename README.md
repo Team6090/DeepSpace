@@ -53,8 +53,11 @@ them:
 
 - Gradle may not be able to find Java. Make sure you add `java` to the system path, and set the `JAVA_HOME` environment variable. You may have to restart your IDE after making these changes. **DO NOT** modify the Gradle scripts or any of the code to point to Java.
 
-To deploy the code to a RoboRIO, ensure that it is powered on, and connected to either the FRC-issued radio (via ethernet)
-or a PC (via ethernet or USB). If connecting via USB, make sure the [FRC Update Suite](https://wpilib.screenstepslive.com/s/currentCS/m/cpp/l/1027499-installing-the-frc-update-suite-all-languages) is installed, because it contains the USB driver for the RoboRIO. Deploying via Ethernet connected to a PC will also require the Update Suite. Linux users do not need the Update Suite to deploy via ethernet or USB, but rather, can use Jordan Bancino's [rio-network.sh](tools/rio-network.sh) to set up the DHCP server to properly connect. This script works over both USB and ethernet.
+## Tools
+TODO: Document the `/tools` directory here.
+
+## Linux
+Linux users do not need the Update Suite to deploy to a RoboRIO via ethernet or USB, but rather, can use Jordan Bancino's [rio-network.sh](tools/rio-network.sh) to set up the DHCP server to properly connect. This script works over both USB and ethernet.
 
 ## Contributing
 TODO: add contributing guide here.
