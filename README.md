@@ -17,11 +17,11 @@ devices are updated, and which ones need to be updated.
 | OpenJDK          | 11.0.2               | 1, 2, 3         |                   |
 | Gradle           | 5.1                  | 1, 2, 3         |                   |
 | FRC Update Suite | 2019.2.0             | 1, 2, 3         |                   |
-| VS Code          | 1.32.1               | Unknown         | Unknown           |
-| Git              | 2.17.1+              | Unknown         | Unknown           |
+| VS Code          | 1.32.1               |                 | 1, 2, 3           |
+| Git              | 2.17.1+              | 1, 2, 3         |                   |
 | Phoenix Tuner    | 1.4.0                | 2, 3            | 1                 |
-| Spark Max Client | 1.0.0                | Unknown         | Unknown           |
-| Etcher           | 1.4.8                | Unknown         | Unknown           |
+| Spark Max Client | 1.0.0                | 1, 2, 3         |                   |
+| Etcher           | 1.4.8                | 1, 2, 3         |                   |
 
 | Firmware  | Latest known Version | Updated Devices       | Devices to Update     |
 |-----------|----------------------|-----------------------|-----------------------|
