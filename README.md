@@ -49,7 +49,7 @@ devices are updated, and which ones need to be updated.
 - Gradle may fail to resolve some dependencies. If this happens, you'll need to run this command to manually download
 them: 
 
-        ./gradlew build
+        ./gradlew downloadAll
 
 - Gradle may not be able to find Java. Make sure you add `java` to the system path, and set the `JAVA_HOME` environment variable. You may have to restart your IDE after making these changes. **DO NOT** modify the Gradle scripts or any of the code to point to Java.
 
