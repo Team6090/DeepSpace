@@ -19,7 +19,7 @@ devices are updated, and which ones need to be updated.
 | FRC Update Suite | 2019.14              | 1, 2, 3         |                   |
 | VS Code          | 1.32.1               | Unknown         | Unknown           |
 | Git              | 2.17.1+              | Unknown         | Unknown           |
-| Phoenix Tuner    | 1.4.0                |                 | 1, 2, 3           |
+| Phoenix Tuner    | 1.4.0                | 2, 3            | 1                 |
 | Spark Max Client | 1.0.0                | Unknown         | Unknown           |
 | Etcher           | 1.4.8                | Unknown         | Unknown           |
 
