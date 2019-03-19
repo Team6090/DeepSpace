@@ -82,6 +82,7 @@ public class HatchAlignment extends LimelightCommand {
    */
   @Override
   protected void execute() {
+
     /* Grabs a few necessary values from the limelight for calculations */
     currentArea = Robot.limelight.getTargetArea();
     horizontalOffset = Robot.limelight.getHorizontalOffset();
@@ -116,9 +117,10 @@ public class HatchAlignment extends LimelightCommand {
       if (variableTurnRef > MAX_TURN_SPEED_REF) {
         variableTurnRef = MAX_TURN_SPEED_REF;
       }
+
       /* Calculates leftSpeedFinal using the default speed and the calculated variableTurnRef */
       leftSpeedFinal = (speedLeft + variableTurnRef);
-      /* Figures our whether the robot will turn CCW and then multiplies by a constant */
+
     } else if (horizontalOffset < 0.0d) {
       CW = false;
       variableTurnRef = horizontalOffset * TURNING_SPEED_MULTIPLIER;
@@ -134,12 +136,9 @@ public class HatchAlignment extends LimelightCommand {
      * This is the paragraph that will finally put together all the hard work that came before it, this is 
      * going to put all of the values on the motors and turn the motors correctly, CW or CCW
      */
-    /* forwardMode is simply a toggle. If this block below runs, it means we're turning */
     if (!forwardMode)
-      /* For CW movement, speedRight is the base value and leftSpeedFinal is adjsuted to be faster */
       if (CW) {
        Robot.drivetrain.set(leftSpeedFinal, speedRight);
-      /* For CCW movement, speedLeft is the base value and rightSpeedFinal is adjusted to be faster */
       } else if (!CW) {
       Robot.drivetrain.set(speedLeft, rightSpeedFinal);
       }
@@ -171,7 +170,6 @@ public class HatchAlignment extends LimelightCommand {
    */
   @Override
   protected void end() {
-
     //super.end();
     Robot.drivetrain.stop();
   }
