@@ -91,21 +91,24 @@ public class GaffTapeAlign extends LimelightCommand {
       withinBounds = true;
     }
   
-    /* If we have a target and we are offset... */
+    /* Only run if we're not within acceptable bounds and we have a target at all */
     if (hasTarget && !withinBounds) {
-      /* If xOffset is negative... */
+      /**
+       * These bad boys check whether the offset is negative or positive, which is basically
+       * the same as finding out whether or not we need to turn CW or CCW. Then, according to
+       * the answer, the motors are sped up accordingly
+       */
       if (horizontalOffset < 0.0d) {
-        /* Speed up the left motors to turn CW */
         Robot.drivetrain.set((speedLeft * speedMultiplier), speedRight);
       } else {
-        /* Otherwise speed up the right to turn CCW */
         Robot.drivetrain.set(speedLeft, (speedRight * speedMultiplier));
       }
-      /* If we have a target and it is within acceptable bounds of 0 degrees... */
+      /* 
+       * If we have a target and it is within acceptable bounds of 0 degrees, we're going to 
+       * make both motors turn the same amount so that we go forwards straight
+       */
     } else if (hasTarget && withinBounds) {
-      /* Drive both motors equally to go forwards */
       Robot.drivetrain.set(speedLeft, speedRight);
-      /* And if theres no target... */
     }
   }
 
