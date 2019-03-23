@@ -17,7 +17,7 @@ devices are updated, and which ones need to be updated.
 | OpenJDK          | 11.0.2               | 1, 2, 3         |                   |
 | Gradle           | 5.1                  | 1, 2, 3         |                   |
 | FRC Update Suite | 2019.2.0             | 1, 2, 3         |                   |
-| VS Code          | 1.32.1               |                 | 1, 2, 3           |
+| VS Code          | 1.32.3               |                 | 1, 2, 3           |
 | Git              | 2.17.1+              | 1, 2, 3         |                   |
 | Phoenix Tuner    | 1.4.0                | 1, 2, 3         |                   |
 | Spark Max Client | 1.0.0                | 2, 3            | 1                 |
