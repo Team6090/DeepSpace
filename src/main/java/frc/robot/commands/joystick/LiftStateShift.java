@@ -19,16 +19,37 @@ import frc.robot.Robot;
 public class LiftStateShift extends Command {
 
   /**
+   * The possible sets of pneumatics to lift.
+   */
+  public static enum LiftSet {
+    REAR, FRONT
+  }
+
+  /* The lift set that this command was instantiated with. */
+  private LiftSet liftSet;
+
+  /**
    * This command requires the base subsystem.
    */
-  public LiftStateShift() {
+  public LiftStateShift(LiftSet liftSet) {
     requires(Robot.base);
+    this.liftSet = liftSet;
   }
 
 
+  /**
+   * Do the lift operation depending on the current state of the robot base
+   * and the parameters provided.
+   */
   @Override
   protected void initialize() {
-    Robot.base.liftBot(!Robot.base.isLifted());
+    if (liftSet == LiftSet.FRONT) {
+      Robot.base.liftFront(!Robot.base.frontIsLifted());
+    } else if (liftSet == LiftSet.REAR) {
+      Robot.base.liftRear(!Robot.base.rearIsLifted());
+    } else {
+      System.out.println("LiftStateShift: Illegal State provided, no action will be taken.");
+    }
   }
 
   @Override

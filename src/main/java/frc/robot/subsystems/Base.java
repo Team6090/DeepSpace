@@ -28,9 +28,12 @@ public class Base extends Subsystem {
   /* The compressor */
   private final Compressor airCompressor = new Compressor(RobotMap.PNEUMATIC_CONTROL_MODULE);
 
-  /* The solenoid that will lift the bot. */
-  private final Solenoid botLift = new Solenoid(RobotMap.PNEUMATIC_CONTROL_MODULE, RobotMap.LIFT_MECHANISM_ENABLE);
-  private final Solenoid botLower = new Solenoid(RobotMap.PNEUMATIC_CONTROL_MODULE, RobotMap.LIFT_MECHANISM_DISABLE);
+  /* The solenoids that will lift the bot. */
+  private final Solenoid liftFront = new Solenoid(RobotMap.PNEUMATIC_CONTROL_MODULE, RobotMap.LIFT_FRONT_ENABLE);
+  private final Solenoid liftFrontDisable = new Solenoid(RobotMap.PNEUMATIC_CONTROL_MODULE, RobotMap.LIFT_FRONT_DISABLE);
+
+  private final Solenoid liftRear = new Solenoid(RobotMap.PNEUMATIC_CONTROL_MODULE, RobotMap.LIFT_REAR_ENABLE);
+  private final Solenoid liftRearDisable = new Solenoid(RobotMap.PNEUMATIC_CONTROL_MODULE, RobotMap.LIFT_REAR_DISABLE);
 
   public Base() {
     /*
@@ -43,21 +46,39 @@ public class Base extends Subsystem {
 
 
   /**
-   * Set the state of the lift mechanism.
-   * @param liftBot The state of the lift. Set to true for the out position, 
+   * Set the state of the front lift mechanism.
+   * @param lift The state of the front lift. Set to true for the out position, 
    * and false for the in positon.
    */
-  public void liftBot(boolean liftBot) {
-    botLift.set(liftBot);
-    botLower.set(!liftBot);
+  public void liftFront(boolean lift) {
+    liftFront.set(lift);
+    liftFrontDisable.set(!lift);
+  }
+
+    /**
+   * Set the state of the front lift mechanism.
+   * @param lift The state of the front lift. Set to true for the out position, 
+   * and false for the in positon.
+   */
+  public void liftRear(boolean lift) {
+    liftRear.set(lift);
+    liftRearDisable.set(!lift);
   }
 
   /**
    * Get the current position of the robot.
    * @return true if it is up, false if it is down.
    */
-  public boolean isLifted() {
-    return botLift.get();
+  public boolean frontIsLifted() {
+    return liftFront.get();
+  }
+
+  /**
+   * Get the current position of the robot.
+   * @return true if it is up, false if it is down.
+   */
+  public boolean rearIsLifted() {
+    return liftRear.get();
   }
 
   /**
