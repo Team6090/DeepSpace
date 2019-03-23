@@ -43,9 +43,9 @@ public class RobotMap {
    public static final int HATCH_RELEASE_ENABLE = 7;
    public static final int HATCH_RELEASE_DISABLE = 0;
 
-   public static final int LIFT_FRONT_ENABLE = 2;
-   public static final int LIFT_FRONT_DISABLE = 3;
+   public static final int LIFT_FRONT_ENABLE = 1;
+   public static final int LIFT_FRONT_DISABLE = 6;
 
-   public static final int LIFT_REAR_ENABLE = 1;
-   public static final int LIFT_REAR_DISABLE = 6;
+   public static final int LIFT_REAR_ENABLE = 2;
+   public static final int LIFT_REAR_DISABLE = 3;
 }
