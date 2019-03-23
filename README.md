@@ -1,5 +1,5 @@
 # FRC6090-2019
-The official repository of Team 6090's 2019 Deep Space code.
+The official repository of Team 6090's 2019 Deep Space code, vision, and dashboard configurations.
 
 ## Versions Table
 These tables store the latest versions of the software we use, and which of our
