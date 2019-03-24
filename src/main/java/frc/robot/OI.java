@@ -53,8 +53,8 @@ public class OI {
     }
     /* Assign button actions here */
     joystickButton[4].whileHeld(new VisionTracker());
-    joystickButton[5].whenPressed(new LiftStateShift(LiftSet.REAR));
-    joystickButton[6].whenPressed(new LiftStateShift(LiftSet.FRONT));
+    joystickButton[5].whenPressed(new LiftStateShift(LiftSet.FRONT));
+    joystickButton[6].whenPressed(new LiftStateShift(LiftSet.REAR));
     joystickButton[7] = null; /* The ElevatorController uses this button. */
     joystickButton[11].whenPressed(new CommandDestroyer());
   }
