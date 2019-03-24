@@ -31,7 +31,7 @@ devices are updated, and which ones need to be updated.
 | Images    | Latest Known Version | Updated Devices       | Devices to Update     |
 |-----------|----------------------|-----------------------|-----------------------|
 | RoboRIO   | 2019.14              | Practice, Competition |                       |
-| LimeLight | 2019.6               | Practice              | Competition           |
+| LimeLight | 2019.6.1             |                       | Practice, Competition |
 
 
 ## Contributors
