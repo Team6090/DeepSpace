@@ -49,13 +49,6 @@ public class LimelightCommand extends Command {
         Robot.limelight.setPipeline(pipeline);
     }
 
-    @Override
-    protected void execute() {
-        /*
-         * TOD0: SLEEP 500 MS
-         */
-    }
-
     /**
      * Make sure all subclasses Override this!!!
      */

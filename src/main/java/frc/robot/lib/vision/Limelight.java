@@ -6,7 +6,7 @@ import edu.wpi.first.networktables.NetworkTable;
 
 /**
  * An easy interface for accessing, controlling, and fetching data from the
- * Limelight. This class just wrappers the Limelight NetworkTables API in a
+ * Limelight. This class just wraps the Limelight NetworkTables API in a
  * way that makes it easier to use, and much more Java-like.
  * @author Jordan Bancino
  * @version 1.0
