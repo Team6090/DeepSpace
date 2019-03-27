@@ -33,6 +33,14 @@ devices are updated, and which ones need to be updated.
 | RoboRIO   | 2019.14              | Practice, Competition |                       |
 | LimeLight | 2019.6.1             |                       | Practice, Competition |
 
+## Competition Checklist
+
+- Update Laptops
+    - Windows Update
+    - Code
+    - **See versions table**
+- Charge laptops
+- TODO: Complete this list
 
 ## Contributors
 ### Students
