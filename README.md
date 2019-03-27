@@ -34,13 +34,15 @@ devices are updated, and which ones need to be updated.
 | LimeLight | 2019.6.1             |                       | Practice, Competition |
 
 ## Competition Checklist
-
 - Update Laptops
     - Windows Update
-    - Code
-    - **See versions table**
+    - Code (always ` git pull` and `git checkout` the current competition branch)
+    - **See versions table for software updates**
+- Ensure laptop functionality
+    - Driver Station
+    - Dashboard
+    - Code can be modified and deployed
 - Charge laptops
-- TODO: Complete this list
 
 ## Contributors
 ### Students
